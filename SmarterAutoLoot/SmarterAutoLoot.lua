@@ -177,8 +177,6 @@ function SmarterAutoLoot:OnLootUpdated(numId)
 
 			local itemType = GetItemLinkItemType(link)
 			--  d("ItemType: "..tostring(itemType))
-      --  d("isOrnate: "..tostring(isOrnate))
-      --  d("isIntricate: "..tostring(isIntricate))
 
 			if (itemType == ITEMTYPE_INGREDIENT or itemType == ITEMTYPE_FLAVORING or itemType == ITEMTYPE_SPICE) then
 				-- d("Link: "..link)
@@ -255,13 +253,16 @@ function SmarterAutoLoot:OnLootUpdated(numId)
 					-- d("Looting alchemy mats")
 					self:LootItem(link, lootId, quantity)
 				end
-			elseif (itemType == ITEMTYPE_ENCHANTING_RUNE_ASPECT or itemType == ITEMTYPE_ENCHANTING_RUNE_ESSENCE or itemType == ITEMTYPE_ENCHANTING_RUNE_POTENCY or itemType == ITEMTYPE_ENCHANTMENT_BOOSTER) then
-				-- d("ItemType: Enchanting Materials")
+			elseif (itemType == ITEMTYPE_ENCHANTING_RUNE_ASPECT or itemType == ITEMTYPE_ENCHANTING_RUNE_ESSENCE or itemType == ITEMTYPE_ENCHANTING_RUNE_POTENCY) then
+				 -- d("ItemType: Enchanting Materials")
 				if (self:ShouldLootItem(self.db.filters.craftingMaterials, lootId, quality, value, isStolen)) then
-					-- d("Looting enchanting mats")
+					 -- d("Looting enchanting mats")
 					self:LootItem(link, lootId, quantity)
-				elseif (self:ShouldLootItem(self.db.filters.glyphs, lootId, quality, value, isStolen)) then
-					-- d("Looting enchanting mats")
+				end
+			elseif (itemType == ITEMTYPE_GLYPH_ARMOR or itemType == ITEMTYPE_GLYPH_JEWELRY or itemType == ITEMTYPE_GLYPH_WEAPON) then
+				 -- d("ItemType: Glyph")
+				if (self:ShouldLootItem(self.db.filters.glyphs, lootId, quality, value, isStolen)) then
+					-- d("Looting Glyph")
 					self:LootItem(link, lootId, quantity)
 				end
 			elseif (itemType == ITEMTYPE_FISH) then
@@ -276,7 +277,7 @@ function SmarterAutoLoot:OnLootUpdated(numId)
 					-- d("Looting woodworking mats")
 					self:LootItem(link, lootId, quantity)
 				end
-			elseif (itemType == ITEMTYPE_RACIAL_STYLE_MOTIF or itemType == ITEMTYPE_RAW_MATERIAL or itemType == ITEMTYPE_STYLE_MATERIAL or itemType == ITEMTYPE_ENCHANTMENT_BOOSTER) then
+			elseif (itemType == ITEMTYPE_RACIAL_STYLE_MOTIF or itemType == ITEMTYPE_RAW_MATERIAL or itemType == ITEMTYPE_STYLE_MATERIAL) then
 				-- d("ItemType: Style Materials")
 				if (self:ShouldLootItem(self.db.filters.styleMaterials, lootId, quality, value, isStolen)) then
 					-- d("Looting mats")
@@ -349,7 +350,8 @@ function SmarterAutoLoot:OnLootUpdated(numId)
 			self:LootItem(link, lootId, quantity)
 		end
 	end
-	if (self.db.closeLootWindow) then
+  
+	if (self.db.closeLootWindow or GetNumLootItems()<=0) then
 		EndLooting()
 	end
 end
