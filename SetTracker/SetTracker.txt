@@ -1,5 +1,5 @@
 ## APIVersion: 100018
-## Version: 1.6.3
+## Version: 1.6.4
 ## Title: |cFFFFB0Set Tracker|r
 ## Author: @Elephant42
 ## SavedVariables: ST_SavedVariables

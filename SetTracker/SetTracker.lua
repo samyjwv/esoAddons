@@ -2,6 +2,8 @@
 Set Tracker Addon for Elder Scrolls Online
 Author: @Elephant42
 Change Log
+	1.6.4	Removed all alpha settings for the holdings window.
+
 	1.6.3	Updated JP translations - thanks to BowmoreLover.
 
 	1.6.2	API update for Homestead
@@ -78,7 +80,7 @@ local ST = SetTrack
 
 ST.VersionMajor = 1
 ST.VersionMinor = 6
-ST.VersionBuild = 3
+ST.VersionBuild = 4
 ST.VersionData = 5
 ST.VersionInventory = 4
 ST.Version = ST.VersionMajor .. "." .. ST.VersionMinor
@@ -2283,8 +2285,8 @@ local function createSettingsMenu()
 			default = ST_defaults.UseLevelInHoldings,
 		},
 
-		getOptionSlider(GetString(SI_SETTRK_SETTINGS_NAME16), "HoldingWinAlpha", 0, 1, 0.1, nil, nil, nil,
-										function() msgWin:SetAlpha(stSaveData.HoldingWinAlpha) setWinPosAndSize(msgWin) end),
+--		getOptionSlider(GetString(SI_SETTRK_SETTINGS_NAME16), "HoldingWinAlpha", 0, 1, 0.1, nil, nil, nil,
+--										function() msgWin:SetAlpha(stSaveData.HoldingWinAlpha) setWinPosAndSize(msgWin) end),
 
 		getOptionOtherColour(GetString(SI_SETTRK_SETTINGS_NAME5), "ColourHoldings"),
 		getOptionOtherColour(GetString(SI_SETTRK_SETTINGS_NAME6), "ColourCrafted", nil, "TrackCrafted"),
@@ -2359,12 +2361,12 @@ local function initWindows()
 	msgWinCloseButton:SetMouseOverTexture("EsoUI/Art/Buttons/closebutton_mouseover.dds")
 	msgWinCloseButton:SetDisabledTexture("EsoUI/Art/Buttons/closebutton_disabled.dds")
 
-	msgWin:SetAlpha(stSaveData.HoldingWinAlpha)
+--	msgWin:SetAlpha(stSaveData.HoldingWinAlpha)
 
 	msgWinCloseButton:SetHandler("OnClicked",function(self, but)
 		msgWin:SetHidden(true)
 	end)
----[[
+--[[
 	msgWin:SetHandler("OnMouseEnter", function()
 		msgWin:SetAlpha(0.5)
 --		msgWin:SetAlpha(stSaveData.HoldingWinAlpha)
