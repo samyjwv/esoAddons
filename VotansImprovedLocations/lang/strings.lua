@@ -1,0 +1,12 @@
+if GetAPIVersion() <= 100016 then
+	ZO_CreateStringId("SI_VOTANSIMPROVEDLOCATIONS_SHOW_LEVELS", "Show Levels")
+	ZO_CreateStringId("SI_VOTANSIMPROVEDLOCATIONS_SORT_ASC", "Level Ascending")
+	ZO_CreateStringId("SI_VOTANSIMPROVEDLOCATIONS_SORT_DSC", "Level Descending")
+else
+	ZO_CreateStringId("SI_VOTANSIMPROVEDLOCATIONS_SHOW_LEVELS", "Show Mainstory Order")
+	ZO_CreateStringId("SI_VOTANSIMPROVEDLOCATIONS_SORT_ASC", "Mainstory Ascending")
+	ZO_CreateStringId("SI_VOTANSIMPROVEDLOCATIONS_SORT_DSC", "Mainstory Descending")
+end
+ZO_CreateStringId("SI_VOTANSIMPROVEDLOCATIONS_SORT", "Sort By")
+ZO_CreateStringId("SI_VOTANSIMPROVEDLOCATIONS_SORT_NAME", "Name")
+ZO_CreateStringId("SI_VOTANSIMPROVEDLOCATIONS_SHOW_ALL_ALLIANCE_ON_TOP", "Show \"All Alliances\" On Top")

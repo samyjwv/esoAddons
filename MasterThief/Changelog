@@ -1,0 +1,458 @@
+﻿-------------------------------------------
+INFO: Unten befindet sich ein deutsches Changelog (ist auch im Addon-Verzeichnis)
+INFO: Below there is a german changelog (it's also in the addon folder)
+-------------------------------------------
+##########################
+ENGLISH
+#############
+Version 1.56
+#############
+- comparing items for lootlist should now work without having double items on lootlist
+
+#############
+Version 1.55.1
+#############
+- just a hotfix to solve an ui-error (happened on empty lootlist)
+
+#############
+Version 1.55
+#############
+- added tooltip-function for items on lootlist for a better handling (include translation for en, fr)
+- added mousepointer on opened lootlist
+- added a total-counter of items on lootlist (see left side on top)
+- added auto money-loot for all gold (not tested, because of no treasures found for tests. let me know if its working)
+- update for new patch 2.5 (new DLC)
+
+#############
+Version 1.50
+#############
+- added a scrollist for items to autoloot (toggle by using the keyboard options)
+  add items to lootlist by using the contextmenu with right mouse-button on items
+  delete items from lootlist by using the right mouse-button there
+- translation in de, en, fr
+- Version update for DLC (Dark Brotherhood)
+
+#############
+Version 1.40
+#############
+- fixed an error with table.getn (caused, because of a not written database structure by known recipes and a testroutine on that on fresh installations)
+- OnLoad-Event loading priority changed
+
+#############
+Version 1.39
+#############
+- Version update for patch 2.3 / DLC (Thiefs Guild)
+
+#############
+Version 1.38
+#############
+- Version update for DLC (Orsinium)
+
+#############
+Version 1.37
+#############
+- Version update for patch 2.1.4 (Emperorcity)
+
+#############
+Version 1.36
+#############
+- Technical update: LibStub 4 and LibAddonMenu 2.0 r18
+
+#############
+Version 1.35
+#############
+- fixed an output issue for counting recipes added or removed to the comparepool (was not shown as text)
+
+#############
+Version 1.34
+#############
+- fixed one UI-Error, which happened on looting a recipe
+Happened coz of recipe changes before. Tried to call a removed routine.
+
+#############
+Version 1.33
+#############
+- To enter limits manually for fencer in settings are removed
+You dont need to set manually the limits for sells or transfers anymore
+
+- Updates for sells or transfers at fence
+You dont need to go to the fencer and to sell or transfer an item anymore, just to get it updated
+This do happen automatically now and you can see if it has a reset by the daily routine
+
+- An issue is solved, where no announcement came out to the chat for reached limits (sells/transfers)
+(those limits are shown just for one time when it has reached the maximum limit and only, if the settings do allow an announcement)
+** let me know, if you want to have it adjusted by settings for how often it should occur till its getting suppressed fully
+
+- Fixed a major issue with recipes for other languages
+It wasnt possible to show known recipes (just for the german version it worked).
+Now it do work for english, french and german lanuage (inventar, bank, guildbank and lootwindow tested with all languages)
+
+- optimized code for recipe recognition
+
+#############
+Version 1.32
+#############
+- Its now possible to toggle to attack innocents by a bind key (see keysettings)
+This is nice to have, if you just at the moment you stole something, a NPCs is getting angry and do attack you, but the settings
+to attack innocents prevent you to attack back (which let you not open a door to escape)
+
+- Now you can see on tooltip which of your chars do know the recipe 
+(depends on who is registered to share the knowledge by addon-settings for each char)
+This do work also for not just stolen items, which should make it easier to identify, which one of your chars already do know the recipe
+
+- You can now set up, whether known recipes below a given quality level should get looted or not
+Before it was always in autoloot by unknown recipes, even if the quality level was set higher.
+
+
+#############
+Version 1.30
+#############
+- It isnt needed to set off the autoloot for stolen items in the ESO-System-Settings anymore.
+MasterThief will now do it now byself.
+It will set back the system-settings to the status before, if MasterThief is getting disabled.
+
+- From now on its possible to compare found recipes with the recipe knowledge of all your other chars
+To have this working, you have to login just with these chars you want to have examined with other chars on your thiefering tour.
+You just need to enable the recipe-compare function for these chars, to throw the recipe knowledge of the char into a suchlike compare-pool.
+From there all found recipes will be compared with those from the pool.
+If you have disabled the function to share the recipe-knowledge for all chars, MasterThief will assume, that no one have experiences and need this recipe.
+In this case, i guess its better to have at least for one char this function activated.
+
+
+#############
+Version 1.24
+#############
+- You dont need anymore to set off the system-setting for autoloot stolen items
+MasterThief will now change it automatically, so the addon can work properly
+If you set off MasterThief, it will change back the system-setting to its value before
+
+#############
+Version 1.23
+#############
+- MasterThief got now a French language (FR)
+Translation made by Khrill (thank you)
+
+- Its now possible to autoloot stolen gold out of safe boxes, next to those worthful items
+
+------------
+FIX:
+------------
+- Fixed all variables for translations and gave them a suffix (just technical design)
+This should prevent the use of reserved variables
+
+- Fixed an issue with a wrong working sneakmode (after reloadui)
+It could happen, if you reloadui, that with SneakMode but not in stealth, it did loot all by limited price
+but it should loot nothing, except you are in stealth then
+You was by this function just allowed to loot all limited if sneakmode was off
+
+- Fixed a recognition on known recipes
+Now it should work and known recipes wont get looted below the limit you set
+You also get now an info about a known recipe, if its same or higher of the limited quality.
+Its just to let you see, that its known, but wanted.
+
+#############
+Version 1.22
+#############
+- Fixed just a lil issue with a known recipe found with message output on chat
+Recipe wasnt shown, which has to be. There was just an info "Unknown recipe: "
+
+#############
+Version 1.21
+#############
+** HOTFIX **
+- There popped up an UI-Error with NIL, so an item couldnt get looted
+This happend because of alot of changes inside the code (like for translations, reorganize routines and such stuff)
+It worked before - but it should be fixed now. On tests it works fine.
+
+Please let me know, if there happen some more error. I couldnt find any on tests.
+Sorry for that, guys 'n ladies
+
+- Fixed a wrong text for "Min sell price limiter", which was shown as "Message delay"
+Happend just in english version
+
+#############
+Version 1.20
+#############
+- Toggle Sneakmode On/Off with keybind on keysettings
+This is helpful, if you need it sometimes and sometimes not. 
+So you dont need get into the settings menu but can do it with a simple pressed key
+
+- You now can set the minimum quality level of a recipe to get autolooted
+Unknown recipes below the given level will still be autolooted and still all other special items (like motifs)
+** Recognizing recipes at the moment just for your actual char you do play, but soon it will be possible to have
+** it also for all chars you have logged in before
+
+- You now can enable/disable announcements on chat for sells/transfers at fence
+Sometimes you probably dont need such infos and can disable it now for sells or transfers
+
+- Because of the new function to limit the quality of recipes you dont want to loot, you can 
+enable or disable the announcement for already known recipes on chat
+
+- localizations done for EN, DE (same for this changelog)
+MasterThief do translate the text now in german and english - depends on your client settings of TESO
+
+- Updated some Libs to actual version
+LAM2 from r16 to r17 and LibStub from 1 to 2
+
+#############
+Version 1.11
+#############
+- Fixed a lil problem with the message timer (was not shown correct on length of time)
+
+#############
+Version 1.10
+#############
+- Now you can suppress warnings of reached maximum for sells or transfers at fencer
+Just set or adjust to "0" for each box on settings.
+It will now also get supressed, if you have disabled the message-output for.
+
+- Now you can get an info every time as OnScreenMessage if someone could see you on stealth
+because of the range wont be far enough to be fully stealthed.
+If you carry no stolen items, then its just an info.
+But if you got stolen items with you, the message come up in orange color to make it more clear.
+You can enable/disable it with your settings.
+
+- Now you can see with your simple statistic output how many items you carry for sells and 
+transfers at fence
+Those infos are in light blue behind the two statistic lines for fence 
+(i.e. 12~35 of 100 means 35 could be added later to the 12 made already)
+
+- Added a changelog file into the MasterThief folder to let you read all news offline
+
+- Output message on warnings for reached fencer-limits are shorter in text-length
+- Reorganized settings menu. Now you have it more cheerful with grouped regions 
+- Max sell limit changed in defaults on first start to 50 for fence sells and transfers
+
+- Fixed an issue with autoloot while sneaked
+Autoloot was disabled on sneakmode, which should been active then.
+
+- Fixed an issue which happend sometimes and randomly in dungeons and also sometimes outside,
+which popped up an info with OnScreenMessage about your status, if the sneakmode was enabled.
+It should be fixed now. Please let me know if its still popping up and i will check it out.
+
+- Fixed a not really cool message output in sneak, which occurs to often
+Now its should be written just and only if you was not on an active sneak before.
+
+- Message on screen wasnt shown properly. ZO-Timer worked not like i wanted
+Implemented an own timer to manage it more better with an event-list manager to unregister 
+different events.
+
+- Some text updates
+
+
+##########################
+DEUTSCH
+#############
+Version 1.56
+#############
+- der vergleich von gelooteten items sollte nun so funktionieren, dass keine doppelten items mehr gespeichert werden
+
+#############
+Version 1.55
+#############
+- tooltip-funktion hinzugefügt für items auf der lootliste für ein besseres handling (beeinhaltet auch übersetzung für en, fr)
+- mouse-pointer hinzugefügt, wenn die lootliste geöffnet wird
+- item-zähler links auf der lootliste zeigt nun alle items auf der liste total an
+- gold müsste jetzt immer automatisch eingesammelt werden (nicht getestet, da es keine kisten zum testen gab. sagt bescheid, wenns funktioniert)
+- update für patch 2.5 (new DLC)
+
+#############
+Version 1.50
+#############
+- Scrolliste für autoloot hinzugefügt (zum Anzeigen/Verbergen das Tastatur-Menü nutzen)
+  Um Items zur Lootliste hinzuzufügen, das Kontextmenü mit rechter Mousetaste auf einem Item
+  Um ein Item aus der Lootliste zu entfernen, rechte Maustaste drücken
+- Übersetzung in DR, EN, FR
+- Versionsupdate für DLC (Dunkle Bruderschaft)
+
+#############
+Version 1.40
+#############
+- Einen Fehler mit table.getn behoben (tauchte durch eine Testroutine mit "Bekannten Rezepten" auf und einer bis dahin nicht vorhandenen Struktur bei Neuinstallationen)
+- OnLoad-Event Ladereihenfolge verändert
+
+#############
+Version 1.39
+#############
+- Versionsupdate zum Patch 2.3 / DLC (Diebesgilde)
+
+#############
+Version 1.38
+#############
+- Versionsupdate zum DLC (Orsinium)
+
+#############
+Version 1.37
+#############
+- Versionsupdate zum Patch 2.1.4 (Kaiserstadt)
+
+#############
+Version 1.36
+#############
+- Technisches Update: LibStub 4 und LibAddonMenu 2.0 r18
+
+#############
+Version 1.35
+#############
+- Kleines Problem behoben, bei dem kein Text angezeigt wurde beim Hinzufügen oder Entfernen von Rezepten zum Vergleichspool
+
+
+#############
+Version 1.34
+#############
+- Problem behoben, welches einen UI-Fehler verursachte beim Looten eines Rezeptes
+Versuchte eine Routine aufzurufen, die entfernt wurde.
+
+#############
+Version 1.33
+#############
+- Verkaufslimit, Transferlimit in den Settings wurden entfernt
+Es ist nicht mehr gesondert notwendig diese Angaben in den Settings zu machen zu machen, da die API das nun ermöglicht zu ermitteln
+
+- Verkäufe, Transfers beim Hehler
+Ihr müsst nun nicht mehr einen Gegenstand beim Hehler verkauft oder geschoben haben, um eine Aktualisierung der Werte zu erhalten
+Dieses passiert nun automatisch, da die API das nun ermöglicht zu ermitteln
+
+- Einen Fehler behoben, der das Anzeigen von Meldungen zu Verkauf- und Transferlimits zum Hehler verhinderte
+** Es wird nur einmal ein Hinweis ausgegeben, wenn das Limit erreicht wurde
+** lasst mich wissen, ob ihr hierzu einen Regler braucht, der die Anzahl der Wiederholungen der Meldungen ermöglicht
+
+- Einen größeren Fehler behoben, der die Erkennung und Anzeige der Tooltips zu den Rezepten in anderen Sprachen verhinderte
+In der deutschen Version sollte das ohne Probleme funktioniert haben.
+Jetzt funktioniert das auch in englisch, französisch und deutsch (Inventar, Tresor, Gildenbank, Lootfenster in allen Sprachen getestet)
+
+- Einige Optimierungen des Codes zur Erkennung von Rezepten
+
+
+#############
+Version 1.32
+#############
+- Es ist nun möglich per Taste das Angreifen von Unschuldigen ein- oder auszuschalten
+Das ist mitunter dann hilfreich, wenn es ansonsten ausgeschaltet ist und Du es genau dann gerade brauchst, wenn
+man beim Klauen erwischt wurde und ein nun böse gewordener NPC Dich plötzlich angreift, was Dich dann daran hindert
+eine Tür zu öffnen, um zu entkommen (wichtig, wenn man gerade besonders wertvolle Beute bei sich trägt)
+
+- Jetzt kannst Du im Tooltip erkennen, welches Deiner Chars das gefundene Rezept bereits kennen
+Dazu sollten die Rezepte dann bekannt gemacht werden im Vergleichspool, was über die Einstellung "Vergleiche auch meine Rezepte" ermöglicht werden kann.
+Die Erkennung habe ich nicht nur auf gestohlene Items beschränkt, damit es etwas nützlicher und einfacher ist, Rezepte aufzunehmen und zu vergleichen.
+
+- Du kannst nun auch gesondert einstellen, ob Rezepte unter dem Mindestqualitätslevel automatisch gelootet werden sollen, wenn Sie unbekannt sind.
+Einfach abschalten und die Rezepte werden nur für den vergebenen Qualitätslevel oder höher gelootet.
+
+#############
+Version 1.30
+#############
+- Es ist nicht mehr notwendig in den System-Einstellung (unter Spielwelt) das autolooten für gestohlene Items auszustellen
+MasterThief wird diese Änderungen nun automatisch durchführen, damit das Addon vernünftig arbeitet
+Wenn du MasterThief ausschaltest, dann wird die System-Einstellung wieder in den vorherigen Zustand zurückversetzt
+
+- Jetzt wird Accountweit geschaut, ob ein gefundenes Rezept bekannt ist
+Alle Rezepte Deiner Spielerchars werden in einem Pool gesammelt und dieser wird geprüft, ob das Rezept dort vorhanden ist.
+Sollte es dort fehlen, wird es als unbekannt eingestuft und eingesammelt.
+Man kann zudem bei einer Suche unterdrücken, ob der aktuelle Spielerchar seine aktuellen Kenntnisse teilen will für einen Vergleich.
+Das macht dann Sinn, wenn man sich zunächst nur auf einen Versorger konzentrieren möchte und mit Twinks sammeln geht.
+Ist bei keinem ein Rezeptevergleich eingeschaltet, ist der Pool leer und jedes gefundene Rezept würde als unbekannt angezeigt werden.
+Es macht also Sinn, hier wenigstens einen Spielerchar für den Rezeptevergleich zu aktivieren.
+
+#############
+Version 1.23
+#############
+- MasterThief ist nun auch in französich übersetzt (FR)
+Die Übersetzung hat Khrill gemacht. (Danke)
+
+- Es ist nun möglich, neben den anderen wertvollen Sachen in Kassetten, auch gestohlenes Gold automatisch zu looten
+- Es wurden einige Anpassungen an Variablen durchgeführt, damit keine geschützen Wörter verwendet sind (nur technisches Zeug)
+- Ein Problem gefixt, welches im Sneakmode ein wenig falsch funkionierte
+Es konnte passieren, dass nach einem Reloadui (wenn man im Sneakmode war, aber nicht im Stealth), 
+dass trotzdem alle Sachen gelootet wurden, die dem Preislimit entsprachen, was aber nicht hätte passieren dürfen.
+Das wäre nur erlaubt, wenn man den Sneakmode ausgeschaltet hatte.
+
+- Es wurde ein Fehler mit der richtigen Erkennung der Rezepte behoben
+Nun sollten die Rezepte tatsächlich nur dann gelootet werden, wenn es den Einstellungenund dem Modus entspricht, in dem man aktiv ist.
+Es sollten nun also nur die Rezepte gelootet werden, die auch dem Quailtätslimit entsprechen und unbekannt sind.
+Was aber gleich oder über dem Limit und bekannt ist, wird nun mit einer entsprechenden Meldung ausgegeben, dass der Loot gewünscht ist.
+
+#############
+Version 1.22
+#############
+- Fixed ein kleines Problem mit der Textausgabe zu einem bekannten Rezept
+Der Rezeptlink wurde nicht angezeigt, sollte aber auftauchen. Da stand nur "Bereits bekannt: "
+
+#############
+Version 1.21
+#############
+** HOTFIX **
+- Es tauchte ei UI-Fehler auf mit dem Hinweis auf NIL, sodass ein Rezept nicht gelootet werden konnte
+Das passierte aufgrund von vielen Änderungen am Code (wie Übersetzungen, Reorganisation von Routinen uvm.)
+Sollte aber jetzt funktionieren. In Tests hats funktioniert.
+Lasst mich wissen, falls es wieder zu einem Fehler kommt.
+Entschuldigt das, Guys n' Ladies^^
+
+- Fixed eine falsche Textanzeige für den Preis-Limiter, welcher versehntlich als "Nachrichtendauer" angezeigt wurde
+War aber nur in der englischen Version
+
+#############
+Version 1.20
+#############
+- Wechsel des Schleichmodus per eingestellter Taste
+Das ist nützlich, wenn man den Schleichmodus gerade mal nicht benötigt
+So muss man nicht zwingend erst in die Settings gehen, um es ein oder auszuschalten
+
+- Du kannst nun auch die unterste Qualitätsstufe eines Rezeptes festlegen zum automatsich einsammeln
+Unbekannte Rezepte unterhalb des eingestellten Qualitätslevels werden trotzdem noch automatisch geladen (wie die Motif-Bücher)
+** Das Erkennen der bereits bekannten bzw. unbekannten Rezepte ist derzeit nur für den activen Spielerchar, aber ich werde das noch erweitern
+** so dass das auch für die anderen Chars erkannt wird, wenn sie sich einmal eingeloggt hatten
+
+- Du kannst nun Meldungen zu Verkäufen und Transfers beim Hehler ausschalten
+Manchmal benötigt man solche Infos möglicherweise nicht und somit kann man das jetzt unterbinden
+
+- Wegen der Funktion, dass man die Qualitätsstufe der Rezepte festlegen kann, welche man normalerweise nicht mehr automatisch einsammeln möchte,
+kann man hierzu die Meldungen im Chat ebenfalls ein-/ausschalten
+
+- Es sind nun zwei Sprachen möglich in dem Addon (DE und EN)
+MasterThief übersetzt das selbständig in die richtige Sprache, in Abhängigkeit wie es bei eurem TESO-Client eingestellt ist
+
+- Es sind einige Libs upgedatet worden
+LAM2 der Version r16 zu r17 und LibStub von 1 zu 2
+
+#############
+Version 1.11
+#############
+- Ein kleines Problem mit dem OnScreen-Timer wurde behoben (die Dauer war nicht richtig)
+
+#############
+Version 1.10
+#############
+- Nun lässt sich eine Meldung zum erreichten Maximum für Verkäufe und Transfer zum Hehler unterbinden
+In den Settings einfach ein "0" setzen
+Es sollte auch unterdrückt sein, wenn man allgemein die Ausgabe in den Chat unterbunden hatte
+
+- Jetzt wird eine Info als OnScreen-Nachricht angezeigt, wenn dich jemand sehen könnte, weil Du nicht weit genug entfernt bist von einem NPC
+Wenn Du dazu noch geklaute Sachen trägst, dann wird dise Meldung deutlicher angezeigt
+Das lässt sich ebenfalls in den Settings ein-/ausschalten
+
+- Du kannst jetzt in der Statistik erkennen, wieviele Items Du aktuell trägst (die noch nicht verkauft oder verschoben wurden)
+Diese Info ist in hellem Blau hinter den statistischen Werten platziert (nicht zu übesehen)
+(als Beispiel: 12~35 von 100 und bedeutet, das diese Items später hinzuaddiert werden)
+
+- Das Changelogfile wurde nun auch im Verzeichnis vom MasterThief-Addon hinterlegt, damit man es offline lesen kann
+- Ausgabe-Infos zu erreichten Hehler-Limits sind nun etwas kürzer in der Länge
+- Das Settungs-Menü wurde überarbeitet und ist nun deutlich übersichtlicher und in Regionen aufgeteilt
+- Die maximalen Verkaufs- bzw. Transferlimit pro Tag sind als Defaultwerte nun 50
+(betrifft nur die, die das Addon noch nicht installiert hatten)
+
+- Ein Problem behoben, während man im Schleichmodus war
+Autloot war ausgeschaltet, was aber eingeschaltet hätte sein sollen
+
+- Ein Problem behoben, was manchmal in Instanzen/Verliesen auftrat und auch teils ausserhalb,
+was mitunter aufpoppte mit einer OnScreen-Nachricht über den aktiven Status des Addons
+Das sollte aber nun behoben sein
+
+- Eine Problem behoben, dass zu häufig in Wiederholung Infos ausgab im Schleichmodus
+Sollte nun aber nur dann tatsächlich gemeldet werden, wenn man auch tatsächlich sich in den Modus befindet
+
+- Die OnScreen-Nachricht wurd enicht besonder gut angezeigt. Sie verschwand zu schnell und war unregelmässig in der Dauer
+Habe hierzu einen eigenen Timer und eine Ereignis-Liste geschrieben, die das deutlich besser regelt und nicht mehe benötigte
+Events automatisch abarbeitet und schliesst
+
+- Einige Textupdates

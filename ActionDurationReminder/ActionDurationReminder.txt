@@ -1,0 +1,27 @@
+## APIVersion: 100018
+## Title: Action Duration Reminder
+## Author: Cloudor
+## Version: 1.30
+## Description: Remind you how long to refresh your actions.
+## OptionalDependsOn: LibStub LibAddonMenu-2.0
+## SavedVariables: ADRSV
+
+libs\LibStub.lua
+
+libs\LibAddonMenu-2.0\LibAddonMenu-2.0.lua
+libs\LibAddonMenu-2.0\controls\panel.lua
+libs\LibAddonMenu-2.0\controls\submenu.lua
+libs\LibAddonMenu-2.0\controls\button.lua
+libs\LibAddonMenu-2.0\controls\checkbox.lua
+libs\LibAddonMenu-2.0\controls\colorpicker.lua
+libs\LibAddonMenu-2.0\controls\description.lua
+libs\LibAddonMenu-2.0\controls\dropdown.lua
+libs\LibAddonMenu-2.0\controls\header.lua
+libs\LibAddonMenu-2.0\controls\slider.lua
+
+ActionDurationReminder.lua
+Alert.lua
+Settings.lua
+RepositionResourceBars.lua
+
+

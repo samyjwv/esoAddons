@@ -1,0 +1,76 @@
+## Title: HarvestMap
+## Author: Shinni
+## Version: 3.5.3
+## APIVersion: 100018 100017
+## OptionalDependsOn: LibAddonMenu-2.0 LibMapPing LibGPS LibMapPins-1.0 HarvestMapEP HarvestMapDC HarvestMapAD HarvestMapDLC MiniMap
+## SavedVariables: Harvest_SavedVars
+
+Libs/LibStub/LibStub.lua
+Libs/LibAddonMenu-2.0/LibAddonMenu-2.0.lua
+Libs/LibAddonMenu-2.0/controls/panel.lua
+Libs/LibAddonMenu-2.0/controls/submenu.lua
+Libs/LibAddonMenu-2.0/controls/button.lua
+Libs/LibAddonMenu-2.0/controls/checkbox.lua
+Libs/LibAddonMenu-2.0/controls/colorpicker.lua
+Libs/LibAddonMenu-2.0/controls/custom.lua
+Libs/LibAddonMenu-2.0/controls/description.lua
+Libs/LibAddonMenu-2.0/controls/dropdown.lua
+Libs/LibAddonMenu-2.0/controls/editbox.lua
+Libs/LibAddonMenu-2.0/controls/header.lua
+Libs/LibAddonMenu-2.0/controls/slider.lua
+Libs/LibAddonMenu-2.0/controls/texture.lua
+Libs/LibAddonMenu-2.0/controls/iconpicker.lua
+Libs/AceSerializer-3.0/AceSerializer-3.0.lua
+Libs/LibMapPins-1.0/LibMapPins-1.0.lua
+Libs/LibMapPing/LibMapPing.lua
+Libs/LibGPS/LibGPS.lua
+Libs/Lib3D/Lib3D.lua
+Libs/Lib3D/GlobalToWorldFactors.lua
+Libs/LibMainMenu/LibMainMenu.lua
+
+
+HarvestMapConstants.lua
+HarvestMapCallback.lua
+
+HarvestMapMenu.lua
+
+Options/HarvestMapDefaults.lua
+Options/HarvestMapGetterSetter.lua
+Options/HarvestMapControls.lua
+Options/HarvestMapFilterMenu.lua
+
+Localization/HarvestMapLocUI.lua
+Localization/HarvestMapLocTooltip.lua
+
+Data/Data.lua
+Data/Serialization.lua
+Data/MapCache.lua
+Data/ZoneCache.lua
+Data/Update.lua
+
+Pins/PinsShared.lua
+Pins/MapPins.lua
+Pins/MapPinClick.lua
+Pins/InRangePins.lua
+
+HeatMap/HarvestMapHeatTiles.lua
+HeatMap/HarvestMapHeatCalc.lua
+
+Tour/BaseInterface.lua
+Tour/TourDisplay.lua
+Tour/PinTypeFilters.lua
+Tour/GeneratorInterface.lua
+Tour/GeneratorLogic.lua
+Tour/Helper.lua
+Tour/Editor.lua
+Tour/TourLoader.lua
+Tour/Path.lua
+Tour/Controls.xml
+
+Harvest3DTools.lua
+
+HarvestMap.lua
+HarvestMap.xml
+Bindings.xml
+
+Debug.lua

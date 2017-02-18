@@ -1,0 +1,238 @@
+<GuiXml>
+	<Font name="ApSessionFont" font="$(MEDIUM_FONT)|16|soft-shadow-thin"/>
+	
+	<Controls>
+		<TopLevelControl name="ApSessionWindow" topmost="true" mouseEnabled="true" movable="true" clampedToScreen="true">
+			<Anchor point="TOPLEFT" relativeTo="GuiRoot" relativePoint="TOPLEFT"/>
+			<Dimensions x="200" y="100" />
+			<OnInitialized>self:SetParent(ZO_Compass)</OnInitialized>
+			<OnMoveStop>ApSession.OnApSessionWindowMoveStop()</OnMoveStop>
+			
+			<Controls>
+				<Button name="$(parent)Button" topmost="true" font="ApSessionFont" color="FFFFFF" text="Reset">
+					<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="50"/>
+					<Dimensions x="100" y="20"/>
+					<OnClicked>ApSession.OnApSessionWindowButtonClicked()</OnClicked>
+					
+					<Controls>
+						<Backdrop 	name="$(parent)Backdrop"
+									alpha="0.1" 
+									centerColor="FFFFFF" 
+									edgeColor="FFFFFF" 
+									clampedToScreen="true">
+							<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT"/>
+							<Dimensions x="100" y="20"/>
+							<Edge edgeSize="1"/>
+						</Backdrop>
+					</Controls>
+				</Button>
+				
+				<Label 	name="$(parent)TextApLabel" 
+						width="80" 
+						height="20" 
+						font="ApSessionFont" 
+						inheritAlpha="true" 
+						color="FFFFFF"
+						verticalAlignment="TOP" 
+						horizontalAlignment="LEFT" 
+						text="AP:">
+					<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="20"/>
+				</Label>
+				<Label 	name="$(parent)TextApHLabel" 
+						width="80" 
+						height="20" 
+						font="ApSessionFont" 
+						inheritAlpha="true" 
+						color="FFFFFF"
+						verticalAlignment="TOP" 
+						horizontalAlignment="LEFT" 
+						text="AP/H:">
+					<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="40"/>
+				</Label>
+				<Label 	name="$(parent)TextKdRatioLabel" 
+						width="80" 
+						height="20" 
+						font="ApSessionFont" 
+						inheritAlpha="true" 
+						color="FFFFFF"
+						verticalAlignment="TOP" 
+						horizontalAlignment="LEFT" 
+						text="K/D - Ratio:">
+					<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="60"/>
+				</Label>
+				<Label 	name="$(parent)TextSessionLabel" 
+						width="80" 
+						height="20" 
+						font="ApSessionFont" 
+						inheritAlpha="true" 
+						color="FFFFFF"
+						verticalAlignment="TOP" 
+						horizontalAlignment="LEFT" 
+						text="Session:">
+					<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="80"/>
+				</Label>
+				
+				<Label 	name="$(parent)ValueApLabel" 
+						width="100" 
+						height="20" 
+						font="ApSessionFont" 
+						inheritAlpha="true" 
+						color="FFFFFF"
+						verticalAlignment="TOP" 
+						horizontalAlignment="LEFT" 
+						text="0">
+					<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="80" offsetY="20"/>
+				</Label>
+				<Label 	name="$(parent)ValueApHLabel" 
+						width="100" 
+						height="20" 
+						font="ApSessionFont" 
+						inheritAlpha="true" 
+						color="FFFFFF"
+						verticalAlignment="TOP" 
+						horizontalAlignment="LEFT" 
+						text="0">
+					<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="80" offsetY="40"/>
+				</Label>
+				<Label 	name="$(parent)ValueKdRatioLabel" 
+						width="100" 
+						height="20" 
+						font="ApSessionFont" 
+						inheritAlpha="true" 
+						color="FFFFFF"
+						verticalAlignment="TOP" 
+						horizontalAlignment="LEFT" 
+						text="0/0 - 0.0">
+					<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="80" offsetY="60"/>
+				</Label>
+				<Label 	name="$(parent)ValueSessionLabel" 
+						width="100" 
+						height="20" 
+						font="ApSessionFont" 
+						inheritAlpha="true" 
+						color="FFFFFF"
+						verticalAlignment="TOP" 
+						horizontalAlignment="LEFT" 
+						text="00:00:00">
+					<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="80" offsetY="80"/>
+				</Label>
+		  </Controls>
+	  </TopLevelControl>
+    <TopLevelControl name="ApSessionWindowLong" topmost="true" mouseEnabled="true" movable="true" clampedToScreen="true">
+      <Anchor point="TOPLEFT" relativeTo="GuiRoot" relativePoint="TOPLEFT"/>
+      <Dimensions x="330" y="60" />
+      <OnInitialized>self:SetParent(ZO_Compass)</OnInitialized>
+      <OnMoveStop>ApSession.OnApSessionWindowMoveStop()</OnMoveStop>
+
+      <Controls>
+        <Button name="$(parent)Button" topmost="true" font="ApSessionFont" color="FFFFFF" text="Reset">
+          <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="115"/>
+          <Dimensions x="100" y="20"/>
+          <OnClicked>ApSession.OnApSessionWindowButtonClicked()</OnClicked>
+
+          <Controls>
+            <Backdrop 	name="$(parent)Backdrop"
+									alpha="0.1"
+									centerColor="FFFFFF"
+									edgeColor="FFFFFF"
+									clampedToScreen="true">
+              <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT"/>
+              <Dimensions x="100" y="20"/>
+              <Edge edgeSize="1"/>
+            </Backdrop>
+          </Controls>
+        </Button>
+
+        <Label 	name="$(parent)TextApLabel"
+						width="45"
+						height="20"
+						font="ApSessionFont"
+						inheritAlpha="true"
+						color="FFFFFF"
+						verticalAlignment="TOP"
+						horizontalAlignment="LEFT"
+						text="AP:">
+          <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="200" offsetY="20"/>
+        </Label>
+        <Label 	name="$(parent)TextApHLabel"
+						width="45"
+						height="20"
+						font="ApSessionFont"
+						inheritAlpha="true"
+						color="FFFFFF"
+						verticalAlignment="TOP"
+						horizontalAlignment="LEFT"
+						text="AP/H:">
+          <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="200" offsetY="40"/>
+        </Label>
+        <Label 	name="$(parent)TextKdRatioLabel"
+						width="80"
+						height="20"
+						font="ApSessionFont"
+						inheritAlpha="true"
+						color="FFFFFF"
+						verticalAlignment="TOP"
+						horizontalAlignment="LEFT"
+						text="K/D - Ratio:">
+          <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="20"/>
+        </Label>
+        <Label 	name="$(parent)TextSessionLabel"
+						width="80"
+						height="20"
+						font="ApSessionFont"
+						inheritAlpha="true"
+						color="FFFFFF"
+						verticalAlignment="TOP"
+						horizontalAlignment="LEFT"
+						text="Session:">
+          <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="40"/>
+        </Label>
+
+        <Label 	name="$(parent)ValueApLabel"
+						width="85"
+						height="20"
+						font="ApSessionFont"
+						inheritAlpha="true"
+						color="FFFFFF"
+						verticalAlignment="TOP"
+						horizontalAlignment="LEFT"
+						text="0">
+          <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="245" offsetY="20"/>
+        </Label>
+        <Label 	name="$(parent)ValueApHLabel"
+						width="85"
+						height="20"
+						font="ApSessionFont"
+						inheritAlpha="true"
+						color="FFFFFF"
+						verticalAlignment="TOP"
+						horizontalAlignment="LEFT"
+						text="0">
+          <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="245" offsetY="40"/>
+        </Label>
+        <Label 	name="$(parent)ValueKdRatioLabel"
+						width="120"
+						height="20"
+						font="ApSessionFont"
+						inheritAlpha="true"
+						color="FFFFFF"
+						verticalAlignment="TOP"
+						horizontalAlignment="LEFT"
+						text="0/0 - 0.0">
+          <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="80" offsetY="20"/>
+        </Label>
+        <Label 	name="$(parent)ValueSessionLabel"
+						width="120"
+						height="20"
+						font="ApSessionFont"
+						inheritAlpha="true"
+						color="FFFFFF"
+						verticalAlignment="TOP"
+						horizontalAlignment="LEFT"
+						text="00:00:00">
+          <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="80" offsetY="40"/>
+        </Label>
+      </Controls>
+    </TopLevelControl>
+	</Controls>
+</GuiXml>

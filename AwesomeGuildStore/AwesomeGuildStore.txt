@@ -1,0 +1,100 @@
+## Title: AwesomeGuildStore
+## Author: sirinsidiator
+## Version: 0.35.2
+## APIVersion: 100017 100018
+## OptionalDependsOn: LibStub LibAddonMenu-2.0 libFilters libCommonInventoryFilters LibTextFilter LibCustomTitles LibCustomMenu LibMapPing LibGPS LibDateTime LibPromises
+## SavedVariables: AwesomeGuildStore_Data
+##
+## This Add-on is not created by, affiliated with or sponsored by ZeniMax Media Inc. or its affiliates. 
+## The Elder Scrolls® and related logos are registered trademarks or trademarks of ZeniMax Media Inc. in the United States and/or other countries. 
+## All rights reserved
+##
+## You can read the full terms at https://account.elderscrollsonline.com/add-on-terms
+
+lib/LibStub/LibStub.lua
+lib/LibAddonMenu-2.0/LibAddonMenu-2.0.lua
+lib/LibAddonMenu-2.0/controls/panel.lua
+lib/LibAddonMenu-2.0/controls/submenu.lua
+lib/LibAddonMenu-2.0/controls/button.lua
+lib/LibAddonMenu-2.0/controls/checkbox.lua
+lib/LibAddonMenu-2.0/controls/colorpicker.lua
+lib/LibAddonMenu-2.0/controls/custom.lua
+lib/LibAddonMenu-2.0/controls/description.lua
+lib/LibAddonMenu-2.0/controls/dropdown.lua
+lib/LibAddonMenu-2.0/controls/editbox.lua
+lib/LibAddonMenu-2.0/controls/header.lua
+lib/LibAddonMenu-2.0/controls/slider.lua
+lib/LibAddonMenu-2.0/controls/texture.lua
+lib/LibAddonMenu-2.0/controls/iconpicker.lua
+lib/LibAddonMenu-2.0/controls/divider.lua
+lib/LibFilters-2.0/LibFilters-2.0.lua
+lib/LibFilters-2.0/helper.lua
+lib/libCommonInventoryFilters/libCommonInventoryFilters.lua
+lib/LibTextFilter/LibTextFilter.lua
+lib/LibCustomTitles/LibCustomTitles.lua
+lib/LibCustomMenu/LibCustomMenu.lua
+lib/LibAnnyoingUpdateNotificationInGame/LibAnnyoingUpdateNotificationInGame.lua
+lib/LibMapPing/LibMapPing.lua
+lib/LibGPS/LibGPS.lua
+lib/LibDateTime/LibDateTime.lua
+lib/LibPromises/LibPromises.lua
+StartUp.lua
+i18n/en.lua
+i18n/$(language).lua
+Settings.lua
+util/misc.lua
+util/Codec.lua
+util/MinMaxRangeSlider.lua
+util/ButtonGroup.lua
+util/ToggleButton.lua
+util/SimpleIconButton.lua
+util/LoadingOverlay.lua
+searchfilters/FilterBase.lua
+searchfilters/CategoryPresets.lua
+searchfilters/CategorySubfilter.lua
+searchfilters/KnownRecipeFilter.lua
+searchfilters/KnownMotifFilter.lua
+searchfilters/KnownRuneTranslationFilter.lua
+searchfilters/ResearchableTraitsFilter.lua
+searchfilters/ItemStyleFilter.lua
+searchfilters/ItemSetFilter.lua
+searchfilters/CraftedItemFilter.lua
+searchfilters/CategorySelector.lua
+searchfilters/PriceFilter.lua
+searchfilters/LevelFilter.lua
+searchfilters/QualityFilter.lua
+searchfilters/TextFilter.lua
+searchfilters/UnitPriceFilter.lua
+searchfilters/RecipeImprovementFilter.lua
+history/SavedSearchTooltip.lua
+history/SearchLibrary.lua
+history/SearchLibrary.xml
+history/MailBox.lua
+guildselector/HiredTraderTooltip.lua
+guildselector/GuildSelector.lua
+guildselector/GuildSelector.xml
+paging/Paging.lua
+activityManager/ActivityBase.lua
+activityManager/CancelSaleOperation.lua
+activityManager/RequestListingsOperation.lua
+activityManager/ExecuteSearchOperation.lua
+activityManager/SwitchGuildOperation.lua
+activityManager/ActivityManager.lua
+wrappers/TradingHouseWrapper.lua
+wrappers/SearchTabWrapper.lua
+wrappers/SellTabWrapper.lua
+wrappers/ListingTabWrapper.lua
+wrappers/KeybindStripWrapper.lua
+wrappers/ActivityLogWrapper.lua
+guildstorelist/KioskData.lua
+guildstorelist/StoreData.lua
+guildstorelist/KioskList.lua
+guildstorelist/StoreList.lua
+guildstorelist/OwnerList.lua
+guildstorelist/GuildStoreList.xml
+guildstorelist/TraderListControl.lua
+guildstorelist/OwnerHistoryControl.lua
+guildstorelist/GuildStoreList.lua
+SalesCategorySelector.lua
+AwesomeGuildStore.xml
+Bindings.xml

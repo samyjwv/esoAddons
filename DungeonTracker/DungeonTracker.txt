@@ -1,0 +1,35 @@
+## Title: |c66ccffDungeon Tracker|r
+## Author: |c66ccffPhinix|r
+## Description: Adds completion information to dungeon, trial, and delve tooltips.
+## Version: 1.02
+## APIVersion: 100017
+## SavedVariables: DungeonTracker
+## OptionalDependsOn: LibStub LibAddonMenu-2.0
+
+libs\LibStub\LibStub.lua
+libs\LibAddonMenu-2.0\LibAddonMenu-2.0.lua
+libs\LibAddonMenu-2.0\controls\panel.lua
+libs\LibAddonMenu-2.0\controls\header.lua
+libs\LibAddonMenu-2.0\controls\checkbox.lua
+libs\LibAddonMenu-2.0\controls\colorpicker.lua
+libs\LibAddonMenu-2.0\controls\button.lua
+libs\LibAddonMenu-2.0\controls\submenu.lua
+
+DTAddon.xml
+language\en.lua
+language\fr.lua
+language\de.lua
+language\it.lua
+language\ru.lua
+bin\AchievementDB.lua
+bin\SVDefaults.lua
+DungeonTracker.lua
+
+
+; This Add-on is not created by, affiliated with or sponsored by ZeniMax
+; Media Inc. or its affiliates. The Elder Scrolls® and related logos are
+; registered trademarks or trademarks of ZeniMax Media Inc. in the United
+; States and\or other countries. All rights reserved.
+;
+; You can read the full terms at:
+; https:\\account.elderscrollsonline.com\add-on-terms

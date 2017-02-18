@@ -1,0 +1,22 @@
+## Title: BuffTimers
+## Description: You now breath manually!
+## Author: coolmodi
+## Version: 1.31
+## APIVersion: 100014
+## SavedVariables: BuffTimersSavedVariables
+## OptionalDependsOn: LibAddonMenu-2.0
+
+libs/LibStub/LibStub.lua
+libs/LibAddonMenu-2.0/LibAddonMenu-2.0.lua
+libs/LibAddonMenu-2.0\controls\panel.lua
+libs/LibAddonMenu-2.0\controls\submenu.lua
+libs/LibAddonMenu-2.0\controls\checkbox.lua
+libs/LibAddonMenu-2.0\controls\colorpicker.lua
+libs/LibAddonMenu-2.0\controls\editbox.lua
+libs/LibAddonMenu-2.0\controls\header.lua
+libs/LibAddonMenu-2.0\controls\slider.lua
+
+BuffTimers.lua
+functions.lua
+controls.lua
+settings.lua

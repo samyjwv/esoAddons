@@ -1,0 +1,7 @@
+## Title: HarvestMap-DLC-Zones
+## Author: Shinni
+## Version: 3.5.3
+## APIVersion: 100018 100017
+## SavedVariables: HarvestDLC_SavedVars
+
+HarvestMapDLC.lua

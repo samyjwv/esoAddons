@@ -1,0 +1,9 @@
+<Bindings>
+	<Layer name="SI_KEYBINDINGS_LAYER_GENERAL">
+		<Category name="Vampire's Woe">
+			<Action name="TOGGLE_SUPPRESSION">
+				<Up>VWoeAddon.Swap()</Up>
+			</Action>
+		</Category>
+	</Layer>
+</Bindings>

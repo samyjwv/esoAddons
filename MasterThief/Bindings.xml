@@ -1,0 +1,24 @@
+<Bindings>
+  <Layer name="SI_KEYBINDINGS_LAYER_GENERAL">
+    <Category name="MasterThief">
+      <Action name="TOGGLE_ONOFF">
+        <Down>MasterThief:ToggleOnOff()</Down>
+      </Action>
+      <Action name="TOGGLE_SNEAKMODE">
+        <Down>MasterThief:ToggleSneakMode()</Down>
+      </Action>	  
+      <Action name="SHOW_STATISTICS">
+		<Down>MasterThief:ShowStatistics()</Down>
+      </Action>
+      <Action name="LIST_JUNK">
+        <Down>MasterThief:DestroyUselessItems(false)</Down>
+      </Action>	
+	  <Action name="TOGGLE_ATTACK_INNOCENTS">
+        <Down>MasterThief:ToggleSystemAttackInnocents()</Down>
+      </Action>
+	  <Action name="TOGGLE_LOOTLIST">
+        <Down>MasterThief:ToggleLootList()</Down>
+      </Action>	  
+    </Category>
+  </Layer>
+</Bindings>

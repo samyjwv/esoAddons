@@ -1,0 +1,102 @@
+local localization_strings = {
+	-- General
+	SI_TK_NAME = "Thief's Knapsack Extended",
+	SI_TK_LOCKED = "Window Locked",
+	SI_TK_UNLOCKED = "Window Unlocked",
+	SI_TK_INITIALIZE = "Initialized...Happy Thieving!",
+	SI_TK_NOT_NA = "Sorry, but you are not on the NA Megaserver or you have neglected to enter an amount.",
+	
+	-- Settings Panel
+	
+	SI_TK_FIELDS = "Fields",
+	SI_TK_WELCOME_NAME = "Chat Welcome",
+	SI_TK_WELCOME_MSG = "Display or disable chat message when addon is fully loaded. (When on the message is displayed.)",
+	SI_TK_SCOUNT_NAME = " Stolen Item Count",
+	SI_TK_SCOUNT = "Display the total number of stolen items currently held (stacks included!)",
+	SI_TK_RMCOUNT_NAME = " Stolen recipe/motif count",
+	SI_TK_RMCOUNT = "Display the number of recipes or racial motifs held",
+	SI_TK_LDXP_NAME = " Legerdemain XP",
+	SI_TK_LDXP = "Because everyone likes to watch the numbers go up",
+	SI_TK_SELLS_NAME = "Show sells (to the fences) remaining",
+	SI_TK_SELLS = "Display the total remaining times you can fence items",
+	SI_TK_LAUNDERS_NAME = "...also show launders remaining",
+	SI_TK_LAUNDERS = "Display the total remaining times you can launder items",
+	SI_TK_FRESET_NAME = "Fence Reset Timer",
+	SI_TK_FRESET = "Show the Fence Reset Clock",
+	SI_TK_BCLOCK_NAME = "Show the Bounty Reset Clock",
+	SI_TK_BCLOCK = "(\"Dynamic Bounty\" will hide this if you have no bounty)",
+	SI_TK_SBOUNTY_NAME = "Show Bounty",
+	SI_TK_SBOUNTY = "(\"Dynamic Bounty\" will hide this if you have no bounty)",
+	SI_TK_SAVALUE_NAME = "Show average value",
+	SI_TK_SAVALUE = "Display the average value of an item (i.e., ratio of value to item count)",
+	SI_TK_EDP_NAME = "Show estimated daily profit",
+	SI_TK_EDP = "Show the estimated daily haul based on remaining fence sells and the average stolen item value",
+	SI_TK_SAQ_NAME = "Show average quality",
+	SI_TK_SAQ = "Display the average quality of item",
+	SI_TK_DQG_NAME = "Show the quality graph",
+	SI_TK_DQG = "Display the graph of item quality to percentage held",
+	
+	-- Options Drop Down
+	
+	SI_TK_OPTIONS_NAME= "Options",
+	SI_TK_DCJ_NAME = "Don't count junk",
+	SI_TK_DCJ = "If a stolen item is marked as junk, it won't be counted",
+	SI_TK_SEPRAM_NAME = "Separate recipes and motifs",
+	SI_TK_SEPRAM = "If a stolen item is a recipe or motif, count it separately and do not add it's value to total.",
+	SI_TK_SEPGEAR_NAME = "Separate gear",
+	SI_TK_SEPGEAR = "If a stolen item is an armor or weapon do not add it's value to total.",
+	SI_TK_DBT_NAME = "Dynamic bounty/timer",
+	SI_TK_DBT = "Show and hide the bounty and bounty timer automatically, when there is bounty",
+	
+	-- Display Section
+	
+	SI_TK_DISPLAY_NAME = "Display",
+	SI_TK_SCALE_NAME = "Scale",
+	SI_TK_COMPACT_NAME = "Compact Alignment",
+	SI_TK_COMPACT = "If checked, the bar will be more compact, but the size will fluctuate as the numbers change",
+	SI_TK_SBG_NAME = "Show background",
+	SI_TK_SBG = "If this is unchecked, the background will not be displayed",
+	SI_TK_HIDE_IN_MENUS_NAME = "Hide in menus",
+	SI_TK_HIDE_IN_MENUS = "When set, the bar will be hidden when in menus and similar",
+	SI_TK_ALIGN_NAME = "Alignment",
+	SI_TK_ALIGN = "Set which corner of the screen the bar is relative to",
+	SI_TK_SNAP_CENTER_NAME = "Snap to center",
+	SI_TK_SNAP_CENTER = "If this is checked and you use Center alignment, the bar will snap to the center",
+	SI_TK_LOCK_NAME = "Lock UI",
+	SI_TK_LOCK = "If this is checked the Thief's Knapsack UI will be locked in place.",
+	SI_TK_HIDE_METER_NAME = "Hide Meter",
+	SI_TK_HIDE_METER = "If this is checked the default Bounty Meter will be hidden",
+	SI_TK_RL_UI = "Reload UI",
+	SI_TK_GOLD_VALUE_NAME = " Gold value",
+	SI_TK_GOLD_VALUE = "Display the total gold value of stolen items",
+	SI_TK_AUTO_LOCK_NAME = "Autolock",
+	SI_TK_AUTO_LOCK = "This will automatically lock the window when you release it after moving.",
+	SI_TK_DON_AND_FB = "Donation and Feedback",
+	SI_TK_DONATE_TEXT = "Developing and testing this addon can get expensive, all those bounties, please donate to help defray the costs.",
+	SI_TK_LEDGERDEMAIN = "Legerdemain",
+	SI_TK_TEXT_LABEL_NAME = "Text Labels",
+	SI_TK_TEXT_LABEL = "Toggles the display of text labels describing each item displayed.",
+	SI_TK_LAUNDERS_LEFT_LABEL = "Sells/Launders:",
+	SI_TK_SELLS_LEFT_LABEL = "Sells:",
+	SI_TK_TOTAL_VALUE_LABEL = "Total Value:",
+	SI_TK_ITEM_COUNT_LABEL = "Item Count:",
+	SI_TK_RECIPE_COUNT_LABEL = "Recipe Count:",
+	SI_TK_CURRENT_BOUNTY_LABEL = "Current Bounty:",
+	SI_TK_AVG_VALUE_LABEL = "Average Value:",
+	SI_TK_EST_PROFIT_LABEL = "Estimated Daily Profit:",
+	SI_TK_AVG_QUALITY_LABEL = "Average Quality:",
+	SI_TK_TL_WARNING = "Works best in Compact mode.",
+	SI_TK_RESET_TIMER = "Fence Rest: ",
+	
+	SI_TK_DISPLAY_TT = "Options for how things are displayed on screen.",
+	SI_TK_OPTIONS_TT = "General options.",
+	SI_TK_FIELDS_TT = "Options for what items to display on screen.",
+	SI_TK_FILTERS_TT = "Options for filtering what types of items to count towards your total and values.",
+	SI_TK_FILTERS_NAME = "Filters",
+	
+}
+
+for stringId, stringValue in pairs(localization_strings) do
+   ZO_CreateStringId(stringId, stringValue)
+   SafeAddVersion(stringId, 1)
+end

@@ -1,0 +1,10 @@
+## APIVersion: 100018
+## Title: Master Merchant Data File MM10Data
+## Description: MM10Data Stores data for Master Merchant
+## Version 1.9.5
+## License: See license - distribution without license is prohibited!
+## LastUpdated: July 2016
+## SavedVariables: MM10DataSavedVariables
+## DependsOn: MM00Data
+
+MM10Data.lua

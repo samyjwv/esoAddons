@@ -1,0 +1,30 @@
+## Title: |rOmniStats |c998877 2.8.0 |r
+## Version: 2.8.0
+## Author: RunningDuck
+## Description: Provides extended character attributes in a compact frame
+
+## APIVersion: 100018
+## SavedVariables: OmniStats_SavedVariables
+## OptionalDependsOn: LibAddonMenu-2.0
+
+libs\LibStub\LibStub.lua
+libs\LibAddonMenu-2.0\LibAddonMenu-2.0.lua
+libs\LibAddonMenu-2.0\controls\panel.lua
+libs\LibAddonMenu-2.0\controls\submenu.lua
+libs\LibAddonMenu-2.0\controls\button.lua
+libs\LibAddonMenu-2.0\controls\checkbox.lua
+libs\LibAddonMenu-2.0\controls\colorpicker.lua
+libs\LibAddonMenu-2.0\controls\custom.lua
+libs\LibAddonMenu-2.0\controls\description.lua
+libs\LibAddonMenu-2.0\controls\dropdown.lua
+libs\LibAddonMenu-2.0\controls\editbox.lua
+libs\LibAddonMenu-2.0\controls\header.lua
+libs\LibAddonMenu-2.0\controls\slider.lua
+libs\LibAddonMenu-2.0\controls\texture.lua
+libs\LibAddonMenu-2.0\controls\iconpicker.lua
+libs\LibAddonMenu-2.0\controls\divider.lua
+
+OmniStats.lua
+OmniStats.xml
+bindings.xml
+bindings.lua

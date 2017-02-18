@@ -1,0 +1,70 @@
+<GuiXml>
+	<Controls>
+		<TopLevelControl movable="false" mouseEnabled="true" name="TKDonateWindow" hidden="true">
+			 <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER" offsetX="0" offsetY="5" />
+      <Dimensions x="545" y="150" />
+      <Controls>
+        <Backdrop name="$(parent)BG" inherits="ZO_DefaultBackdrop" />
+        <Label name="$(parent)Title" font="ZoFontGame"   height="25" width="95" inheritAlpha="true" color="D5B526" verticalAlignment="CENTER" horizontalAlignment="CENTER" text="Thief's knapsack Extended">
+          <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetX="0" offsetY="5" />
+        </Label>
+        <Button name="$(parent)CloseButton" inheritAlpha="true" verticalAlignment="CENTER" horizontalAlignment="CENTER">
+          <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="-20" offsetY="20" />
+          <Dimensions x="48" y="48" />
+          <Textures normal="/esoui/art/hud/radialicon_cancel_up.dds" mouseOver="/esoui/art/hud/radialicon_cancel_over.dds" />
+          <OnClicked>
+			TKDonateWindow:SetHidden(true)
+          </OnClicked>
+        </Button>
+        <Label name="$(parent)Note"  font="ZoFontGame"  horizontalAlignment="CENTER" color="FFFFFF" text="SI_TK_DONATE_TEXT">
+          <Dimensions x="525" y="200" />
+          <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="10" offsetY="50" />
+        </Label>
+        <Button name="$(parent)Feedback" inherits="ZO_DefaultButton" text="Donate 100">
+          <Anchor point="BOTTOMLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetX="5" offsetY="-5" />
+          <Dimensions x="130" />
+          <OnClicked>
+            ThiefsKnapsackExtended.Donate(100)
+			TKDonateWindow:SetHidden(true)
+          </OnClicked>
+        </Button>
+        <Button name="$(parent)Small" inherits="ZO_DefaultButton" text="Donate 500">
+          <Anchor point="BOTTOMLEFT" relativeTo="$(parent)Feedback" relativePoint="BOTTOMRIGHT" offsetX="5" offsetY="0" />
+          <Dimensions x="130" />
+          <OnClicked>
+            ThiefsKnapsackExtended.Donate(500)
+			TKDonateWindow:SetHidden(true)
+          </OnClicked>
+        </Button>
+        <Button name="$(parent)Large" inherits="ZO_DefaultButton" text="Donate 5000">
+          <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetX="-5" offsetY="-5" />
+          <Dimensions x="130" />
+          <OnClicked>
+            ThiefsKnapsackExtended.Donate(5000)
+			TKDonateWindow:SetHidden(true)
+          </OnClicked>
+        </Button>
+        <Button name="$(parent)Medium" inherits="ZO_DefaultButton" text="Donate 1000">
+          <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)Large" relativePoint="BOTTOMLEFT" offsetX="-5" offsetY="0" />
+          <Dimensions x="130" />
+          <OnClicked>
+            ThiefsKnapsackExtended.Donate(1000)
+			TKDonateWindow:SetHidden(true)
+          </OnClicked>
+        </Button>
+			<Button name="$(parent)FeedbackButton" inheritAlpha="true" verticalAlignment="CENTER" horizontalAlignment="CENTER">
+				<Anchor point="RIGHT" relativeTo="$(parent)" relativePoint="RIGHT" offsetX="-50" offsetY="-55" />
+				<Dimensions x="34" y="34" />
+				<Textures normal="ESOUI/art/chatwindow/chat_mail_up.dds" mouseOver="ESOUI/art/chatwindow/chat_mail_over.dds" />
+				<OnClicked>
+					TKDonateWindow:SetHidden(true)
+					ThiefsKnapsackExtended:SendNote(0)
+				</OnClicked>
+				<OnMouseExit>
+					ZO_Tooltips_HideTextTooltip()
+				</OnMouseExit>
+			</Button>
+      </Controls>
+    </TopLevelControl>	
+	</Controls>
+</GuiXml>

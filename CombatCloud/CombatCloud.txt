@@ -1,0 +1,57 @@
+## APIVersion: 100017
+## Title: |cEFEBBECombat Cloud|r 0.92a
+## Author: |cEFEBBESideshow & Garkin|r
+## Version: 0.92d
+## OptionalDependsOn: LibMediaProvider-1.0 LibAddonMenu-2.0
+## SavedVariables: CombatCloud_Settings
+
+libs\LibStub\LibStub.lua
+libs\LibMediaProvider\LibMediaProvider-1.0.lua
+
+libs\LibAddonMenu\LibAddonMenu-2.0.lua
+libs\LibAddonMenu\controls\panel.lua
+libs\LibAddonMenu\controls\submenu.lua
+libs\LibAddonMenu\controls\button.lua
+libs\LibAddonMenu\controls\checkbox.lua
+libs\LibAddonMenu\controls\colorpicker.lua
+libs\LibAddonMenu\controls\custom.lua
+libs\LibAddonMenu\controls\description.lua
+libs\LibAddonMenu\controls\dropdown.lua
+libs\LibAddonMenu\controls\editbox.lua
+libs\LibAddonMenu\controls\header.lua
+libs\LibAddonMenu\controls\slider.lua
+libs\LibAddonMenu\controls\texture.lua
+libs\LibAddonMenu\controls\iconpicker.lua
+
+CombatCloud.xml
+Localization/$(language).lua
+Media.lua
+Constants.lua
+Defaults.lua
+Menu.lua
+
+Core/Animation.lua
+Core/Pool.lua
+Core/PoolManager.lua
+
+Core/EventListeners/_Base.lua
+Core/EventListeners/Alerts.lua
+Core/EventListeners/Combat.lua
+Core/EventListeners/Points_Alliance.lua
+Core/EventListeners/Points_Experience.lua
+Core/EventListeners/Points_Champion.lua
+Core/EventListeners/Resources_Potion.lua
+Core/EventListeners/Resources_Power.lua
+Core/EventListeners/Resources_Ultimate.lua
+
+Core/EventViewers/_Base.lua
+Core/EventViewers/Combat_Cloud.lua
+Core/EventViewers/Combat_Hybrid.lua
+Core/EventViewers/Combat_Ellipse.lua
+Core/EventViewers/Combat_Scroll.lua
+Core/EventViewers/Alerts.lua
+Core/EventViewers/CrowdControl.lua
+Core/EventViewers/Points.lua
+Core/EventViewers/Resources.lua
+
+CombatCloud.lua

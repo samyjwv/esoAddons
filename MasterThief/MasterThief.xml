@@ -1,0 +1,18 @@
+<GuiXml>
+  <Controls>
+    <TopLevelControl name="ctlMasterThief" mouseEnabled="true" movable="true" clampedToScreen="true">
+      <Dimensions x="200" y="18" />
+      <Anchor point="TOP" relativeTo="GuiRoot" relativePoint="RIGHT" offsetY="0" />
+ 
+		<OnMoveStop>
+			MasterThief.WinMoveStop()
+		</OnMoveStop>
+      <Controls>
+        <Label name="$(parent)Label" width="200" height="18" font="ZoFontWinH1" inheritAlpha="true" color="FFCCAA" 
+		       wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="CENTER" text="">
+          <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER" />
+        </Label>
+      </Controls>
+    </TopLevelControl>
+  </Controls>
+</GuiXml>

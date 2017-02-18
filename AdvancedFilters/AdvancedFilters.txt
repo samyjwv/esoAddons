@@ -1,0 +1,29 @@
+## Title: Advanced Filters
+## Author: Randactyl
+## Version: 1.4.0.0
+## APIVersion: 100018
+## OptionalDependsOn: LibFilters-2.0
+
+lib\LibStub\LibStub.lua
+
+lib\LibFilters-2.0\LibFilters-2.0.lua
+lib\LibFilters-2.0\helper.lua
+lib\libCommonInventoryFilters\libCommonInventoryFilters.lua
+lib\LibCustomMenu\LibCustomMenu.lua
+lib\LibMotifCategories-1.0\LibMotifCategories-1.0.lua
+lib\LibCustomTitles\LibCustomTitles.lua
+
+main.lua
+util.lua
+strings\en.lua
+strings\$(language).lua
+textures.lua
+AF_FilterBar.xml
+AF_FilterBar.lua
+data.lua
+
+extrafilters\LevelFilters.lua
+extrafilters\NewMotif.lua
+extrafilters\MotifKnowledge.lua
+extrafilters\EquipmentMotifCategories.lua
+extrafilters\BoPTradeableFilters.lua

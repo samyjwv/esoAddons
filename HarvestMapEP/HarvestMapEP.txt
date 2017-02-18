@@ -1,0 +1,7 @@
+## Title: HarvestMap-EP-Zones
+## Author: Shinni
+## Version: 3.5.3
+## APIVersion: 100018 100017
+## SavedVariables: HarvestEP_SavedVars
+
+HarvestMapEP.lua

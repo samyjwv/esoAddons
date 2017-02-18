@@ -1,0 +1,15 @@
+<Bindings>
+  <Layer name="SI_KEYBINDINGS_CATEGORY_GENERAL">
+    <Category name="Thief's Knapsack Extended">
+      <Action name="THIEFSKNAPSACK_TOGGLE">
+        <Down>ThiefsKnapsackExtended:toggle()</Down>
+      </Action>
+	  <Action name="THIEFSKNAPSACK_LOCK_TOGGLE">
+		<Down>lockWindow()</Down>
+	  </Action>
+	  <Action name="THIEFSKNAPSACK_METER_TOGGLE">
+		<Down>hideMeter()</Down>
+	  </Action>
+    </Category>
+  </Layer>
+</Bindings>

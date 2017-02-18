@@ -1,0 +1,78 @@
+; This Add-on is not created by, affiliated with or sponsored by ZeniMax Media
+; Inc. or its affiliates. The Elder Scrolls and related logos are registered
+; trademarks or trademarks of ZeniMax Media Inc. in the United States and/or
+; other countries. All rights reserved.
+; https://account.elderscrollsonline.com/add-on-terms
+
+## Title: Itemization Browser
+## Description: List and browse game's item sets.
+## Author: @code65536
+## Version: 1.1.3
+## APIVersion: 100017
+
+locales/en.lua
+locales/$(language).lua
+ItemBrowser.lua
+ItemBrowserData.lua
+ItemBrowserData.$(APIVersion).lua
+ItemBrowserList.lua
+ItemBrowser.xml
+bindings.xml
+
+; Changelog:
+;
+; Version 1.1.3 (2016/11/02)
+; * Added Japanese translation (thank you, BowmoreLover)
+;
+; Version 1.1.2 (2016/10/25)
+; * Added Spanish translation (thank you, Kwisatz)
+; * Minor update of the German and Russian translations
+; * Addressed issue where users of the recently-updated CraftStore add-on were
+;   being shown duplicated style information in Itemization Browser's tooltips
+;
+; Version 1.1.1 (2016/10/17)
+; * Added new options to the category filters: Bind On Equip and Bind On Pickup
+; * Added a counter to the lower right corner showing the number of entries
+;   matching the current filter/search
+;
+; Version 1.1.0 (2016/10/16)
+; * Added a new feature for searching set bonuses
+;
+; Version 1.0.1 (2016/10/06)
+; * Added Russian translation (thank you, Ckau)
+; * For monster sets, the Source column now includes the name of the Undaunted
+;   chest containing the shoulders for that set
+; * Removed Thieves Troves as sources; it appears that they were changed in
+;   Update 12 to now drop sets belonging to the zone that they are in
+;
+; Version 1.0.0 (2016/10/05)
+; * Added French translation (thank you, Llwydd)
+; * Added German translation (thank you, Baertram)
+; * General release for Update 12 (One Tamriel)
+;
+; Version 0.2.3 (2016/09/22)
+; * The number of traits needed for a crafted set will now be shown in the Type
+;   column instead of the Source column
+; * Thieves Troves are now listed as sources for some item sets
+;
+; Version 0.2.2 (2016/09/19)
+; * Data initialization will now happen only if the add-on is invoked, in order
+;   to minimize unnecessary processing
+;
+; Version 0.2.1 (2016/09/15)
+; * The item tooltip shown when mousing over a set will now report the style
+;   of that set, if applicable
+; * Added the six 3-piece jewelry sets found in Cyrodiil, which had been
+;   previously omitted due to an oversight
+;
+; Version 0.2.0 (2016/09/15)
+; * Added a dropdown filter to narrow results by source categories
+; * Crafted sets will now list the zone(s) in which the set can be crafted
+; * Swapped the Greenshade and Grahtwood sets to correct an apparent error in
+;   the PTS patch notes
+;
+; Version 0.1.1 (2016/09/15)
+; * Fixed various formatting issues for non-English locales
+;
+; Version 0.1.0 (2016/09/14)
+; * Initial pre-release version

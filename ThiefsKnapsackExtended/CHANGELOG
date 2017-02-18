@@ -1,0 +1,64 @@
+[COLOR="DeepSkyBlue"]2.6.2.5[/COLOR]
+[LIST]
+[*]Broke up the settings menu into submenus to make desired options easier to find.
+[*]The text labels option now locks the UI in compact mode.
+[*]Adjusted settings menu to keep menu items in their proper areas.
+[/LIST]
+[COLOR="DeepSkyBlue"]2.6.2.4[/COLOR]
+[LIST]
+[*]Added option to have text labels describing what each item displayed is. (Works best in compact mode).
+[*] Cleaned up a little more code. Want to keep this as efficient as possible.
+[/LIST]
+[COLOR="DeepSkyBlue"]2.6.2.3[/COLOR]
+[LIST]
+[*]Hide in menus bug...fixed! Now 100% working as intended!
+[*]Cleaned up some hackish code to make it run smoother.
+[/LIST]
+[COLOR="DeepSkyBlue"]2.6.2.2[/COLOR]
+[LIST]
+[*]Fixed an error where hide in menus option would hide the bar at launch and not reshow it unless you brought up a menu and closed it. [COLOR="Red"]Reversed it actually...still working on nailing this one down.[/COLOR]
+[*]Added donation button and menu to the options panel.
+[*]Fixed some localization issues.
+[/LIST]
+[COLOR="DeepSkyBlue"]2.6.2.1[/COLOR]
+[LIST]
+[*]Fixed an issue where sometimes, when moving the window, the new position wouldn't save correctly and it would move back after relogging or reloading the UI.
+[*]Fixed an error where hide in menus option would hide the bar at launch and not reshow it unless you brought up a menu and closed it.
+[*]Fixed an issue where hide In Menus option wasn't showing properly in the settings menu in all 3 languages.
+[*]Fixed some issues with French and German localizations not loading properly.
+[*]Add option to automatically lock window in place after moving it.
+[/LIST]
+[COLOR="DeepSkyBlue"]2.6.2[/COLOR]
+[LIST]
+[*]Converted all strings to allow for localization. French and German are now supported.
+[*]Cleaned up some of the code to try and minimize memory usage.
+[*]Added option to disable the chat message that displays when the addon is fully loaded.
+[/LIST]
+[COLOR="DeepSkyBlue"]2.6.1.4[/COLOR]
+[LIST]
+[*]Added message in chat window when locking/unlocking the window using hotkey or /tklock.
+[*]Added keybind to lock/unlock the window.
+[*]Added slash commands /tk to toggle the display on and off, /tklock toggle wether the window is locked or not and /tkm to toggle the display of the ZOS Default bounty meter.
+[/LIST]
+[COLOR="DeepSkyBlue"]2.6.1.3[/COLOR]
+[LIST]
+[*]Added option to not display the fence value of armor and weapons.
+[*]Added text alert in chat when the addon is fully loaded.
+[*]Fixed option to seperate recipes so that their value will no longer be included when the option is on.
+[/LIST]
+[COLOR="DeepSkyBlue"]2.6.1.2[/COLOR]
+[LIST]
+[*]Added option to hide the default UI's bounty meter.
+[*]Adjusted bounty timer. It now gets the time based on a 360 second time rather than 180 This is more in line with the way Swiftly Forgotten works. Seems to be a bit more accurate but still needs adjusting for swiftly forgotten skill. Working on it, but it should be a little better now than it was.
+[*]Fixed a bug that would make the UI window movable again after reloading the UI or logging out even if the option was set to "lock".
+[/LIST]
+[COLOR="DeepSkyBlue"]2.6.1.1[/COLOR]
+[LIST]
+[*]Changed file structure and name to avoid conflicts with the original Thief's Knapsack when using Minion to update Addons.
+[*]Added option to lock the UI element in place.
+[/LIST]
+[COLOR="DeepSkyBlue"]2.6.1[/COLOR]
+[LIST]
+[*]Changed Version numbering to match current game version with subversion for the addon itself.
+[*]Fixed the stolen item valuation to take the haggling skill into account.
+[/LIST]

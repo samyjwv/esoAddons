@@ -1,0 +1,7 @@
+<GuiXml>
+    <Controls>
+        <TopLevelControl name="OmniStats">
+			<OnInitialized>OmniStatsInitialize(self)</OnInitialized>
+        </TopLevelControl>
+    </Controls>
+</GuiXml>

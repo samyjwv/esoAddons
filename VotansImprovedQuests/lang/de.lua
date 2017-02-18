@@ -1,0 +1,2 @@
+SafeAddString(SI_VOTANSIMPROVEDQUESTS_SHOW_LEVELS, "Stufen anzeigen", 1)
+SafeAddString(SI_VOTANSIMPROVEDQUESTS_OTHER_ZONES, "Andere Gebiete", 1)

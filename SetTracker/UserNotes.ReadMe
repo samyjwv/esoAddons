@@ -1,0 +1,106 @@
+v1.6.3
+
+This addon tracks holdings of set items across all characters and the bank.  It can also track 
+holdings across different login accounts but requires the help of an external application to 
+manage that.
+
+It also allows for a set to be tagged with one of five (or fifteen if the sub-menu option is enabled)
+possible tracking states.  Each tracking state has an associated colour and label which can be 
+configured in the addons settings menu.
+
+
+Tooltip Enhancements
+
+The Tooltip for a set item is modified to included holdings and tracking information for the 
+set that the item belongs to.  The Tooltip will either show "No Holdings" or "Holding nn items".
+The message is in displayed in one of 7(12) possible colours.  The colours denote that the set is
+either
+	.Crafted.
+	.Tagged with one of 5(12) possible tracking states. 
+	.Not tracked.
+
+The tooltips displayed by clicking on an item link in the chat window have been enhanced to 
+display the holdings for the set the item belongs to.  This behaviour is activated by
+clicking the RMB over the tooltip.
+
+
+Inventory List Enhancements
+	
+Inventory lists can be optionally tagged with an icon for tracked set items.  The icon will
+be displayed in the appropriate tracking state colour.  Each tracking state can optionally have 
+a unique icon and the icon textures can be optionally configured by the user.
+Each set can have user notes saved.  These notes can be displayed from the item context menu, or as
+a tooltip on the tracking state icons.
+
+
+Context Menu Enhancements
+	
+The context menu for inventory and bank item lists has some extra options added as follows.  These 
+options are only added for items that belong to a set.
+	"Track Set aaaaa"	This will mark the set as being tracked.  There can be up to five(ten)
+						tracking states configured and there will be one menu item for each 
+						configured tracking state.  The tracking states are configured in the 
+						addons settings menu.
+	"Do Not Track Set"	This will erase the tracking state for the set, i.e set it back to default.
+	"Edit Set Notes"	This will bring up a text edit dialog allowing user notes to be saved
+						against this set.
+	"Show Set Notes"	This will display any user notes saved against this set.
+	"Show Holdings"		This will display all the holdings for this set	for all characters in the
+						account as well as the account bank.  It also includes holdings on any other
+						login accounts used.  Each character on each account must be logged	in at 
+						least once to gather the inventory for an accurate listing.
+						Each trait in the holdings display can be shown in a different
+						user configured colour.
+						The holdings can be displayed either in the chat window or in a separate
+						custom window. The holdings window can be moved and resized at will, the
+						position and size being saved and restored when the UI is restarted.
+						The level can be optionally included in the holdings list and another option
+						is to have the item link displayed instead of the generic name.
+						A hotkey definition has been provided for toggling the holdings display window
+						on and off.
+
+
+ItemBrowser Addon Support
+
+This addon provides full integration with the ItemBrowser addon by @code65536.
+
+All ItemBrowser tooltips will have the Set Tracker information appended.
+
+Left clicking the item in ItemBrowser will perform the default ItemBrowser action i.e. send the set
+to the chat window.
+
+Right clicking the item will show the Set Tracker context menu.
+
+Note that earlier versions of this addon required making changes to the ItemBrowser code for full 
+integration to work.  As of version, 1.1, these changes are no longer needed.
+
+
+Multiple Login Account Support
+
+This addon can track the holdings for set items for any number of alternate login accounts.  Previous 
+versions of the addon required the support of an external application for this functionality.  As of 
+version 1.4 the external app is no longer required and it has been removed from the addon package.
+To see the inventories of the characters on alternate accounts you must login to each character on each
+account so that SetTracker can scan the inventories into its database.
+
+
+Access to SetTracker From Other Addons
+
+Some global functions have been provided to allow other addons to access the SetTracker database.
+
+	local sTrackColour, sTrackName, sTrackTexture = ST.GetTrackStateInfo(_trackIndex)
+	--Returns SetTracker data for the specified track index
+	--sTrackColour	- the user configured colour for the set ("RRGGBB")
+	--sTrackName	- the user configured tracking name for the set
+	--sTrackTexture	- the texture used for the track state icon
+
+	local iTrackIndex, sTrackName, sTrackColour, sTrackNotes = SetTrack.GetTrackingInfo(bagId, slotIndex)
+	--Returns SetTracker data for the specified bag item as follows
+	--	iTrackIndex		- track state index 0 - 14,  -1 means the set is not tracked and 100 means the set is crafted
+	--	sTrackName		- the user configured tracking name for the set
+	--	sTrackColour	- the user configured colour for the set ("RRGGBB")
+	--	sTrackNotes		- the user notes saved for the set
+
+	local iMaxIndex = SetTrack.GetMaxTrackStates()
+	--Returns the current maximum number of tracked states.  This can vary depending upon user settings.
+	--The track state index is 0 base (0 - SetTrack.GetMaxTrackStates()).

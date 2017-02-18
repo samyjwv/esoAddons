@@ -1,0 +1,102 @@
+local localization_strings = {
+-- General
+ SI_TK_NAME = "Sac agrandi du voleur",
+ SI_TK_LOCKED = "Fenêtre Barrée",
+ SI_TK_UNLOCKED = "Fenêtre Débarrée",
+ SI_TK_INITIALIZE = "Initialisé...Joyeux Cambriolage!",
+ SI_TK_NOT_NA = "Désolé, mais vous n'êtes pas sur le NA Megaserver ou vous avez négligé de saisir un montant.",
+ 
+ -- Settings Panel
+  
+ SI_TK_FIELDS = "Champs",
+ SI_TK_WELCOME_NAME = "Accueil Chat",
+ SI_TK_WELCOME_MSG = "Montrer ou désactiver les messages lorsque l'addon est chargé. (Si activé, le message est visible.)",
+ SI_TK_SCOUNT_NAME = " Compte des articles volés",
+ SI_TK_SCOUNT = "Affiche le nombre total d'articles volés en sa possession (Piles incluses!)",
+ SI_TK_RMCOUNT_NAME = "Compte des recettes/motifs volés",
+ SI_TK_RMCOUNT = "Affiche le nombre de recettes ou motifs raciaux détenus",
+ SI_TK_LDXP_NAME = " XP Escamotage",
+ SI_TK_LDXP = "Tous aime voir les chiffres monter!",
+ SI_TK_SELLS_NAME = "Affiche les ventes restantes (Aux receleurs)",
+ SI_TK_SELLS = "Affiche le temps restant à la recelle d'articles",
+ SI_TK_LAUNDERS_NAME = "...aussi le temps restant au blanchiment",
+ SI_TK_LAUNDERS = "Affiche le temps restant pour blanchir les articles",
+ SI_TK_FRESET_NAME = "Temporisateur de réinitialisation de la clôture",
+ SI_TK_FRESET = "Affiche l'horloge de la réinitialisation des receleurs",
+ SI_TK_BCLOCK_NAME = "Affiche l'horloge de la réinitialisation de prime sur votre tête",
+ SI_TK_BCLOCK = "(\"Dynamic Bounty\" Cacher si vous n'avez pas de prime sur votre tête)",
+ SI_TK_SBOUNTY_NAME = "Affiche votre prime de tête",
+ SI_TK_SBOUNTY = "(\"Dynamic Bounty\" Cacher si vous n'avez pas de prime sur votre tête)",
+ SI_TK_SAVALUE_NAME = "Affiche la valeur moyenne",
+ SI_TK_SAVALUE = "Affiche la valeur moyenne d'un article(c.-à-d, ratio d'une valeur au compte d'articles)",
+ SI_TK_EDP_NAME = "Affiche l'estimé de votre profit journalier",
+ SI_TK_EDP = "Montrez l'estimation du transport quotidien en fonction des ventes de clôtures restantes et de la valeur moyenne des articles volés.",
+ SI_TK_SAQ_NAME = "Affiche la moyenne de qualité",
+ SI_TK_SAQ = "Affiche la moyenne de qualité des articles",
+ SI_TK_DQG_NAME = "Affiche le graphique de qualité",
+ SI_TK_DQG = "Affiche le graphique de qualité au pourcentage obtenu",
+ 
+ -- Options Drop Down
+ 
+ SI_TK_OPTIONS_NAME= "Options",
+ SI_TK_DCJ_NAME = "Ne pas compter les déchets",
+ SI_TK_DCJ = "Si un article volé est classifié comme déchet, il ne sera pas compté",
+ SI_TK_SEPRAM_NAME = "Séparer les recettes et les motifs",
+ SI_TK_SEPRAM = "Si un article volé est une recette ou un motif, compter séparément et ne pas ajouter à la valeur total.",
+ SI_TK_SEPGEAR_NAME = "Séparer armure",
+ SI_TK_SEPGEAR = "Si l'article volé est une pièce d'armure ou une arme, ne pas ajouter à la valeur total.",
+ SI_TK_DBT_NAME = "Prime de tête/horloge dynamique",
+ SI_TK_DBT = "Afficher et cacher votre prime et l'horloge automatiquement lorsqu'il y'a aucune prime sur votre tête",
+ 
+ -- Display Section
+ 
+ SI_TK_DISPLAY_NAME = "Afficher",
+ SI_TK_SCALE_NAME = "Échelle",
+ SI_TK_COMPACT_NAME = "Allignement Compacte",
+ SI_TK_COMPACT = "Si elle est cochée, la barre sera plus compacte, mais la taille fluctuera à mesure que les chiffres changent.",
+ SI_TK_SBG_NAME = "Afficher l'arrière plan",
+ SI_TK_SBG = "Si ceci n'est pas sélectionné, l'arrière plan ne sera pas affiché",
+ SI_TK_HIDE_IN_MENUS_NAME = "Cacher Menu",
+ SI_TK_HIDE_IN_MENUS = "Si activé, la barre sera cachée dans les menus semblables.",
+ SI_TK_ALIGN_NAME = "Allignement",
+ SI_TK_ALIGN = "Choisir le coin d'écran auquel votre barre sera allignée",
+ SI_TK_SNAP_CENTER_NAME = "Accrocher au centre",
+ SI_TK_SNAP_CENTER = "Si sélectionné et l'Allignement Centrale est utilisé, la barre s'accrochera au centre",
+ SI_TK_LOCK_NAME = "Barrer l'IU",
+ SI_TK_LOCK = "Si sélectionné, l'IU de l'addon sera figée sur place",
+ SI_TK_HIDE_METER_NAME = "Cache-o-mètre",
+ SI_TK_HIDE_METER = "Si sélectionné, le cache-o-mètre par défaut sera éclipsé",
+ SI_TK_RL_UI = "Retélécharger l'IU",
+ SI_TK_GOLD_VALUE_NAME = " Valeur en or",
+ SI_TK_GOLD_VALUE = "Afficher la valeur total en or des articles volés",
+ SI_TK_AUTO_LOCK_NAME = "Verrouillage automatique",
+ SI_TK_AUTO_LOCK = "Cela verrouillera automatiquement la fenêtre lorsque vous la relâchez après le déplacement.",
+ SI_TK_DON_AND_FB = "Dons et Commentaires",
+ SI_TK_DONATE_TEXT = "Développer et tester cet addon peut coûter cher, toutes ces primes, s'il vous plaît donnez pour aider à défrayer les coûts.",
+ SI_TK_LEDGERDEMAIN = "Escroquerie",
+ SI_TK_TEXT_LABEL_NAME = "Étiquettes de texte",
+ SI_TK_TEXT_LABEL = "Active / désactive l'affichage des étiquettes de texte décrivant chaque élément affiché.",
+SI_TK_LAUNDERS_LEFT_LABEL = "Propose à vendre Chien:",
+SI_TK_SELLS_LEFT_LABEL = "Propose à vendre Chien:",
+SI_TK_TOTAL_VALUE_LABEL = "Valeur totale:",
+SI_TK_ITEM_COUNT_LABEL = "Nombre d'éléments:",
+SI_TK_RECIPE_COUNT_LABEL = "Recette:",
+SI_TK_CURRENT_BOUNTY_LABEL = "Bounty courant:",
+SI_TK_AVG_VALUE_LABEL = "Valeur moyenne:",
+SI_TK_EST_PROFIT_LABEL = "Estimation du bénéfice quotidien:",
+SI_TK_AVG_QUALITY_LABEL = "Qualité moyenne:",
+SI_TK_TL_WARNING = "Fonctionne mieux en mode Compact.",
+SI_TK_RESET_TIMER = "Réinitialisation des receleurs: ",
+
+SI_TK_DISPLAY_TT = "Options pour la façon dont les choses sont affichées à l'écran.",
+SI_TK_OPTIONS_TT = "Options générales.",
+SI_TK_FIELDS_TT = "Options pour les éléments à afficher à l'écran.",
+SI_TK_FILTERS_TT = "Options pour filtrer les types d'éléments à compter pour votre total et les valeurs.",
+SI_TK_FILTERS_NAME = "Filtres",
+
+ }
+
+for stringId, stringValue in pairs(localization_strings) do
+   ZO_CreateStringId(stringId, stringValue)
+   SafeAddVersion(stringId, 1)
+end

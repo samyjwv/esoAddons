@@ -1,0 +1,37 @@
+## Title: Potion Maker
+## Author: Facit & |cFF6A00Khrill|r & votan
+## Description: Gives feedback for what potions you can make with alchemy using the ingredients you have.
+## Version: 5.2.0
+## APIVersion: 100017 100018
+## OptionalDependsOn: LibStub LibAddonMenu-2.0 MultiCraft
+## SavedVariables: PotionMaker_Data
+
+## This Add-On is not created by, affiliated with or sponsored by ZeniMax Media Inc. or its affiliates. The Elder Scrolls® and related logos are registered trademarks or trademarks of ZeniMax Media Inc. in the United States and/or other countries. All rights reserved.
+
+## Libraries:
+Libs/LibStub/LibStub.lua
+Libs/LibAddonMenu-2.0/LibAddonMenu-2.0.lua
+Libs/LibAddonMenu-2.0/controls/panel.lua
+Libs/LibAddonMenu-2.0/controls/submenu.lua
+Libs/LibAddonMenu-2.0/controls/button.lua
+Libs/LibAddonMenu-2.0/controls/checkbox.lua
+Libs/LibAddonMenu-2.0/controls/colorpicker.lua
+Libs/LibAddonMenu-2.0/controls/custom.lua
+Libs/LibAddonMenu-2.0/controls/description.lua
+Libs/LibAddonMenu-2.0/controls/dropdown.lua
+Libs/LibAddonMenu-2.0/controls/editbox.lua
+Libs/LibAddonMenu-2.0/controls/header.lua
+Libs/LibAddonMenu-2.0/controls/slider.lua
+Libs/LibAddonMenu-2.0/controls/texture.lua
+Libs/LibAlchemyStation/libAlchemyStation.lua
+Libs/LibMainMenu-2.0/LibMainMenu-2.0.lua
+Libs/LibCustomMenu/LibCustomMenu.lua
+
+PotionMaker100015.lua
+
+lang/default_en.lua
+lang/$(language).lua
+lang$(APIVersion)/$(language).lua
+
+PotionMaker100015.xml
+Bindings.xml

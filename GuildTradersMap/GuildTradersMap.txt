@@ -1,0 +1,13 @@
+## Title: GuildTradersMap Title
+## Description: GuildTradersMap Description
+## APIVersion: 100015
+## Author: Sammy
+## Version: 0.0.1
+## DependsOn:
+## OptionalDependsOn: LibCustomMenu
+## SavedVariables: GuildTradersMapSettings
+
+libs/LibStub/LibStub.lua
+libs/LibCustomMenu/LibCustomMenu.lua
+
+GuildTradersMap.lua
