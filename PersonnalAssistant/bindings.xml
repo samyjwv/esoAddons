@@ -1,0 +1,21 @@
+<Bindings>
+	<Layer name="SI_KEYBINDINGS_LAYER_GENERAL">
+		<Category name="Assistants">
+			<Action name="PERSONNALASSISTANT_267">
+				<Down>UseCollectible(267)</Down>
+			</Action>
+			<Action name="PERSONNALASSISTANT_300">
+				<Down>UseCollectible(300)</Down>
+			</Action>
+			<Action name="PERSONNALASSISTANT_301">
+				<Down>UseCollectible(301)</Down>
+			</Action>
+			<Action name="PERSONNALASSISTANT_396">
+				<Down>UseCollectible(396)</Down>
+			</Action>
+			<Action name="PERSONNALASSISTANT_397">
+				<Down>UseCollectible(397)</Down>
+			</Action>
+		</Category>
+	</Layer>
+</Bindings>
