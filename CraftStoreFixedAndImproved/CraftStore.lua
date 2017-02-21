@@ -21,6 +21,8 @@ function CS.LoadCharacter(control,button)
     CS.Account.style.knowledge[char] = nil
     CS.Account.cook.tracking[char] = nil
     CS.Account.cook.knowledge[char] = nil
+    CS.Account.furnisher.tracking[char] = nil
+    CS.Account.furnisher.knowledge[char] = nil
     CS.Character[char] = nil
     for nr,_ in pairs(CS.GetCharacters()) do WM:GetControlByName('CraftStoreFixed_CharacterFrame'..nr):SetHidden(true) end
     CS.DrawCharacters()
@@ -774,7 +776,7 @@ function CS.CookShowCategory(list)
             local res1, res2 = string.find(step:gsub("-",""), name)
             if res1 then
               control = CraftStoreFixed_CookFoodSectionScrollChild:GetNamedChild('Button'..inc)
-              inc = CS.CookShowRecipe(control,list_num,id,inc,sound)
+              inc = CS.CookShowRecipe(control,lists[list_num],id,inc,sound)
             end
           end
         end  
@@ -1337,7 +1339,8 @@ function CS.SetItemMark(control,linksource)
     end 
   end
   if CS.Account.option[10] then
-    local item = (slot.itemType or GetItemLinkItemType(link))
+    --local item = (slot.itemType or GetItemLinkItemType(link))
+    local item, specializedItemType = GetItemLinkItemType(link)
     if item == ITEMTYPE_INGREDIENT then
       local ingid = CS.SplitLink(link,3)
       if ingid then if CS.Cook.ingredient[ingid] then Show(mark,'esoui/art/inventory/newitem_icon.dds',{0,1,0}); return end end
@@ -1346,7 +1349,17 @@ function CS.SetItemMark(control,linksource)
       if CS.IsStyleNeeded(link) ~= '' then Show(mark,'esoui/art/inventory/newitem_icon.dds',SELF); return end
     end
     if item == ITEMTYPE_RECIPE then
-      if CS.IsRecipeNeeded(link) ~= '' then Show(mark,'esoui/art/inventory/newitem_icon.dds',SELF); return end
+      
+      if specializedItemType == SPECIALIZED_ITEMTYPE_RECIPE_ALCHEMY_FORMULA_FURNISHING or
+      specializedItemType == SPECIALIZED_ITEMTYPE_RECIPE_BLACKSMITHING_DIAGRAM_FURNISHING or
+      specializedItemType == SPECIALIZED_ITEMTYPE_RECIPE_CLOTHIER_PATTERN_FURNISHING or
+      specializedItemType == SPECIALIZED_ITEMTYPE_RECIPE_ENCHANTING_SCHEMATIC_FURNISHING or
+      specializedItemType == SPECIALIZED_ITEMTYPE_RECIPE_PROVISIONING_DESIGN_FURNISHING or
+      specializedItemType == SPECIALIZED_ITEMTYPE_RECIPE_WOODWORKING_BLUEPRINT_FURNISHING then
+        if CS.IsRecipeFurnisherNeeded(link) ~= '' then Show(mark,'esoui/art/inventory/newitem_icon.dds',SELF); return end
+      else
+        if CS.IsRecipeNeeded(link) ~= '' then Show(mark,'esoui/art/inventory/newitem_icon.dds',SELF); return end
+      end
     end
     local craft,line,trait = CS.GetTrait(link)
     if craft and line and trait then
@@ -1619,6 +1632,20 @@ function CS.IsRecipeNeeded(link)
   if id then
     for char,data in pairs(CS.Account.cook.knowledge) do
       if not data[id] and CS.Account.cook.tracking[char] then
+        if char == CS.CurrentPlayer then SELF = true end
+        need = need..'\n|t20:20:esoui/art/buttons/decline_up.dds|t |cFF1010'..char..'|r'
+      end
+    end
+  end
+  return need
+end
+function CS.IsRecipeFurnisherNeeded(link)
+  SELF = false
+  local id, need = CS.SplitLink(link,3), ''
+  if id then
+    for char,data in pairs(CS.Account.furnisher.knowledge) do
+      --if not data[id] and CS.Account.furnisher.tracking[char] then
+      if not data[id] and CS.Account.cook.tracking[char] then -- FIXME: Create option to track only furnisher items
         if char == CS.CurrentPlayer then SELF = true end
         need = need..'\n|t20:20:esoui/art/buttons/decline_up.dds|t |cFF1010'..char..'|r'
       end
@@ -2138,9 +2165,22 @@ function CS.Tooltip(c,visible,scale,parent,pos)
 end
 function CS.TooltipShow(control,link,id)
   local stripedLink = CS.StripLink(link)
-  local it, store, need = GetItemLinkItemType(link), {}
+  local it, specializedItemType = GetItemLinkItemType(link)
+  local store, need = {}
   if it == ITEMTYPE_RACIAL_STYLE_MOTIF then need = CS.IsStyleNeeded(link)
-  elseif it == ITEMTYPE_RECIPE then need = CS.IsRecipeNeeded(link)
+  elseif it == ITEMTYPE_RECIPE then
+
+    if specializedItemType == SPECIALIZED_ITEMTYPE_RECIPE_ALCHEMY_FORMULA_FURNISHING or
+    specializedItemType == SPECIALIZED_ITEMTYPE_RECIPE_BLACKSMITHING_DIAGRAM_FURNISHING or
+    specializedItemType == SPECIALIZED_ITEMTYPE_RECIPE_CLOTHIER_PATTERN_FURNISHING or
+    specializedItemType == SPECIALIZED_ITEMTYPE_RECIPE_ENCHANTING_SCHEMATIC_FURNISHING or
+    specializedItemType == SPECIALIZED_ITEMTYPE_RECIPE_PROVISIONING_DESIGN_FURNISHING or
+    specializedItemType == SPECIALIZED_ITEMTYPE_RECIPE_WOODWORKING_BLUEPRINT_FURNISHING then
+      need = CS.IsRecipeFurnisherNeeded(link)
+    else
+      need = CS.IsRecipeNeeded(link)
+    end
+    
   elseif it == ITEMTYPE_LURE then need = CS.IsBait(link)
   elseif it == ITEMTYPE_ENCHANTING_RUNE_POTENCY then need = CS.IsPotency(link)
   elseif CS.IsValidEquip(GetItemLinkEquipType(link)) then
@@ -2399,4 +2439,7 @@ if CS.Debug then
   _CS = CS
   SLASH_COMMANDS["/_"] = function() d(_G["_"]) end
   SLASH_COMMANDS["//"] = SLASH_COMMANDS["/reloadui"]
+  SLASH_COMMANDS["/langfr"] = function() SetCVar("language.2", "fr") end
+  SLASH_COMMANDS["/langen"] = function() SetCVar("language.2", "en") end
+  SLASH_COMMANDS["/langde"] = function() SetCVar("language.2", "de") end
 end

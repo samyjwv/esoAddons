@@ -6,6 +6,7 @@ function CS.OnQuestConditionCounterChanged(eventCode,journalIndex)
 end
 
 function CS.OnRecipeLearned(eventCode,list,id)
+  -- FIXME: SpecializedItemType
   CS.RecipeLearned(list,id)
   CS.BlueprintLearned(list,id)
 end
