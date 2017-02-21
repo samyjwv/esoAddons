@@ -32,6 +32,7 @@ local EFFECT_WARD			= 24
 local EFFECT_WOUND			= 25
 
 local minorEffects, majorEffects -- populated at the end of file due to how large they are (legibility reasons)
+Srendarr.PassToAuraHandler = {} -- need to pre-define so we can hook it later in the load stack to pass update data to the AuraHandler (Phinix)
 
 local alteredAuraIcons = { -- used to alter the default icon for selected auras
 	[45902] = [[/esoui/art/icons/ability_mage_065.dds]],	-- Off-Balance
@@ -354,6 +355,32 @@ local filteredAuras = { -- used to hold the abilityIDs of filtered auras
 	['groundaoe']	= {}
 }
 
+local groupUnits = {
+	["group1"]		= true,
+	["group2"]		= true,
+	["group3"]		= true,
+	["group4"]		= true,
+	["group5"]		= true,
+	["group6"]		= true,
+	["group7"]		= true,
+	["group8"]		= true,
+	["group9"]		= true,
+	["group10"]		= true,
+	["group11"]		= true,
+	["group12"]		= true,
+	["group13"]		= true,
+	["group14"]		= true,
+	["group15"]		= true,
+	["group16"]		= true,
+	["group17"]		= true,
+	["group18"]		= true,
+	["group19"]		= true,
+	["group20"]		= true,
+	["group21"]		= true,
+	["group22"]		= true,
+	["group23"]		= true,
+	["group24"]		= true,
+}
 
 for id in pairs(filterAlwaysIgnored) do -- populate initial ignored auras to filters
 	filteredAuras['player'][id]			= true
@@ -396,6 +423,10 @@ end
 
 function Srendarr.IsAlternateAura(abilityID)
 	if alternateAura[abilityID] ~= nil then return true else return false end
+end
+
+function Srendarr.IsGroupUnit(unitTag)
+	if groupUnits[unitTag] ~= nil then return true else return false end
 end
 
 function Srendarr:PopulateFilteredAuras()

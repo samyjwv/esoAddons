@@ -2,5 +2,9 @@
 	<Controls>
 		<TopLevelControl name="Srendarr" />
 		<TopLevelControl name="Srendarr_CastBar" hidden="true" clampedToScreen="true" />
+		<TopLevelControl name="Srendarr_GroupAuras" tier="HIGH" mouseEnabled="false" movable="false" clampedToScreen="true" hidden="false">
+			<Dimensions x="1" y="1"/>
+			<Anchor point="BOTTOMLEFT"/>
+		</TopLevelControl>
 	</Controls>
 </GuiXml>

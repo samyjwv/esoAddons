@@ -1,8 +1,8 @@
 ## Title: |c67b1e9S|c4779ce'rendarr|r
 ## Description: Adds graphical tracking of buffs and debuffs on both yourself and others in a manner that meshes with the stock interface theme.
-## Version: 2.3.4g
+## Version: 2.3.5
 ## Author: Kith, |c66ccffPhinix|r, |cEFEBBEGarkin, silentgecko|r
-## APIVersion: 100017 100018
+## APIVersion: 100018
 ## SavedVariables: SrendarrDB
 ## OptionalDependsOn: LibAddonMenu-2.0 LibMediaProvider-1.0
 

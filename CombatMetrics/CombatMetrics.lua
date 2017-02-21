@@ -11,7 +11,7 @@ if CMX == nil then CMX = {} end
  
 -- Basic values
 CMX.name = "CombatMetrics"
-CMX.version = "0.6.17"
+CMX.version = "0.6.18"
 
 -- default values for saved variables
 -- see http://wiki.esoui.com/AddOn_Quick_Questions#How_do_I_save_settings_on_the_local_machine.3F
@@ -65,6 +65,7 @@ local BadAbility = {
 	[52515]=true,
 	[20663]=true,
 	[63510]=true,
+	[41189]=true,
 }
 	--[[ 
 	 * Append Table 2 to Table 1
@@ -422,7 +423,8 @@ end
 
 --onEffectChanged(eventCode, changeType, effectSlot, effectName, unitTag, beginTime, endTime, stackCount, iconName, buffType, effectType, abilityType, statusEffectType, unitName, unitId, abilityId)
 
-function CMX.onEffectChanged(_, changeType, _, _, unitTag, _, _, _, _, _, effectType, abilityType, _, unitName, unitId, abilityId, isallowed)
+function CMX.onEffectChanged(_, changeType, _, _, unitTag, _, _, _, _, _, effectType, abilityType, _, unitName, unitId, abilityId, sourceType)
+	if zo_strformat("<<!aC:1>>",unitName) ~= CMX.playername and string.sub(unitTag or "", 1, 5) == "group" and sourceType~=COMBAT_UNIT_TYPE_PLAYER then return end
 	if abilityId==50184 then 
 		CMX.ResetFight()
 	end
@@ -437,12 +439,10 @@ function CMX.onEffectChanged(_, changeType, _, _, unitTag, _, _, _, _, _, effect
 		end
 		CMX.currentfight.units[unitId] = CMX.newunit(unitName,unitId,0)
 	end
-	if isallowed then 
-		if changeType>2 or (effectType==1 and abilityType~=5) or (effectType==2 and abilityType==1) or (IsUnitInCombat("player") == false) then return end
-		if db.debuginfo.buffs then d(changeType..","..GetAbilityName(abilityId)..", ET:"..effectType..","..abilityType..","..unitTag) end
-		local timems = GetGameTimeMilliseconds()
-		table.insert(CMX.currentfight.log,{timems, changeType, nil, unitId, abilityId, 0, effectType, "buff"})
-	end
+	if changeType>2 or (effectType==1 and abilityType~=5) or (effectType==2 and abilityType==1) or (IsUnitInCombat("player") == false) then return end
+	if db.debuginfo.buffs then d(changeType..","..GetAbilityName(abilityId)..", ET:"..effectType..","..abilityType..","..unitTag) end
+	local timems = GetGameTimeMilliseconds()
+	table.insert(CMX.currentfight.log,{timems, changeType, nil, unitId, abilityId, 0, effectType, "buff"})
 	CMX.GetNewStats(timems)
 end
 
@@ -993,22 +993,8 @@ end
 
 --(eventCode, result, isError, abilityName, abilityGraphic, abilityActionSlotType, sourceName, sourceType, targetName, targetType, hitValue, powerType, damageType, log, sourceUnitId, targetUnitId, abilityId) 
 
-function CMX.onCustomEvent(_ , result , _ , _ , _ , _ , _ , _ , unitName , targetType , _ , _ , damageType , _ , _ , unitId , abilityId)
+function CMX.onCustomEvent(_ , result , _ , _ , _ , _ , _ , sourceType , unitName , targetType , _ , _ , damageType , _ , _ , unitId , abilityId)
 	if zo_strformat("<<!aC:1>>",unitName) ~= CMX.playername and abilityId~=17906 then return end
-	local changeType = result == ACTION_RESULT_EFFECT_GAINED_DURATION and EFFECT_RESULT_GAINED or result == ACTION_RESULT_EFFECT_FADED and 2 or nil
-	if db.debuginfo.misc then d("Custom: "..(CMX.CustomAbilityName[abilityId] or zo_strformat("<<!aC:1>>",GetAbilityName(abilityId))).."("..(changeType==1 and "gain" or changeType==2 and "loss" or "??" )..")") end
-	local buffType = abilityId==17906 and BUFF_EFFECT_TYPE_DEBUFF or BUFF_EFFECT_TYPE_BUFF
-	CMX.onEffectChanged(_, changeType, _, _, _, _, _, _, _, _, buffType, ABILITY_TYPE_BONUS, _, unitName, unitId, abilityId, true)
-   --CMX.onEffectChanged(_, changeType, _, effectName, _, _, _, _, _, _, effectType, abilityType, _, unitName, unitId, abilityId)
-end
-
-function CMX.onCustomEventDebug(_ , result , _ , abilityName , _ , _ , sourceName , sourceType , targetName , targetType , _ , _ , damageType , _ , sourceUnitId , targetUnitId , abilityId)
-	if db.debuginfo.misc then d("Known Custom: ["..abilityId.."]"..(CMX.CustomAbilityName[abilityId] or zo_strformat("<<!aC:1>>",GetAbilityName(abilityId))).." ("..(changeType==1 and "gain" or changeType==2 and "loss" or "??" ).."),"..sourceName..">"..targetName) end
-end
-
-function CMX.onCustomCombatEventDmg(eventCode, result, isError, abilityName, abilityGraphic, abilityActionSlotType, sourceName, sourceType, targetName, targetType, hitValue, powerType, damageType, log, sourceUnitId, targetUnitId, abilityId)
-	if (sourceName==nil or sourceName=="") and (targetName==nil or targetName=="") then return end
-	if BadAbility[abilityId] or GetAbilityDuration(abilityId)<=1000 then return end
 	local plus = (result==ACTION_RESULT_EFFECT_GAINED_DURATION or result==ACTION_RESULT_EFFECT_GAINED) and "+" or "-"
 	local changeType = (result==ACTION_RESULT_EFFECT_GAINED_DURATION or result==ACTION_RESULT_EFFECT_GAINED) and EFFECT_RESULT_GAINED or result == ACTION_RESULT_EFFECT_FADED and EFFECT_RESULT_FADED or nil
 	if db.debuginfo.misc then 
@@ -1021,9 +1007,16 @@ function CMX.onCustomCombatEventDmg(eventCode, result, isError, abilityName, abi
 			GetAbilityDuration(abilityId)/1000
 		)
 	end
-	local buffType = abilityId==17906 and BUFF_EFFECT_TYPE_DEBUFF or BUFF_EFFECT_TYPE_BUFF
-	CMX.onEffectChanged(_, changeType, _, _, _, _, _, _, _, _, buffType, ABILITY_TYPE_BONUS, _, targetName, targetUnitId, abilityId, true)
-end  
+	local effectType = abilityId==17906 and BUFF_EFFECT_TYPE_DEBUFF or BUFF_EFFECT_TYPE_BUFF
+	CMX.onEffectChanged(_, changeType, _, _, _, _, _, _, _, _, effectType, ABILITY_TYPE_BONUS, _, unitName, unitId, abilityId, sourceType)
+   --CMX.onEffectChanged(_, changeType, _, effectName, _, _, _, _, _, _, effectType, abilityType, _, unitName, unitId, abilityId)
+end
+
+CMX.onEffectChanged(_, changeType, _, _, unitTag, _, _, _, _, _, effectType, abilityType, _, unitName, unitId, abilityId, sourceType)
+
+function CMX.onCustomEventDebug(_ , result , _ , abilityName , _ , _ , sourceName , sourceType , targetName , targetType , _ , _ , damageType , _ , sourceUnitId , targetUnitId , abilityId)
+	if db.debuginfo.misc then d("Known Custom: ["..abilityId.."]"..(CMX.CustomAbilityName[abilityId] or zo_strformat("<<!aC:1>>",GetAbilityName(abilityId))).." ("..(changeType==1 and "gain" or changeType==2 and "loss" or "??" ).."),"..sourceName..">"..targetName) end
+end
 
 function CMX.onZoneChange()
 	local ava = IsPlayerInAvAWorld()
@@ -1057,10 +1050,7 @@ function CMX:RegisterEvents()
 	em:RegisterForEvent(self.name.."bosses", EVENT_BOSSES_CHANGED, self.onBossesChanged )
 	
 	em:RegisterForEvent(self.name.."effects", EVENT_EFFECT_CHANGED, self.onEffectChanged )
-	--em:AddFilterForEvent(self.name.."effects", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 50184)
-	
-	--em:RegisterForEvent(self.name.."effects2", EVENT_EFFECT_CHANGED, function(...) d(table.concat({...},", ")) end )
-	
+
 	em:RegisterForEvent(self.name.."group2", EVENT_GROUP_MEMBER_JOINED, self.onGroupJoin)
 	em:RegisterForEvent(self.name.."group3", EVENT_GROUP_MEMBER_LEFT, self.onGroupLeave)
 	
@@ -1073,14 +1063,7 @@ function CMX:RegisterEvents()
 	
 	em:RegisterForEvent(self.name.."newunit", EVENT_UNIT_CREATED, self.onGroupJoin) 
 	em:RegisterForEvent(self.name.."dropunit", EVENT_UNIT_DESTROYED, self.onGroupJoin) 
-	
-	em:RegisterForEvent(self.name.."custom", EVENT_COMBAT_EVENT, self.onCustomCombatEventDmg)
-	em:AddFilterForEvent(self.name.."custom", EVENT_COMBAT_EVENT, REGISTER_FILTER_UNIT_TAG, "player", REGISTER_FILTER_COMBAT_RESULT , ACTION_RESULT_EFFECT_GAINED_DURATION, REGISTER_FILTER_IS_ERROR, false)
-	em:RegisterForEvent(self.name.."custom2", EVENT_COMBAT_EVENT, self.onCustomCombatEventDmg)
-	em:AddFilterForEvent(self.name.."custom2", EVENT_COMBAT_EVENT, REGISTER_FILTER_UNIT_TAG, "player", REGISTER_FILTER_COMBAT_RESULT , ACTION_RESULT_EFFECT_FADED, REGISTER_FILTER_IS_ERROR, false)
-	em:RegisterForEvent(self.name.."custom3", EVENT_COMBAT_EVENT, self.onCustomCombatEventDmg)
-	em:AddFilterForEvent(self.name.."custom3", EVENT_COMBAT_EVENT, REGISTER_FILTER_UNIT_TAG, "player", REGISTER_FILTER_COMBAT_RESULT , ACTION_RESULT_EFFECT_GAINED, REGISTER_FILTER_IS_ERROR, false)
-			
+		
 	local eventno = 1
 	local filters = {
 		[self.onCombatEventDmg] = {
@@ -1105,12 +1088,12 @@ function CMX:RegisterEvents()
 	for k,v in pairs(filters) do
 		for i=1, #v do
 			em:RegisterForEvent(self.name.."combat"..eventno, EVENT_COMBAT_EVENT, k)
-			em:AddFilterForEvent(self.name.."combat"..eventno, EVENT_COMBAT_EVENT, REGISTER_FILTER_UNIT_TAG, "player", REGISTER_FILTER_COMBAT_RESULT , v[i], REGISTER_FILTER_IS_ERROR, false)
+			em:AddFilterForEvent(self.name.."combat"..eventno, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT , v[i], REGISTER_FILTER_IS_ERROR, false)
 			eventno=eventno+1
 		end	
 	end
 	
-	--[[
+	
 	-- custom buffs/debuffs to track via combat events since regular Effect Events are missing 
 	local filters2 = {
 		[self.onCustomEvent] = {
@@ -1136,13 +1119,13 @@ function CMX:RegisterEvents()
 	for k,v in pairs(filters2) do
 		for i=1, #v do
 			em:RegisterForEvent(self.name.."combat"..eventno, EVENT_COMBAT_EVENT, k)
-			em:AddFilterForEvent(self.name.."combat"..eventno, EVENT_COMBAT_EVENT, REGISTER_FILTER_UNIT_TAG, "player", REGISTER_FILTER_COMBAT_RESULT , ACTION_RESULT_EFFECT_GAINED_DURATION, REGISTER_FILTER_ABILITY_ID, v[i], REGISTER_FILTER_IS_ERROR, false)
+			em:AddFilterForEvent(self.name.."combat"..eventno, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT , ACTION_RESULT_EFFECT_GAINED_DURATION, REGISTER_FILTER_ABILITY_ID, v[i], REGISTER_FILTER_IS_ERROR, false)
 			eventno=eventno+1
 			em:RegisterForEvent(self.name.."combat"..eventno, EVENT_COMBAT_EVENT, k)
-			em:AddFilterForEvent(self.name.."combat"..eventno, EVENT_COMBAT_EVENT, REGISTER_FILTER_UNIT_TAG, "player", REGISTER_FILTER_COMBAT_RESULT , ACTION_RESULT_EFFECT_FADED, REGISTER_FILTER_ABILITY_ID, v[i], REGISTER_FILTER_IS_ERROR, false)
+			em:AddFilterForEvent(self.name.."combat"..eventno, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT , ACTION_RESULT_EFFECT_FADED, REGISTER_FILTER_ABILITY_ID, v[i], REGISTER_FILTER_IS_ERROR, false)
 			eventno=eventno+1
 		end	
-	end]]--
+	end
 	
 	return eventno
 end
@@ -1203,7 +1186,7 @@ function CMX:GroupEvents(register)
 			for i=1, #v do
 				em:RegisterForEvent(self.name.."grpcombat"..filterno2, EVENT_COMBAT_EVENT, k)
 				-- AddFilterForEvent(namespace, 					EVENT_COMBAT_EVENT, REGISTER_FILTER_IS_ERROR, false)
-				em:AddFilterForEvent(self.name.."grpcombat"..filterno2, EVENT_COMBAT_EVENT, REGISTER_FILTER_UNIT_TAG_PREFIX, "group", REGISTER_FILTER_COMBAT_RESULT , v[i], REGISTER_FILTER_IS_ERROR, false)
+				em:AddFilterForEvent(self.name.."grpcombat"..filterno2, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT , v[i], REGISTER_FILTER_IS_ERROR, false)
 				filterno2=filterno2+1
 			end	
 		end

@@ -1,0 +1,57 @@
+<Bindings>
+	<Layer name="SI_KEYBINDINGS_LAYER_GENERAL">
+		<Category name="Dev Tools">
+			<Action name="SET_ENGLISH">
+				<Down>SetCVar("Language.2", "en")</Down>
+			</Action>
+			<Action name="SET_GERMAN">
+				<Down>SetCVar("Language.2", "de")</Down>
+			</Action>
+			<Action name="SET_FRENCH">
+				<Down>SetCVar("Language.2", "fr")</Down>
+			</Action>
+			<Action name="RELOADUI">
+				<Down>ReloadUI()</Down>
+			</Action>
+			<Action name="ZGOO_MOUSE">
+				<Down>Zgoo.CommandHandler("mouse")</Down>
+			</Action>
+			<Action name="TOGGLE_ZBUG">
+				<Down>Zbug:Toggle()</Down>
+			</Action>
+			<Action name="TOGGLE_ZGOO">
+				<Down>Zgoo.CommandHandler()</Down>
+			</Action>
+			<Action name="MEMORY_USAGE">
+				<Down>d((collectgarbage("count")/1024) .. " MB")</Down>
+			</Action>
+			<Action name="CONTROL_OUTLINE_TOGGLE_OUTLINE">
+				<Down>ControlOutline_ToggleOutline()</Down>
+			</Action>
+			<Action name="CONTROL_OUTLINE_PARENT_N_CHILDREN_CONTROLS">
+				<Down>ControlOutline_OutlineParentChildControls()</Down>
+			</Action>
+			<Action name="CONTROL_OUTLINE_RELEASE_ALL_OUTLINES">
+				<Down>ControlOutline_ReleaseAllOutlines()</Down>
+			</Action>
+			<Action name="ST_TOGGLE_DEV_UI">
+				<Down>sidTools.Toggle()</Down>
+			</Action>
+		</Category>
+	</Layer>
+	<Layer name="GamepadUIMode" allowFallthrough="false">
+		<Category>
+			<AllowAction name="SET_ENGLISH"/>
+			<AllowAction name="SET_GERMAN"/>
+			<AllowAction name="SET_FRENCH"/>
+			<AllowAction name="RELOADUI"/>
+			<AllowAction name="ZGOO_MOUSE"/>
+			<AllowAction name="TOGGLE_ZBUG"/>
+			<AllowAction name="MEMORY_USAGE"/>
+			<AllowAction name="CONTROL_OUTLINE_TOGGLE_OUTLINE"/>
+			<AllowAction name="CONTROL_OUTLINE_PARENT_N_CHILDREN_CONTROLS"/>
+			<AllowAction name="CONTROL_OUTLINE_RELEASE_ALL_OUTLINES"/>
+			<AllowAction name="ST_TOGGLE_DEV_UI"/>
+		</Category>
+	</Layer>	
+</Bindings>

@@ -61,8 +61,8 @@
               <AnchorFill/>
               <Edge edgeSize="1"/>
             </Backdrop>
-            <Texture name="$(parent)Texture" textureFile="esoui/art/icons/housing_alt_fur_cabinet001.dds">
-              <Dimensions y="36" x="36"/>
+            <Texture name="$(parent)Texture" textureFile="EsoUI/Art/Crafting/provisioner_indexIcon_furnishings_up.dds">
+              <Dimensions y="40" x="40"/>
               <Anchor point="128"/>
             </Texture>
           </Controls>

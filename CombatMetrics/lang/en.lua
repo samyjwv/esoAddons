@@ -34,7 +34,7 @@ ZO_CreateStringId("SI_COMBAT_METRICS_INC_HEALS", "Inc Heals")
 ZO_CreateStringId("SI_COMBAT_METRICS_INC_HPS", "Inc HPS") -- Inc HPS
 
 ZO_CreateStringId("SI_COMBAT_METRICS_DAMAGE_CAUSED", "Damage Caused") -- Damage Caused
-ZO_CreateStringId("SI_COMBAT_METRICS_DAMAGE_RECIEVED", "Damage Received") -- Damage Received
+ZO_CreateStringId("SI_COMBAT_METRICS_DAMAGE_RECEIVED", "Damage Received") -- Damage Received
 ZO_CreateStringId("SI_COMBAT_METRICS_HEALING_DONE", "Healing Done") -- Healing Done
 ZO_CreateStringId("SI_COMBAT_METRICS_HEALING_RECIVED", "Healing Recieved") -- Healing Recieved
 ZO_CreateStringId("SI_COMBAT_METRICS_FIGHT_REPORT", "Fight Report") -- Fight Report

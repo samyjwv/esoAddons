@@ -163,7 +163,7 @@ function CS.STYLE()
     if CS.Debug then name = name..zo_strformat('<<C:1>>',style) end
     if styles[style][1]~=3 then
       aLink = GetAchievementLink(styles[style][2],LINK_STYLE_BRACKETS)
-      aName = GetAchievementInfo(styles[style][2])
+      aName = zo_strformat('<<C:1>>',GetAchievementInfo(styles[style][2])) 
     else
       aName = 'crown'
     end

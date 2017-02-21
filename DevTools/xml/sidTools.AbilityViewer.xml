@@ -1,0 +1,56 @@
+<GuiXml>
+	<Controls>
+		<Control name="sidAbilityListRow" mouseEnabled="true" virtual="true">
+			<Dimensions y="30" />
+			<OnMouseEnter>
+				sidTools.AbilityListRow_OnMouseEnter(self)
+			</OnMouseEnter>
+			<OnMouseExit>
+				sidTools.AbilityListRow_OnMouseExit(self)
+			</OnMouseExit>
+			<OnMouseUp>
+				sidTools.AbilityListRow_OnMouseUp(self, button, upInside)
+			</OnMouseUp>
+			<Controls>
+				<Texture name="$(parent)BG" inherits="ZO_ThinListBgStrip" />
+				<Label name="$(parent)AbilityId" inherits="ZO_FriendsListRowLabel">
+					<Anchor point="LEFT" />
+					<Dimensions x="50" y="30" />
+				</Label>
+				<Label name="$(parent)AbilityName" inherits="ZO_FriendsListRowLabel">
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$(parent)AbilityId" offsetX="18" />
+					<Dimensions x="200" y="30" />
+				</Label>
+				<Label name="$(parent)AbilityType" inherits="ZO_FriendsListRowLabel">
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$(parent)AbilityName" offsetX="38" />
+					<Dimensions x="100" y="30" />
+				</Label>
+			</Controls>
+		</Control>
+
+		<Backdrop name="sidAbilityListSearch" tier="HIGH" inherits="ZO_EditBackdrop" virtual="true">
+			<Dimensions x="250" />
+			<Controls>
+				<EditBox name="$(parent)Box" inherits="ZO_DefaultEditForBackdrop ZO_EditDefaultText">
+				</EditBox>
+			</Controls>
+		</Backdrop>
+
+		<Tooltip name="sidAbilityTooltip" inherits="ZO_BaseTooltip">
+			<ResizeToFitPadding width="32" height="40" />
+			<DimensionConstraints minX="384" maxX="384" />
+
+			<OnCleared>
+				ZO_AbilityTooltip_Cleared(self)
+			</OnCleared>
+
+			<OnAddGameData>
+				ZO_AbilityTooltip_OnAddGameData(...)
+			</OnAddGameData>
+
+			<Controls>
+				<StatusBar name="$(parent)Progression" inherits="AbilityTooltipProgressionBar" hidden="true" />
+			</Controls>
+		</Tooltip>
+	</Controls>
+</GuiXml>

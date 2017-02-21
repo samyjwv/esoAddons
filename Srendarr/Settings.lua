@@ -7,7 +7,7 @@ local LMP			= LibStub('LibMediaProvider-1.0')
 local AURA_STYLE_FULL		= Srendarr.AURA_STYLE_FULL
 local AURA_STYLE_ICON		= Srendarr.AURA_STYLE_ICON
 local AURA_STYLE_MINI		= Srendarr.AURA_STYLE_MINI
-
+local AURA_STYLE_GROUP		= Srendarr.AURA_STYLE_GROUP
 local AURA_GROW_UP			= Srendarr.AURA_GROW_UP
 local AURA_GROW_DOWN		= Srendarr.AURA_GROW_DOWN
 local AURA_GROW_LEFT		= Srendarr.AURA_GROW_LEFT
@@ -62,6 +62,8 @@ local GetAbilityName		= GetAbilityName
 local dropProminentAuras	= {}
 local dropProminentAuras2	= {}
 
+local dropGroupAuras		= {}
+
 local dropBlacklistAuras	= {}
 
 local dropGroup				= {L.DropGroup_1, L.DropGroup_2, L.DropGroup_3, L.DropGroup_4, L.DropGroup_5, L.DropGroup_6, L.DropGroup_7, L.DropGroup_8, L.DropGroup_None}
@@ -94,6 +96,7 @@ local controlPanel, controlPanelWidth, tabButtonsPanel, displayDB, tabPanelData
 local prominentAurasWidgetRef, prominentAurasSelectedAura
 local prominentAurasWidgetRef2, prominentAurasSelectedAura2
 local blacklistAurasWidgetRef, blacklistAurasSelectedAura
+local groupAurasWidgetRef, groupAurasSelectedAura
 
 local profileGuard			= false
 local profileCopyList		= {}
@@ -295,6 +298,27 @@ function Srendarr:PopulateProminentAurasDropdown2()
 	prominentAurasWidgetRef2:UpdateValue()
 end
 
+local function PopulateGroupAurasDropdown()
+	for i in pairs(dropGroupAuras) do
+		dropGroupAuras[i] = nil -- clean out dropdown
+	end
+
+	tinsert(dropGroupAuras, L.GenericSetting_ClickToViewAuras) -- insert 'dummy' first entry
+
+	for name in pairs(Srendarr.db.groupWhitelist) do
+		if (name == STR_GROUPBYID) then -- special case for auras added by abilityID
+			for id in pairs(Srendarr.db.groupWhitelist[STR_GROUPBYID]) do
+				tinsert(dropGroupAuras, strformat('[%d] %s', id, GetAbilityName(id)))
+			end
+		else
+			tinsert(dropGroupAuras, name) -- add current aura selection
+		end
+	end
+
+	groupAurasWidgetRef:UpdateChoices()
+	groupAurasWidgetRef:UpdateValue()
+end
+
 local function PopulateBlacklistAurasDropdown()
 	for i in pairs(dropBlacklistAuras) do
 		dropBlacklistAuras[i] = nil -- clean out dropdown
@@ -342,6 +366,8 @@ local function CreateWidgets(panelID, panelData)
 			prominentAurasWidgetRef = widget
 		elseif (panelID == 2 and widgetData.isProminentAurasWidget2) then -- General panel, grab the 2nd prominent auras dropdown list for later
 			prominentAurasWidgetRef2 = widget
+		elseif (panelID == 2 and widgetData.isGroupAurasWidget) then -- General panel, grab the group whitelist auras dropdown list for later
+			groupAurasWidgetRef = widget
 		elseif (panelID == 2 and widgetData.isBlacklistAurasWidget) then -- Filters panel, grab the blacklist auras dropdown list for later
 			blacklistAurasWidgetRef = widget
 		elseif (panelID == 5 and widgetData.isProfileDeleteDrop) then -- Profile panel, grab the delete dropdown list for later
@@ -386,8 +412,18 @@ local function CreateTabPanel(panelID)
 
 	if (panelID == 2) then -- populate blacklist and prominent auras dropdown lists
 		PopulateBlacklistAurasDropdown()
+		PopulateGroupAurasDropdown()
 		Srendarr:PopulateProminentAurasDropdown()
 		Srendarr:PopulateProminentAurasDropdown2()
+	end
+end
+
+function Srendarr:getSettings()
+	local groupSize = GetGroupSize()
+	if groupSize <= 4 then
+		return 9
+	elseif groupSize >= 5 then
+		return 10
 	end
 end
 
@@ -404,7 +440,13 @@ local function ConfigurePanelDisplayFrame(fromStyleFlag)
 		local noGroups = true
 
 		for group, frame in pairs(Srendarr.db.auraGroups) do
-			if (frame == currentDisplayFrame) then -- this group is being show on this frame
+			if frame == 9 and (frame == currentDisplayFrame) then
+				groupText = strformat('%s |cffd100%s|r,', groupText, L.Group_Group)
+				noGroups = false
+			elseif frame == 10 and (frame == currentDisplayFrame) then
+				groupText = strformat('%s |cffd100%s|r,', groupText, L.Group_Raid)
+				noGroups = false
+			elseif (frame == currentDisplayFrame) then -- this group is being show on this frame
 				groupText = strformat('%s |cffd100%s|r,', groupText, Srendarr.auraGroupStrings[group])
 				noGroups = false
 			end
@@ -417,16 +459,24 @@ local function ConfigurePanelDisplayFrame(fromStyleFlag)
 		tabPanels[10].groupRef:SetText(string.sub(groupText, 1, -2))
 	end
 
-	lastAddedControl[10] = tabDisplayWidgetRef[4] -- the style choice box, grab ref for future anchoring
+	if currentDisplayFrame > 8 then
+		lastAddedControl[10] = tabDisplayWidgetRef[3] -- move widgets up for group/raid frames
+	else
+		lastAddedControl[10] = tabDisplayWidgetRef[4] -- the style choice box, grab ref for future anchoring
+	end
 
 	local displayStyle = displayDB[currentDisplayFrame].style -- get the style for current frame
 
 	for entry, widget in ipairs(tabDisplayWidgetRef) do
 		if (entry > 4) then -- we never need to adjust the first 4 widgets
-			if (widget.data.hideOnStyle[displayStyle]) then -- should widget be visible with the current display frame's style
+			-- should widget be visible with the current display frame's style
+			if (widget.data.hideOnStyle[displayStyle] and (widget.data.hideOnStyle[4])) or (currentDisplayFrame > 8 and (widget.data.hideOnStyle[4])) then
 				widget:SetHidden(true)
 			else -- widget is visible, reanchor to maintain the appearance of the settings panel
 				widget:SetHidden(false)
+
+				-- hide the style selection for group/raid frames
+				if currentDisplayFrame > 8 then tabDisplayWidgetRef[4]:SetHidden(true) else tabDisplayWidgetRef[4]:SetHidden(false) end
 
 				if (widget.data.widgetRightAlign) then
 					widget.thumb:ClearAnchors() -- widget needs manipulation, anchor swatch to the right for later
@@ -446,7 +496,9 @@ local function ConfigurePanelDisplayFrame(fromStyleFlag)
 end
 
 local function OnStyleChange(style)
+	local DisplayFrame = currentDisplayFrame
 	if (style == AURA_STYLE_FULL or style == AURA_STYLE_MINI) then -- these styles have restricted auraGrowth options
+
 		if (displayDB[currentDisplayFrame].auraGrowth ~= AURA_GROW_UP and displayDB[currentDisplayFrame].auraGrowth ~= AURA_GROW_DOWN) then
 			displayDB[currentDisplayFrame].auraGrowth = AURA_GROW_DOWN -- force (now) invalid growth choice to a valid setting
 
@@ -473,12 +525,12 @@ local function TabButtonOnClick(self)
 		CreateTabPanel(self.panelID) -- call to create appropriate panel if not created yet
 	end
 
-	for x = 1, 13 do
+	for x = 1, 15 do
 		tabButtons[x].button:SetState(0) -- unset selected state for all buttons
 	end
 
 	if (self.buttonID == 4) then -- display frames primary button
-		for x = 6, 13 do
+		for x = 6, 15 do
 			tabButtons[x]:SetHidden(false) -- show display frame tab buttons
 		end
 
@@ -491,7 +543,7 @@ local function TabButtonOnClick(self)
 
 		ConfigurePanelDisplayFrame() -- configure the settings for Display Frames (changes for multiple reasons)
 	else -- one of the other 3 tab buttons
-		for x = 6, 13 do
+		for x = 6, 15 do
 			tabButtons[x]:SetHidden(true) -- hide display frame tab buttons
 		end
 	end
@@ -515,10 +567,10 @@ local function CompleteInitialization(panel)
 
 	local btn
 
-	for x = 1, 13 do
+	for x = 1, 15 do
 		btn = LAMCreateControl.button(tabButtonsPanel, { -- create our tab buttons
 			type = 'button',
-			name = (x <= 5) and L['TabButton' .. x] or tostring(x - 5),
+			name = (x <= 5) and L['TabButton' .. x] or (x == 14) and 'G' or (x == 15) and 'R' or tostring(x - 5),
 			func = TabButtonOnClick,
 		})
 		btn.button.buttonID = x -- reference lookup to refer to buttons
@@ -530,9 +582,9 @@ local function CompleteInitialization(panel)
 
 			btn.button.panelID = (x == 4) and 10 or x -- reference lookup to refer to panels
 		else -- display frame tab buttons
-			btn:SetWidth((controlPanelWidth / 8) - 2)
-			btn.button:SetWidth((controlPanelWidth / 8) - 2)
-			btn:SetAnchor(TOPLEFT, tabButtonsPanel, TOPLEFT, (x == 6) and 0 or ((controlPanelWidth / 8) * (x - 6)), 34)
+			btn:SetWidth((controlPanelWidth / 10) - 2)
+			btn.button:SetWidth((controlPanelWidth / 10) - 2)
+			btn:SetAnchor(TOPLEFT, tabButtonsPanel, TOPLEFT, (x == 6) and 0 or ((controlPanelWidth / 10) * (x - 6)), 34)
 			btn:SetHidden(true)
 
 			btn.button.panelID		= 10	-- reference lookup to refer to panels (special case for display frames)
@@ -1087,6 +1139,18 @@ tabPanelData = {
 		},
 		{
 			type = 'checkbox',
+			name = L.General_VerboseDebug,
+			tooltip = L.General_VerboseDebugTip,
+			getFunc = function()
+				return Srendarr.db.showVerboseDebug
+			end,
+			setFunc = function(v)
+				Srendarr.db.showVerboseDebug = v
+			end,
+			disabled = function() return not Srendarr.db.showCombatEvents end,
+		},
+		{
+			type = 'checkbox',
 			name = L.General_ShowNoNames,
 			tooltip = L.General_ShowNoNamesTip,
 			getFunc = function()
@@ -1105,6 +1169,10 @@ tabPanelData = {
 		-- -----------------------
 		-- AURA BLACKLIST
 		-- -----------------------
+		{
+			type = 'description',
+			text = L.General_BlacklistDesc,
+		},
 		{
 			type = 'editbox',
 			name = L.Filter_BlacklistAdd,
@@ -1141,7 +1209,7 @@ tabPanelData = {
 		},
 		{
 			type = 'button',
-			name = L.Filter_BlacklistRemove,
+			name = L.General_RemoveSelected,
 			func = function(btn)
 				if (blacklistAurasSelectedAura) then
 					if (string.find(blacklistAurasSelectedAura, '%[%d+%]')) then -- this is a 'by abilityID' aura
@@ -1156,7 +1224,7 @@ tabPanelData = {
 			end,
 		},
 		-- -----------------------
-		-- PROMINENT BUFFS 12
+		-- PROMINENT BUFFS 1
 		-- -----------------------
 		{
 			type = 'header',
@@ -1206,7 +1274,7 @@ tabPanelData = {
 		},
 		{
 			type = 'dropdown',
-			name = L.General_ProminentList,
+			name = L.General_ProminentList1,
 			tooltip = L.General_ProminentListTip,
 			choices = dropProminentAuras,
 			sort = 'name-down',
@@ -1221,7 +1289,7 @@ tabPanelData = {
 		},
 		{
 			type = 'button',
-			name = L.General_ProminentRemove1,
+			name = L.General_RemoveSelected,
 			func = function(btn)
 				if (prominentAurasSelectedAura) then
 					if (string.find(prominentAurasSelectedAura, '%[%d+%]')) then -- this is a 'by abilityID' aura
@@ -1239,9 +1307,8 @@ tabPanelData = {
 		-- PROMINENT BUFFS 2
 		-- -----------------------
 		{
-			type = 'header',
+			type = 'description',
 		},
-
 		{
 			type = 'dropdown',
 			name = L.Group_Prominent2,
@@ -1282,7 +1349,7 @@ tabPanelData = {
 		},
 		{
 			type = 'dropdown',
-			name = L.General_ProminentList,
+			name = L.General_ProminentList2,
 			tooltip = L.General_ProminentListTip,
 			choices = dropProminentAuras2,
 			sort = 'name-down',
@@ -1297,7 +1364,7 @@ tabPanelData = {
 		},
 		{
 			type = 'button',
-			name = L.General_ProminentRemove2,
+			name = L.General_RemoveSelected,
 			func = function(btn)
 				if (prominentAurasSelectedAura2) then
 					if (string.find(prominentAurasSelectedAura2, '%[%d+%]')) then -- this is a 'by abilityID' aura
@@ -1309,6 +1376,83 @@ tabPanelData = {
 				end
 
 				Srendarr:PopulateProminentAurasDropdown2()
+			end,
+		},
+		-- -----------------------
+		-- GROUP BUFFS
+		-- -----------------------
+		{
+			type = 'header',
+			name = L.General_GroupAuraHeader,
+		},
+		{
+			type = 'description',
+			text = L.General_GroupAuraDesc,
+		},
+		{
+			type = 'editbox',
+			name = L.General_GroupAuraAdd,
+			tooltip = L.General_GroupAuraAddTip,
+			warning = L.General_GroupAddWarn,
+			getFunc = function ()
+				return ''
+			end,
+			setFunc = function(v)
+				if (v ~= '') then
+					Srendarr:GroupWhitelistAdd(v)
+					Srendarr.OnPlayerActivatedAlive()
+				end
+
+				PopulateGroupAurasDropdown()
+			end,
+			isMultiline = false,
+		},
+		{
+			type = 'dropdown',
+			name = L.General_GroupList,
+			tooltip = L.General_GroupListTip,
+			choices = dropGroupAuras,
+			sort = 'name-down',
+			getFunc = function()
+				groupAurasSelectedAura = nil
+				return dropGroupAuras[1]
+			end,
+			setFunc = function(v)
+				groupAurasSelectedAura = (v ~= '' and v ~= L.GenericSetting_ClickToViewAuras) and v or nil
+			end,
+			isGroupAurasWidget = true,
+		},
+		{
+			type = 'button',
+			name = L.General_RemoveSelected,
+			func = function(btn)
+				if (groupAurasSelectedAura) then
+					if (string.find(groupAurasSelectedAura, '%[%d+%]')) then -- this is a 'by abilityID' aura
+						groupAurasSelectedAura = string.match(groupAurasSelectedAura, '%d+') -- correct user display to just abilityID
+					end
+
+					Srendarr:GroupAuraRemove(groupAurasSelectedAura)
+					Srendarr.OnPlayerActivatedAlive()
+				end
+
+				PopulateGroupAurasDropdown()
+			end,
+		},
+		{
+			type = 'checkbox',
+			name = L.General_GroupWhitelistOff,
+			tooltip = L.General_GroupWhitelistOffTip,
+			getFunc = function()
+				return Srendarr.db.groupBlacklist
+			end,
+			setFunc = function(v)
+				Srendarr.db.groupBlacklist = v
+				if (IsUnitGrouped("player")) then
+					local frame = (GetGroupSize() <= 4) and 9 or 10
+					Srendarr.displayFrames[frame]:Configure()
+					Srendarr.displayFrames[frame]:ConfigureDragOverlay()
+					Srendarr.displayFrames[frame]:UpdateDisplay()
+				end
 			end,
 		},
 		-- -----------------------
@@ -1424,6 +1568,18 @@ tabPanelData = {
 			type = 'description',
 			text = L.Filter_Desc,
 		},
+--[[		{
+			type = 'checkbox',
+			name = L.OnlyPlayerDebuffs,
+			tooltip = L.OnlyPlayerDebuffsTip,
+			getFunc = function()
+				return Srendarr.db.filtersTarget.onlyPlayer
+			end,
+			setFunc = function(v)
+				Srendarr.db.filtersTarget.onlyPlayer = v
+				Srendarr:PopulateFilteredAuras()
+			end,
+		},--]]
 		{
 			type = 'checkbox',
 			name = L.Filter_Block,
@@ -1924,7 +2080,7 @@ tabPanelData = {
 			type = 'slider',
 			name = L.DisplayFrame_Scale,
 			tooltip = L.DisplayFrame_ScaleTip,
-			min = 50,
+			min = 10,
 			max = 150,
 			step = 5,
 			getFunc = function()
@@ -1951,12 +2107,13 @@ tabPanelData = {
 				return dropStyle[displayDB[currentDisplayFrame].style]
 			end,
 			setFunc = function(v)
-				displayDB[currentDisplayFrame].style = dropStyleRef[v]
-
-				OnStyleChange(dropStyleRef[v]) -- update several options dependent on current style
-
-				ConfigurePanelDisplayFrame(true) -- changing this changes a lot of the following options
+				if (currentDisplayFrame < 9) then -- Only icon style for group frames (Phinix)
+					displayDB[currentDisplayFrame].style = dropStyleRef[v]
+					OnStyleChange(dropStyleRef[v]) -- update several options dependent on current style
+					ConfigurePanelDisplayFrame(true) -- changing this changes a lot of the following options
+				end
 			end,
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = false, [AURA_STYLE_MINI] = false, [AURA_STYLE_GROUP] = true}
 		},
 		{						-- auraGrowth					FULL, MINI
 			type = 'dropdown',
@@ -1972,7 +2129,7 @@ tabPanelData = {
 				Srendarr.displayFrames[currentDisplayFrame]:ConfigureDragOverlay()
 				Srendarr.displayFrames[currentDisplayFrame]:UpdateDisplay()
 			end,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false, [AURA_STYLE_GROUP] = true}
 		},
 		{						-- auraGrowth 					ICON
 			type = 'dropdown',
@@ -1988,7 +2145,7 @@ tabPanelData = {
 				Srendarr.displayFrames[currentDisplayFrame]:ConfigureDragOverlay()
 				Srendarr.displayFrames[currentDisplayFrame]:UpdateDisplay()
 			end,
-			hideOnStyle = {[AURA_STYLE_FULL] = true, [AURA_STYLE_ICON] = false, [AURA_STYLE_MINI] = true}
+			hideOnStyle = {[AURA_STYLE_FULL] = true, [AURA_STYLE_ICON] = false, [AURA_STYLE_MINI] = true, [AURA_STYLE_GROUP] = true}
 		},
 		{						-- auraPadding					FULL, ICON, MINI
 			type = 'slider',
@@ -2005,7 +2162,7 @@ tabPanelData = {
 				Srendarr.displayFrames[currentDisplayFrame]:ConfigureDragOverlay()
 				Srendarr.displayFrames[currentDisplayFrame]:UpdateDisplay()
 			end,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = false, [AURA_STYLE_MINI] = false}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = false, [AURA_STYLE_MINI] = false, [AURA_STYLE_GROUP] = false}
 		},
 		{						-- auraSort						FULL, ICON, MINI
 			type = 'dropdown',
@@ -2021,7 +2178,41 @@ tabPanelData = {
 				Srendarr.displayFrames[currentDisplayFrame]:Configure()
 				Srendarr.displayFrames[currentDisplayFrame]:UpdateDisplay()
 			end,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = false, [AURA_STYLE_MINI] = false}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = false, [AURA_STYLE_MINI] = false, [AURA_STYLE_GROUP] = false}
+		},
+		{						-- groupX						GROUP ONLY
+			type = 'slider',
+			name = L.DisplayFrame_GRX,
+			tooltip = L.DisplayFrame_GRXTip,
+			min = -128,
+			max = 128,
+			getFunc = function()
+				return displayDB[currentDisplayFrame].base.x
+			end,
+			setFunc = function(v)
+				displayDB[currentDisplayFrame].base.x = v
+				Srendarr.displayFrames[currentDisplayFrame]:Configure()
+				Srendarr.displayFrames[currentDisplayFrame]:ConfigureDragOverlay()
+				Srendarr.displayFrames[currentDisplayFrame]:UpdateDisplay()
+			end,
+			hideOnStyle = {[AURA_STYLE_FULL] = true, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = true, [AURA_STYLE_GROUP] = false}
+		},
+		{						-- groupY						GROUP ONLY
+			type = 'slider',
+			name = L.DisplayFrame_GRY,
+			tooltip = L.DisplayFrame_GRYTip,
+			min = -128,
+			max = 128,
+			getFunc = function()
+				return displayDB[currentDisplayFrame].base.y
+			end,
+			setFunc = function(v)
+				displayDB[currentDisplayFrame].base.y = v
+				Srendarr.displayFrames[currentDisplayFrame]:Configure()
+				Srendarr.displayFrames[currentDisplayFrame]:ConfigureDragOverlay()
+				Srendarr.displayFrames[currentDisplayFrame]:UpdateDisplay()
+			end,
+			hideOnStyle = {[AURA_STYLE_FULL] = true, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = true, [AURA_STYLE_GROUP] = false}
 		},
 		{						-- highlightToggled				FULL, ICON
 			type = 'checkbox',
@@ -2034,7 +2225,7 @@ tabPanelData = {
 				displayDB[currentDisplayFrame].highlightToggled = v
 				Srendarr.displayFrames[currentDisplayFrame]:ConfigureAssignedAuras()
 			end,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = false, [AURA_STYLE_MINI] = true}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = false, [AURA_STYLE_MINI] = true, [AURA_STYLE_GROUP] = true}
 		},
 		{						-- enableTooltips				ICON
 			type = 'checkbox',
@@ -2048,7 +2239,7 @@ tabPanelData = {
 				displayDB[currentDisplayFrame].enableTooltips = v
 				Srendarr.displayFrames[currentDisplayFrame]:ConfigureAssignedAuras()
 			end,
-			hideOnStyle = {[AURA_STYLE_FULL] = true, [AURA_STYLE_ICON] = false, [AURA_STYLE_MINI] = true}
+			hideOnStyle = {[AURA_STYLE_FULL] = true, [AURA_STYLE_ICON] = false, [AURA_STYLE_MINI] = true, [AURA_STYLE_GROUP] = true}
 		},
 		-- -----------------------
 		-- ABILITY TEXT SETTINGS
@@ -2056,7 +2247,7 @@ tabPanelData = {
 		{					-- nameHeader					FULL, MINI
 			type = 'header',
 			name = L.DisplayFrame_NameHeader,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false, [AURA_STYLE_GROUP] = true}
 		},
 		{					-- nameFont						FULL, MINI
 			type = 'dropdown',
@@ -2069,7 +2260,7 @@ tabPanelData = {
 				displayDB[currentDisplayFrame].nameFont = v
 				Srendarr.displayFrames[currentDisplayFrame]:ConfigureAssignedAuras()
 			end,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false, [AURA_STYLE_GROUP] = true}
 		},
 		{					-- nameStyle					FULL, MINI
 			type = 'dropdown',
@@ -2082,7 +2273,7 @@ tabPanelData = {
 				displayDB[currentDisplayFrame].nameStyle = v
 				Srendarr.displayFrames[currentDisplayFrame]:ConfigureAssignedAuras()
 			end,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false, [AURA_STYLE_GROUP] = true}
 		},
 		{					-- nameColour					FULL, MINI
 			type = 'colorpicker',
@@ -2098,7 +2289,7 @@ tabPanelData = {
 			end,
 			widgetRightAlign		= true,
 			widgetPositionAndResize	= -15,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false, [AURA_STYLE_GROUP] = true}
 		},
 		{					-- nameSize						FULL, MINI
 			type = 'slider',
@@ -2112,7 +2303,7 @@ tabPanelData = {
 				displayDB[currentDisplayFrame].nameSize = v
 				Srendarr.displayFrames[currentDisplayFrame]:ConfigureAssignedAuras()
 			end,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false, [AURA_STYLE_GROUP] = true}
 		},
 		-- -----------------------
 		-- TIMER TEXT SETTINGS
@@ -2133,7 +2324,7 @@ tabPanelData = {
 				displayDB[currentDisplayFrame].timerFont = v
 				Srendarr.displayFrames[currentDisplayFrame]:ConfigureAssignedAuras()
 			end,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = false, [AURA_STYLE_MINI] = false}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = false, [AURA_STYLE_MINI] = false, [AURA_STYLE_GROUP] = false}
 		},
 		{					-- timerStyle					FULL, ICON, MINI
 			type = 'dropdown',
@@ -2146,7 +2337,7 @@ tabPanelData = {
 				displayDB[currentDisplayFrame].timerStyle = v
 				Srendarr.displayFrames[currentDisplayFrame]:ConfigureAssignedAuras()
 			end,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = false, [AURA_STYLE_MINI] = false}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = false, [AURA_STYLE_MINI] = false, [AURA_STYLE_GROUP] = false}
 		},
 		{					-- timerColour					FULL, ICON, MINI
 			type = 'colorpicker',
@@ -2162,7 +2353,7 @@ tabPanelData = {
 			end,
 			widgetRightAlign		= true,
 			widgetPositionAndResize	= -15,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = false, [AURA_STYLE_MINI] = false}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = false, [AURA_STYLE_MINI] = false, [AURA_STYLE_GROUP] = false}
 		},
 		{					-- timerSize					FULL, ICON, MINI
 			type = 'slider',
@@ -2176,7 +2367,7 @@ tabPanelData = {
 				displayDB[currentDisplayFrame].timerSize = v
 				Srendarr.displayFrames[currentDisplayFrame]:ConfigureAssignedAuras()
 			end,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = false, [AURA_STYLE_MINI] = false}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = false, [AURA_STYLE_MINI] = false, [AURA_STYLE_GROUP] = true}
 		},
 		{					-- timerLocation				FULL
 			type = 'dropdown',
@@ -2190,7 +2381,7 @@ tabPanelData = {
 				displayDB[currentDisplayFrame].timerLocation = dropTimerRef[v]
 				Srendarr.displayFrames[currentDisplayFrame]:ConfigureAssignedAuras()
 			end,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = true}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = true, [AURA_STYLE_GROUP] = true}
 		},
 		{					-- timerLocation				ICON
 			type = 'dropdown',
@@ -2204,7 +2395,7 @@ tabPanelData = {
 				displayDB[currentDisplayFrame].timerLocation = dropTimerRef[v]
 				Srendarr.displayFrames[currentDisplayFrame]:ConfigureAssignedAuras()
 			end,
-			hideOnStyle = {[AURA_STYLE_FULL] = true, [AURA_STYLE_ICON] = false, [AURA_STYLE_MINI] = true}
+			hideOnStyle = {[AURA_STYLE_FULL] = true, [AURA_STYLE_ICON] = false, [AURA_STYLE_MINI] = true, [AURA_STYLE_GROUP] = false}
 		},
 		{					-- timerHMS						FULL, ICON, MINI
 			type = 'checkbox',
@@ -2217,7 +2408,7 @@ tabPanelData = {
 				displayDB[currentDisplayFrame].timerHMS = v
 				Srendarr.displayFrames[currentDisplayFrame]:ConfigureAssignedAuras()
 			end,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = false, [AURA_STYLE_MINI] = false}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = false, [AURA_STYLE_MINI] = false, [AURA_STYLE_GROUP] = false}
 		},
 		-- -----------------------
 		-- STATUSBAR SETTINGS
@@ -2225,7 +2416,7 @@ tabPanelData = {
 		{					-- barHeader					FULL, MINI
 			type = 'header',
 			name = L.DisplayFrame_BarHeader,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false, [AURA_STYLE_GROUP] = true}
 		},
 		{					-- barReverse					FULL, MINI
 			type = 'checkbox',
@@ -2239,7 +2430,7 @@ tabPanelData = {
 				Srendarr.displayFrames[currentDisplayFrame]:ConfigureDragOverlay()
 				Srendarr.displayFrames[currentDisplayFrame]:ConfigureAssignedAuras()
 			end,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false, [AURA_STYLE_GROUP] = true}
 		},
 		{					-- barGloss						FULL, MINI
 			type = 'checkbox',
@@ -2252,7 +2443,7 @@ tabPanelData = {
 				displayDB[currentDisplayFrame].barGloss = v
 				Srendarr.displayFrames[currentDisplayFrame]:ConfigureAssignedAuras()
 			end,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false, [AURA_STYLE_GROUP] = true}
 		},
 		{					-- barWidth						FULL, MINI
 			type = 'slider',
@@ -2269,7 +2460,7 @@ tabPanelData = {
 				Srendarr.displayFrames[currentDisplayFrame]:ConfigureAssignedAuras()
 				Srendarr.displayFrames[currentDisplayFrame]:ConfigureDragOverlay()
 			end,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false, [AURA_STYLE_GROUP] = true}
 		},
 		{					-- barColour[TIMED]:2			FULL, MINI
 			type = 'colorpicker',
@@ -2286,7 +2477,7 @@ tabPanelData = {
 				Srendarr.displayFrames[currentDisplayFrame]:ConfigureAssignedAuras()
 			end,
 			widgetRightAlign		= true,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false, [AURA_STYLE_GROUP] = true}
 		},
 		{					-- barColour[TIMED]:1			FULL, MINI
 			type = 'colorpicker',
@@ -2303,7 +2494,7 @@ tabPanelData = {
 			end,
 			widgetRightAlign		= true,
 			widgetPositionAndResize	= 127,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false, [AURA_STYLE_GROUP] = true}
 		},
 		{					-- barColour[TOGGLED]:2			FULL, MINI
 			type = 'colorpicker',
@@ -2320,7 +2511,7 @@ tabPanelData = {
 				Srendarr.displayFrames[currentDisplayFrame]:ConfigureAssignedAuras()
 			end,
 			widgetRightAlign		= true,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false, [AURA_STYLE_GROUP] = true}
 		},
 		{					-- barColour[TOGGLED]:1			FULL, MINI
 			type = 'colorpicker',
@@ -2337,7 +2528,7 @@ tabPanelData = {
 			end,
 			widgetRightAlign		= true,
 			widgetPositionAndResize	= 127,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false, [AURA_STYLE_GROUP] = true}
 		},
 		{					-- barColour[PASSIVE]:2			FULL, MINI
 			type = 'colorpicker',
@@ -2354,7 +2545,7 @@ tabPanelData = {
 				Srendarr.displayFrames[currentDisplayFrame]:ConfigureAssignedAuras()
 			end,
 			widgetRightAlign		= true,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false, [AURA_STYLE_GROUP] = true}
 		},
 		{					-- barColour[PASSIVE]:1			FULL, MINI
 			type = 'colorpicker',
@@ -2371,7 +2562,7 @@ tabPanelData = {
 			end,
 			widgetRightAlign		= true,
 			widgetPositionAndResize	= 127,
-			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false}
+			hideOnStyle = {[AURA_STYLE_FULL] = false, [AURA_STYLE_ICON] = true, [AURA_STYLE_MINI] = false, [AURA_STYLE_GROUP] = true}
 		},
 	}
 }

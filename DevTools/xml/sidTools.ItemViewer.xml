@@ -1,0 +1,39 @@
+<GuiXml>
+	<Controls>
+		<Control name="sidItemListRow" mouseEnabled="true" virtual="true">
+			<Dimensions y="30" />
+			<OnMouseEnter>
+				sidTools.ItemListRow_OnMouseEnter(self)
+			</OnMouseEnter>
+			<OnMouseExit>
+				sidTools.ItemListRow_OnMouseExit(self)
+			</OnMouseExit>
+			<OnMouseUp>
+				sidTools.ItemListRow_OnMouseUp(self, button, upInside)
+			</OnMouseUp>
+			<Controls>
+				<Texture name="$(parent)BG" inherits="ZO_ThinListBgStrip" />
+				<Label name="$(parent)ItemID" inherits="ZO_FriendsListRowLabel">
+					<Anchor point="LEFT" />
+					<Dimensions x="50" y="30" />
+				</Label>
+				<Label name="$(parent)ItemName" inherits="ZO_FriendsListRowLabel">
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$(parent)ItemID" offsetX="18" />
+					<Dimensions x="200" y="30" />
+				</Label>
+				<Label name="$(parent)ItemType" inherits="ZO_FriendsListRowLabel">
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$(parent)ItemName" offsetX="38" />
+					<Dimensions x="100" y="30" />
+				</Label>
+			</Controls>
+		</Control>
+
+		<Backdrop name="sidItemListSearch" tier="HIGH" inherits="ZO_EditBackdrop" virtual="true">
+			<Dimensions x="250" />
+			<Controls>
+				<EditBox name="$(parent)Box" inherits="ZO_DefaultEditForBackdrop ZO_EditDefaultText">
+				</EditBox>
+			</Controls>
+		</Backdrop>
+	</Controls>
+</GuiXml>

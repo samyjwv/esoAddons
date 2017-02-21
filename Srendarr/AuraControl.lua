@@ -19,6 +19,30 @@ local GROUP_TARGET_BUFF				= Srendarr.GROUP_TARGET_BUFF
 local GROUP_TARGET_DEBUFF			= Srendarr.GROUP_TARGET_DEBUFF
 local GROUP_PROMINENT				= Srendarr.GROUP_PROMINENT
 local GROUP_PROMINENT2				= Srendarr.GROUP_PROMINENT2
+local GROUP_GROUP1					= Srendarr.GROUP_GROUP1	
+local GROUP_GROUP2					= Srendarr.GROUP_GROUP2	
+local GROUP_GROUP3					= Srendarr.GROUP_GROUP3	
+local GROUP_GROUP4					= Srendarr.GROUP_GROUP4	
+local GROUP_GROUP5					= Srendarr.GROUP_GROUP5	
+local GROUP_GROUP6					= Srendarr.GROUP_GROUP6	
+local GROUP_GROUP7					= Srendarr.GROUP_GROUP7	
+local GROUP_GROUP8					= Srendarr.GROUP_GROUP8	
+local GROUP_GROUP9					= Srendarr.GROUP_GROUP9	
+local GROUP_GROUP10					= Srendarr.GROUP_GROUP10
+local GROUP_GROUP11					= Srendarr.GROUP_GROUP11
+local GROUP_GROUP12					= Srendarr.GROUP_GROUP12
+local GROUP_GROUP13					= Srendarr.GROUP_GROUP13
+local GROUP_GROUP14					= Srendarr.GROUP_GROUP14
+local GROUP_GROUP15					= Srendarr.GROUP_GROUP15
+local GROUP_GROUP16					= Srendarr.GROUP_GROUP16
+local GROUP_GROUP17					= Srendarr.GROUP_GROUP17
+local GROUP_GROUP18					= Srendarr.GROUP_GROUP18
+local GROUP_GROUP19					= Srendarr.GROUP_GROUP19
+local GROUP_GROUP20					= Srendarr.GROUP_GROUP20
+local GROUP_GROUP21					= Srendarr.GROUP_GROUP21
+local GROUP_GROUP22					= Srendarr.GROUP_GROUP22
+local GROUP_GROUP23					= Srendarr.GROUP_GROUP23
+local GROUP_GROUP24					= Srendarr.GROUP_GROUP24
 
 local AURA_TYPE_TIMED				= Srendarr.AURA_TYPE_TIMED
 local AURA_TYPE_TOGGLED				= Srendarr.AURA_TYPE_TOGGLED
@@ -36,6 +60,7 @@ local filteredAuras					= Srendarr.filteredAuras
 local trackTargets					= {}
 local prominentAuras				= {}
 local prominentAuras2				= {}
+local groupAuras					= {}
 local displayFrameRef				= {}
 local debugAuras					= {}
 local playerName = zo_strformat("<<t:1>>",GetUnitName('player'))
@@ -47,19 +72,103 @@ local displayFrameFake = {
 	end,
 }
 
+local groupFrames = {
+	[1] = {frame = GROUP_GROUP1},
+	[2] = {frame = GROUP_GROUP2},
+	[3] = {frame = GROUP_GROUP3},
+	[4] = {frame = GROUP_GROUP4},
+	[5] = {frame = GROUP_GROUP5},
+	[6] = {frame = GROUP_GROUP6},
+	[7] = {frame = GROUP_GROUP7},
+	[8] = {frame = GROUP_GROUP8},
+	[9] = {frame = GROUP_GROUP9},
+	[10] = {frame = GROUP_GROUP10},
+	[11] = {frame = GROUP_GROUP11},
+	[12] = {frame = GROUP_GROUP12},
+	[13] = {frame = GROUP_GROUP13},
+	[14] = {frame = GROUP_GROUP14},
+	[15] = {frame = GROUP_GROUP15},
+	[16] = {frame = GROUP_GROUP16},
+	[17] = {frame = GROUP_GROUP17},
+	[18] = {frame = GROUP_GROUP18},
+	[19] = {frame = GROUP_GROUP19},
+	[20] = {frame = GROUP_GROUP20},
+	[21] = {frame = GROUP_GROUP21},
+	[22] = {frame = GROUP_GROUP22},
+	[23] = {frame = GROUP_GROUP23},
+	[24] = {frame = GROUP_GROUP24},
+}
+
 -- ------------------------
 -- AURA HANDLER
 -- ------------------------
-local function AuraHandler(flagBurst, auraName, unitTag, start, finish, icon, effectType, abilityType, abilityID)
-	-- d('AuraHandler ' .. auraName .. ' [' .. abilityID ..'] (' .. unitTag .. '), effectType: ' .. effectType .. ', abilityType: ' .. abilityType .. string.format(', %.3f | %.3f (%.3f)', start, finish, (finish - start)))
+local function checkUtag(s, groupSize)
+	if FTC_VARS then
+		local EnableFrames = FTC_VARS.Default[GetDisplayName()]["$AccountWide"].EnableFrames
+		local RaidFrames = FTC_VARS.Default[GetDisplayName()]["$AccountWide"].RaidFrames
+		if groupSize <= 4 and EnableFrames == true then
+			return Srendarr.ftcGDB[s].tag
+		elseif groupSize >= 5 and EnableFrames == true and RaidFrames == true then
+			return Srendarr.ftcRDB[s].tag
+		elseif groupSize <= 4 and EnableFrames == false then
+			return Srendarr.stGDB[s].tag
+		elseif groupSize >= 5 and (RaidFrames == false or EnableFrames == false) then
+			return Srendarr.stRDB[s].tag
+		end
+	elseif not FTC_VARS then
+		if groupSize <= 4 then
+			return Srendarr.stGDB[s].tag
+		elseif groupSize >= 5 then
+			return Srendarr.stRDB[s].tag
+		end
+	end
+end
 
+local function AuraHandler(flagBurst, auraName, unitTag, start, finish, icon, effectType, abilityType, abilityID, groupChange)
+	local groupBlacklist = Srendarr.db.groupBlacklist
+	local IsGroupUnit = Srendarr.IsGroupUnit
+	
 	if (start ~= finish and (finish - start) < 2.25) then return end -- abort showing any timed auras with a duration of < 2.25s
 
-	if (filteredAuras[unitTag][abilityID]) then return end -- abort immediately if this is an ability we've filtered
-
+	if filteredAuras[unitTag] ~= nil then
+		if (filteredAuras[unitTag][abilityID]) then return end -- abort immediately if this is an ability we've filtered
+	end
+	
 	if (auraLookup[unitTag][abilityID]) then -- aura exists, update its data (assume would not exist unless passed filters earlier)
 		auraLookup[unitTag][abilityID]:Update(start, finish)
+
+		if (unitTag == 'player') and (IsUnitGrouped('player')) then -- update duplicate tracking of player buffs on group frame
+			if ((not groupBlacklist) and (groupAuras[abilityID])) or ((groupBlacklist) and (not groupAuras[abilityID])) then
+				local groupSize = GetGroupSize()
+				for s = 1, groupSize do
+					local groupTag = GetGroupUnitTagByIndex(s)
+					if (AreUnitsEqual(groupTag, 'player')) then
+						if (auraLookup[groupTag][abilityID]) then
+							auraLookup[groupTag][abilityID]:Update(start, finish)
+							return
+						end
+					end
+				end
+			end
+		end
 		return
+	end
+
+	if (IsGroupUnit(unitTag)) then -- group aura detected, assign to appropriate window
+		if ((not groupBlacklist) and (groupAuras[abilityID])) or ((groupBlacklist) and (not groupAuras[abilityID])) then
+			local groupSize = GetGroupSize()
+			for s = 1, groupSize do
+				local groupTag = GetGroupUnitTagByIndex(s)
+				if (AreUnitsEqual(groupTag, unitTag)) then
+					local uTag = checkUtag(s, groupSize)
+					if uTag and uTag ~= 0 then
+						local groupFrame = groupFrames[tonumber(uTag)].frame
+						displayFrameRef[groupFrame]:AddAuraToDisplay(flagBurst, groupFrame, AURA_TYPE_TIMED, auraName, unitTag, start, finish, icon, effectType, abilityType, abilityID)
+						return
+					end
+				end
+			end
+		end
 	end
 
 	-- Prominent aura detected, assign to appropriate window
@@ -116,9 +225,26 @@ local function AuraHandler(flagBurst, auraName, unitTag, start, finish, icon, ef
 				else
 					displayFrameRef[GROUP_PLAYER_SHORT]:AddAuraToDisplay(flagBurst, GROUP_PLAYER_SHORT, AURA_TYPE_TIMED, auraName, unitTag, start, finish, icon, effectType, abilityType, abilityID)
 				end
+
+				if (IsUnitGrouped("player")) then -- allow duplicate tracking of player buffs on group frame
+					if ((not groupBlacklist) and (groupAuras[abilityID])) or ((groupBlacklist) and (not groupAuras[abilityID])) then 
+						local groupSize = GetGroupSize()
+						for s = 1, groupSize do
+							local groupTag = GetGroupUnitTagByIndex(s)
+							if (AreUnitsEqual(groupTag, "player")) then
+								local uTag = checkUtag(s, groupSize)
+								if uTag and uTag ~= 0 then
+									local groupFrame = groupFrames[tonumber(uTag)].frame
+									displayFrameRef[groupFrame]:AddAuraToDisplay(flagBurst, groupFrame, AURA_TYPE_TIMED, auraName, groupTag, start, finish, icon, effectType, abilityType, abilityID)
+									return
+								end
+							end
+						end
+					end
+				end
 			end
 		end
-	else -- unitTag == 'groundaoe' -- new ground aoe cast by player (assume always timed)
+	elseif (unitTag == 'groundaoe') then -- new ground aoe cast by player (assume always timed)
 		displayFrameRef[GROUP_PLAYER_GROUND]:AddAuraToDisplay(flagBurst, GROUP_PLAYER_GROUND, AURA_TYPE_TIMED, auraName, unitTag, start, finish, icon, effectType, abilityType, abilityID)
 	end
 end
@@ -142,6 +268,10 @@ function Srendarr:ConfigureAuraHandler()
 		prominentAuras2[id] = nil -- clean out prominent 2 auras list
 	end
 
+	for id in pairs(groupAuras) do
+		groupAuras[id] = nil -- clean out group auras list
+	end
+
 	for _, abilityIDs in pairs(self.db.prominentWhitelist) do
 		for id in pairs(abilityIDs) do
 			prominentAuras[id] = true -- populate promience 1 list from saved database
@@ -153,6 +283,18 @@ function Srendarr:ConfigureAuraHandler()
 			prominentAuras2[id] = true -- populate promience 2 list from saved database
 		end
 	end
+
+	for _, abilityIDs in pairs(self.db.groupWhitelist) do
+		for id in pairs(abilityIDs) do
+			groupAuras[id] = true -- populate group list from saved database
+		end
+	end
+	
+end
+
+-- hook function to pass update data from group events elsewhere (Phinix)
+Srendarr.PassToAuraHandler = function(flagBurst, auraName, unitTag, start, finish, icon, effectType, abilityType, abilityID, groupChange)
+	AuraHandler(flagBurst, auraName, unitTag, start, finish, icon, effectType, abilityType, abilityID, groupChange)
 end
 
 
@@ -195,6 +337,8 @@ do ------------------------
 		for x = 1, NUM_DISPLAY_FRAMES do
 			Srendarr.displayFrames[x]:UpdateDisplay() -- update the display for all frames
 		end
+		
+		Srendarr.OnGroupChanged()
 	end
 end
 
@@ -261,64 +405,45 @@ do -----------------------
 end
 
 -- ------------------------
--- EVENT: EVENT_EFFECT_CHANGED
+-- EVENT: EVENT_ACTION_SLOT_ABILITY_USED
 do ------------------------
-	local EFFECT_RESULT_FADED			= EFFECT_RESULT_FADED
-	local ABILITY_TYPE_AREAEFFECT		= ABILITY_TYPE_AREAEFFECT
---	local ABILITY_TYPE_REGISTERTRIGGER	= ABILITY_TYPE_REGISTERTRIGGER
-	local AURA_TYPE_TIMED				= Srendarr.AURA_TYPE_TIMED
-	local GROUP_PLAYER_GROUND			= Srendarr.GROUP_PLAYER_GROUND
+	local ABILITY_TYPE_NONE 	= ABILITY_TYPE_NONE		-- no fakes have any specifc ability type
+	local BUFF_EFFECT_TYPE_BUFF = BUFF_EFFECT_TYPE_BUFF -- all fakes are buffs or gtaoe
 
-	local GetAbilityDescription			= GetAbilityDescription
-	local crystalFragmentsPassive		= Srendarr.crystalFragmentsPassive -- special case for tracking fragments proc
-	local alternateAura					= Srendarr.alternateAura
-	local auraLookup					= Srendarr.auraLookup
-	local fadedAura
+	local GetGameTimeMillis		= GetGameTimeMilliseconds
+	local GetLatency			= GetLatency
 
-	Srendarr.OnEffectChanged = function(e, change, slot, auraName, unitTag, start, finish, stack, icon, buffType, effectType, abilityType, statusType, unitName, unitID, abilityID)
-		-- check the aura is on either the player, the target or is a ground aoe -- the description check filters a lot of extra auras attached to many ground effects
---		unitTag = (unitTag == 'player' or unitTag == 'reticleover') and unitTag or (abilityType == ABILITY_TYPE_AREAEFFECT and GetAbilityDescription(abilityID) ~= '') and 'groundaoe' or nil
+	local slotData				= Srendarr.slotData
+	local fakeAuras				= Srendarr.fakeAuras
+	local slotAbilityName, currentTime
 
-		-- temp fix for all aoe effects showing until ZOS scheduled update to add isPlayer boolean to filter results
-		unitTag = (unitTag == 'player' or unitTag == 'reticleover') and unitTag or (abilityType ~= ABILITY_TYPE_AREAEFFECT and GetAbilityDescription(abilityID) ~= '') and 'disableaoe' or nil
-		if ((not unitTag) or unitTag == 'disableaoe') then return end -- don't care about this unit and isn't a ground aoe, abort
-		
-		
-	--	if (not unitTag) then return end -- don't care about this unit and isn't a ground aoe, abort
+	Srendarr.OnActionSlotAbilityUsed = function(e, slotID)
+		if (slotID < 3 or slotID > 8) then return end -- abort if not a main ability (or ultimate)
 
-		if (change == EFFECT_RESULT_FADED) then -- aura has faded
-			fadedAura = auraLookup[unitTag][abilityID]
+		slotAbilityName = slotData[slotID].abilityName
 
-			if (fadedAura) then -- aura exists, tell it to expire if timed, or aaa otherwise
-				if (fadedAura.auraType == AURA_TYPE_TIMED) then
-					if (fadedAura.abilityType == ABILITY_TYPE_AREAEFFECT) then return end -- gtaoes expire internally (repeated casting, only one timer)
+		if (not fakeAuras[slotAbilityName]) then return end -- no fake aura needed for this ability (majority case)
 
-					fadedAura:SetExpired()
-				else
-					fadedAura:Release()
-				end
-			end
+  		currentTime = GetGameTimeMillis() / 1000
 
---			if (abilityType == ABILITY_TYPE_REGISTERTRIGGER and
-			if (auraName == crystalFragmentsPassive) then -- special case for tracking fragments proc
-				Srendarr:OnCrystalFragmentsProc(false)
-			end
-		else -- aura has been gained or changed, dispatch to handler
-		
-			if Srendarr.db.consolidateEnabled == true then -- Handles multi-aura passive abilities like Restoring Aura
-				if (IsAlternateAura(abilityID)) then -- Consolidate multi-aura passive abilities
-					AuraHandler(false, alternateAura[abilityID].altName, unitTag, start, finish, icon, effectType, abilityType, abilityID)
-				else
-					AuraHandler(false, auraName, unitTag, start, finish, icon, effectType, abilityType, abilityID)
-				end
-			else
-				AuraHandler(false, auraName, unitTag, start, finish, icon, effectType, abilityType, abilityID)
-			end
+		AuraHandler(
+			false,
+			slotAbilityName,
+			fakeAuras[slotAbilityName].unitTag,
+			currentTime,
+			currentTime + fakeAuras[slotAbilityName].duration + (GetLatency() / 1000), -- + cooldown? GetSlotCooldownInfo(slotID)
+			slotData[slotID].abilityIcon,
+			BUFF_EFFECT_TYPE_BUFF,
+			ABILITY_TYPE_NONE,
+			fakeAuras[slotAbilityName].abilityID
+		)
+	end
 
---			if (abilityType == ABILITY_TYPE_REGISTERTRIGGER and
-			if (auraName == crystalFragmentsPassive) then -- special case for tracking fragments proc
-				Srendarr:OnCrystalFragmentsProc(true)
-			end
+	function Srendarr:ConfigureOnActionSlotAbilityUsed()
+		if (self.db.auraFakeEnabled) then
+			EVENT_MANAGER:RegisterForEvent(self.name, EVENT_ACTION_SLOT_ABILITY_USED,	Srendarr.OnActionSlotAbilityUsed)
+		else
+			EVENT_MANAGER:UnregisterForEvent(self.name, EVENT_ACTION_SLOT_ABILITY_USED)
 		end
 	end
 end
@@ -338,7 +463,7 @@ do ------------------------
 	local targetDisplayFrame2		= false -- local refs to frames displaying target auras (if any)
 	local hideOnDead				= false
 	local currentTime
-	local numAuras, auraName, start, finish, stack, icon, effectType, abilityType, abilityID
+	local numAuras, auraName, start, finish, stack, icon, effectType, abilityType, abilityID, canClickOff, castByPlayer
 
 	local function OnTargetChanged()
 
@@ -389,7 +514,13 @@ do ------------------------
 				end
 
 				for i = 1, numAuras do
-					auraName, start, finish, _, stack, icon, _, effectType, abilityType, _, abilityID = GetUnitBuffInfo('reticleover', i)
+					auraName, start, finish, buffSlot, stack, icon, buffType, effectType, abilityType, statusType, abilityID, canClickOff, castByPlayer = GetUnitBuffInfo('reticleover', i)
+
+					--[[ This won't help until the API can check if it is from the player on EVENT_EFFECT_CHANGED also
+					if Srendarr.db.filtersTarget.onlyPlayer == true then -- option to only show player's debuffs on target
+						if (effectType == BUFF_EFFECT_TYPE_DEBUFF) and (not castByPlayer) then return end
+					end--]]
+
 					if Srendarr.db.consolidateEnabled == true then -- Handles multi-aura passive abilities like Restoring Aura
 						if (IsAlternateAura(abilityID)) then
 							AuraHandler(true, alternateAura[abilityID].altName, 'reticleover', start, finish, icon, effectType, abilityType, abilityID)
@@ -432,51 +563,75 @@ do ------------------------
 end
 
 -- ------------------------
--- EVENT: EVENT_ACTION_SLOT_ABILITY_USED
+-- EVENT: EVENT_EFFECT_CHANGED
+-- http://wiki.esoui.com/EVENT_EFFECT_CHANGED
 do ------------------------
-	local ABILITY_TYPE_NONE 	= ABILITY_TYPE_NONE		-- no fakes have any specifc ability type
-	local BUFF_EFFECT_TYPE_BUFF = BUFF_EFFECT_TYPE_BUFF -- all fakes are buffs or gtaoe
+	local EFFECT_RESULT_FADED			= EFFECT_RESULT_FADED
+	local ABILITY_TYPE_AREAEFFECT		= ABILITY_TYPE_AREAEFFECT
+--	local ABILITY_TYPE_REGISTERTRIGGER	= ABILITY_TYPE_REGISTERTRIGGER
+	local AURA_TYPE_TIMED				= Srendarr.AURA_TYPE_TIMED
+	local GetAbilityDescription			= GetAbilityDescription
+	local crystalFragmentsPassive		= Srendarr.crystalFragmentsPassive -- special case for tracking fragments proc
+	local alternateAura					= Srendarr.alternateAura
+	local auraLookup					= Srendarr.auraLookup
+	local IsGroupUnit					= Srendarr.IsGroupUnit
+	local fadedAura
 
-	local GetGameTimeMillis		= GetGameTimeMilliseconds
-	local GetLatency			= GetLatency
+	Srendarr.OnEffectChanged = function(e, change, slot, auraName, unitTag, start, finish, stack, icon, buffType, effectType, abilityType, statusType, unitName, unitID, abilityID, castByPlayer)
+		-- check the aura is on either the player, the target or is a ground aoe -- the description check filters a lot of extra auras attached to many ground effects
 
-	local slotData				= Srendarr.slotData
-	local fakeAuras				= Srendarr.fakeAuras
-	local slotAbilityName, currentTime
+		unitTag = (unitTag == 'player' or unitTag == 'reticleover' or IsGroupUnit(unitTag)) and unitTag or (abilityType == ABILITY_TYPE_AREAEFFECT and GetAbilityDescription(abilityID) ~= '') and 'groundaoe' or nil
 
-	Srendarr.OnActionSlotAbilityUsed = function(e, slotID)
-		if (slotID < 3 or slotID > 8) then return end -- abort if not a main ability (or ultimate)
+		-- possible castByPlayer values:
+		--	COMBAT_UNIT_TYPE_NONE			= 0
+		--	COMBAT_UNIT_TYPE_OTHER			= 5
+		--	COMBAT_UNIT_TYPE_PLAYER			= 1
+		--	COMBAT_UNIT_TYPE_PLAYER_PET		= 2
+		--	COMBAT_UNIT_TYPE_TARGET_DUMMY	= 4
 
-		slotAbilityName = slotData[slotID].abilityName
+		if (unitTag == 'groundaoe' and castByPlayer ~= 1) then return end -- only track AOE created by the player
+		if (not unitTag) then return end -- don't care about this unit and isn't a ground aoe, abort
 
-		if (not fakeAuras[slotAbilityName]) then return end -- no fake aura needed for this ability (majority case)
+		if (change == EFFECT_RESULT_FADED) then -- aura has faded
+			fadedAura = auraLookup[unitTag][abilityID]
 
-  		currentTime = GetGameTimeMillis() / 1000
+			if (fadedAura) then -- aura exists, tell it to expire if timed, or aaa otherwise
+				if (fadedAura.auraType == AURA_TYPE_TIMED) then
+					if (fadedAura.abilityType == ABILITY_TYPE_AREAEFFECT) then return end -- gtaoes expire internally (repeated casting, only one timer)
 
-		AuraHandler(
-			false,
-			slotAbilityName,
-			fakeAuras[slotAbilityName].unitTag,
-			currentTime,
-			currentTime + fakeAuras[slotAbilityName].duration + (GetLatency() / 1000), -- + cooldown? GetSlotCooldownInfo(slotID)
-			slotData[slotID].abilityIcon,
-			BUFF_EFFECT_TYPE_BUFF,
-			ABILITY_TYPE_NONE,
-			fakeAuras[slotAbilityName].abilityID
-		)
-	end
+					fadedAura:SetExpired()
+				else
+					fadedAura:Release()
+				end
+			end
 
-	function Srendarr:ConfigureOnActionSlotAbilityUsed()
-		if (self.db.auraFakeEnabled) then
-			EVENT_MANAGER:RegisterForEvent(self.name, EVENT_ACTION_SLOT_ABILITY_USED,	Srendarr.OnActionSlotAbilityUsed)
-		else
-			EVENT_MANAGER:UnregisterForEvent(self.name, EVENT_ACTION_SLOT_ABILITY_USED)
+--			if (abilityType == ABILITY_TYPE_REGISTERTRIGGER and
+			if (auraName == crystalFragmentsPassive) then -- special case for tracking fragments proc
+				Srendarr:OnCrystalFragmentsProc(false)
+			end
+		else -- aura has been gained or changed, dispatch to handler
+
+			if Srendarr.db.consolidateEnabled == true then -- Handles multi-aura passive abilities like Restoring Aura
+				if (IsAlternateAura(abilityID)) then -- Consolidate multi-aura passive abilities
+					AuraHandler(false, alternateAura[abilityID].altName, unitTag, start, finish, icon, effectType, abilityType, abilityID)
+				else
+					AuraHandler(false, auraName, unitTag, start, finish, icon, effectType, abilityType, abilityID)
+				end
+			else
+				AuraHandler(false, auraName, unitTag, start, finish, icon, effectType, abilityType, abilityID)
+			end
+
+--			if (abilityType == ABILITY_TYPE_REGISTERTRIGGER and
+			if (auraName == crystalFragmentsPassive) then -- special case for tracking fragments proc
+				Srendarr:OnCrystalFragmentsProc(true)
+			end
 		end
 	end
 end
 
 -- ------------------------
 -- EVENT: EVENT_COMBAT_EVENT
+-- http://wiki.esoui.com/EVENT_COMBAT_EVENT
 do ------------------------
 	local ABILITY_TYPE_NONE 	= ABILITY_TYPE_NONE
 	local BUFF_EFFECT_TYPE_BUFF = BUFF_EFFECT_TYPE_BUFF
@@ -494,7 +649,7 @@ do ------------------------
 
 	Srendarr.OnCombatEvent = function(e, result, isError, aName, aGraphic, aActionSlotType, sName, sType, tName, tType, hitValue, pType, dType, log, sUnitId, tUnitId, abilityId)
 
-		-- Debug mode for tracking new auras. Type /sdbclear or reloadui to reset
+		-- Debug mode for tracking new auras. Type /sdbclear or reloadui to reset (Phinix)
 		if Srendarr.db.showCombatEvents == true then
 			local function EventToChat()
 				if (aName ~= "" and aName ~= nil) or (Srendarr.db.showNoNames == true) then
@@ -504,7 +659,15 @@ do ------------------------
 					if source == playerName then source = "Player" end
 					if target == playerName then target = "Player" end
 					if Srendarr.db.disableSpamControl == false then debugAuras[abilityId] = true end
-					d(abilityId..": "..ability.." --> [S] "..source.."  [T] "..target)
+					
+					if not Srendarr.db.showVerboseDebug then
+						d(abilityId..": "..ability.." --> [S] "..source.."  [T] "..target)
+					else
+						d(aName.." ("..abilityId..")")
+						d("event: "..e.." || result: "..result.." || isError: "..tostring(isError).." || aName: "..ability.." || aGraphic: "..aGraphic.." || aActionSlotType: "..aActionSlotType.." || sName: "..source.." || sType: "..sType.." || tName: "..target.." || tType: "..tType.." || hitValue: "..hitValue.." || pType: "..pType.." || dType: "..dType.." || log: "..tostring(log).." || sUnitId: "..sUnitId.." || tUnitId: "..tUnitId.." || abilityId: "..abilityId)
+						d("Icon: "..GetAbilityIcon(abilityId))
+						d("=========================================================")
+					end
 				end
 			end
 			if Srendarr.db.disableSpamControl == true and Srendarr.db.manualDebug == false then

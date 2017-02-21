@@ -1,0 +1,136 @@
+<GuiXml>	
+	<Controls>
+		<TopLevelControl name="ZbugFrame" inherits="ZO_DialogBase" hidden="true">
+			<ResizeToFitPadding width="50" height="30" />
+			<Dimensions y="650" x="850"/>
+			<Controls>
+				<Label name="$(parent)Label" font="ZoFontGameSmall">
+					<Dimensions x="800"/>
+					<Anchor point="TOPLEFT" relativeTo="$(parent)Title" relativePoint="BOTTOMLEFT" offsetY="30" offsetX="-230"/>
+				</Label>
+				<Backdrop name="$(parent)Text" inherits="ZO_EditBackdrop">
+					<Anchor point="TOP" relativeTo="$(parent)Label" relativePoint="BOTTOM" offsetY="10" />
+					<Dimensions y="200" x="800"/>
+					<Controls>
+					
+						<EditBox name="$(parent)Edit" maxInputCharacters="1000" inherits="ZO_DefaultEditMultiLineForBackdrop ZO_EditDefaultText" font="ZoFontGameSmall">
+							<Dimensions x="800"/>
+							<OnEffectivelyShown>
+								self:TakeFocus()
+							</OnEffectivelyShown>
+						</EditBox>
+						
+						<Button name="$(parent)Prev" inherits="ZO_DefaultButton" text="Prev">
+							<Anchor point="BOTTOM" relativeTo="$(parent)Display" relativePoint="BOTTOM" offsetX="-120" offsetY="50" />
+							<OnClicked>
+								Zbug:SkipError(-1)
+							</OnClicked>
+						</Button>
+
+						<Button name="$(parent)ReloadUI" inherits="ZO_DefaultButton" text="ReloadUI()">
+							<Anchor point="BOTTOM" relativeTo="$(parent)Display" relativePoint="BOTTOM" offsetX="0" offsetY="50" />
+							<OnClicked>
+								ReloadUI()
+							</OnClicked>
+						</Button>
+						
+						<Button name="$(parent)Next" inherits="ZO_DefaultButton" text="Next">
+							<Anchor point="BOTTOM" relativeTo="$(parent)Display" relativePoint="BOTTOM" offsetX="120" offsetY="50" />
+							<OnClicked>
+								Zbug:SkipError(1)
+							</OnClicked>
+						</Button>
+						
+					</Controls>
+				</Backdrop>
+				
+				<Button name="$(parent)Close" inherits="ZO_CloseButton">
+					<Anchor point="TOPRIGHT" offsetX="-7" offsetY="7" />
+					<OnClicked>
+						self:GetParent():SetHidden(true)
+					</OnClicked>
+				</Button>
+				
+			</Controls>
+		</TopLevelControl>
+	</Controls>
+</GuiXml>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+        <TopLevelControl name="ZbugFrame" clampedToScreen="true" mouseEnabled="true" movable="true" hidden="true" layer="OVERLAY" tier="HIGH">
+            <Dimensions x="730" y="400" />
+            <Anchor point="CENTER" />
+            
+            <Controls>
+                <Label name="$(parent)Title" inherits="ZO_WindowTitle" text="ZBUG" />
+                <Backdrop name="$(parent)BG" inherits="ZO_DefaultBackdrop" />
+
+                <Button name="$(parent)Close" inherits="ZO_CloseButton">
+                    <Anchor point="TOPRIGHT" offsetY="3" />
+                    <OnClicked>
+                        ZbugFrame:SetHidden(true)
+                    </OnClicked>
+                </Button>
+					 
+					<Backdrop name="$(parent)Text" inherits="ZO_EditBackdrop">
+						<Dimensions y="50" x="128" />
+						<Anchor point="TOPLEFT" offsetY="30"/>
+						<Anchor point="BOTTOMRIGHT" offsetX="-2" offsetY="-40"/>
+						<Controls>
+							<EditBox name="$(parent)Edit" inherits="ZO_DefaultEdit" font="ZoFontGame" editEnabled="false" mouseEnabled="true" multiLine="true" maxInputCharacters="9999"> <!-- Will receive original error -->
+								<Dimensions x="730" y="150" />
+								<Anchor point="TOPLEFT" offsetX="0" offsetY="0"/>
+							</EditBox>
+						</Controls>
+					</Backdrop>
+					
+					<Label name="$(parent)Display" font="ZoFontGameSmall">
+						<Dimensions x="730" />
+						<Anchor point="BOTTOMLEFT" offsetX="5" offsetY="-30"/>
+					</Label>
+					
+                <Button name="$(parent)Prev" inherits="ZO_DefaultButton" text="Prev">
+                    <Dimensions x="156" y="28" />
+                    <Anchor point="BOTTOM" offsetX="-100" offsetY="-3" />
+                    <OnClicked>
+                        Zbug:SkipError(-1)
+                    </OnClicked>
+                </Button>
+
+                <Button name="$(parent)Next" inherits="ZO_DefaultButton" text="Next">
+                    <Dimensions x="156" y="28" />
+                    <Anchor point="BOTTOM" offsetX="0" offsetY="-3" />
+                    <OnClicked>
+                        Zbug:SkipError(1)
+                    </OnClicked>
+                </Button>
+
+                <Button name="$(parent)Clear" inherits="ZO_DefaultButton" text="Clear">
+                    <Dimensions x="156" y="28" />
+                    <Anchor point="BOTTOM" offsetX="100" offsetY="-3" />
+                    <OnClicked>
+							Zbug.errornum=0
+							Zbug.errors={}
+							Zbug:ShowErrors(0)
+                    </OnClicked>
+                </Button>
+
+				</Controls>
+        </TopLevelControl>
+
+	</Controls>
+</GuiXml>
+
+
+

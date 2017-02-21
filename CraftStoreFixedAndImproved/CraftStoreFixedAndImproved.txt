@@ -6,7 +6,7 @@
 
 ## Title: CraftStore Fixed and Improved 1.1
 ## APIVersion: 100018
-## Version: 1.1.0.4
+## Version: 1.1.0.6
 ## SavedVariables: CraftStore_Account CraftStore_Character
 ## Author: AlphaLemming, continued by Vladislav *BlackSwan* Aksjonov
 ## Description: A tool for crafting research, with style and recipe tracking and new crafting interfaces. 

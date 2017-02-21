@@ -1,0 +1,35 @@
+<GuiXml>
+	<Controls>
+		<Control name="sidFontListRow" mouseEnabled="true" virtual="true">
+			<Dimensions y="30" />
+			<OnMouseEnter>
+				sidTools.FontListRow_OnMouseEnter(self)
+			</OnMouseEnter>
+			<OnMouseExit>
+				sidTools.FontListRow_OnMouseExit(self)
+			</OnMouseExit>
+			<OnMouseUp>
+				sidTools.FontListRow_OnMouseUp(self, button, upInside)
+			</OnMouseUp>
+			<Controls>
+				<Texture name="$(parent)BG" inherits="ZO_ThinListBgStrip" />
+				<Label name="$(parent)FontName" inherits="ZO_FriendsListRowLabel">
+					<Anchor point="LEFT" />
+					<Dimensions x="350" y="30" />
+				</Label>
+				<Label name="$(parent)FontDefinition" inherits="ZO_FriendsListRowLabel">
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$(parent)FontName" offsetX="38" />
+					<Dimensions x="750" y="30" />
+				</Label>
+			</Controls>
+		</Control>
+
+		<Backdrop name="sidFontListSearch" tier="HIGH" inherits="ZO_EditBackdrop" virtual="true">
+			<Dimensions x="250" />
+			<Controls>
+				<EditBox name="$(parent)Box" inherits="ZO_DefaultEditForBackdrop ZO_EditDefaultText">
+				</EditBox>
+			</Controls>
+		</Backdrop>
+	</Controls>
+</GuiXml>

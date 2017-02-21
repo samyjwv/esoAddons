@@ -1,0 +1,13 @@
+<GuiXml> 
+   <Controls>
+        <TopLevelControl name="ControlOutline_DevOutline" virtual="true" clampedToScreen="false" mouseEnabled="false" movable="false" hidden="true" layer="3" level="3" tier="3" allowBringToTop="true" alpha="1" >
+            <Dimensions x="300" y="32" />
+			
+            <Controls>
+				<Backdrop name="$(parent)Outline" edgeColor="FF0000" centerColor="00000000" alpha="1" >
+                    <AnchorFill />
+				</Backdrop>
+			</Controls>
+        </TopLevelControl>
+   </Controls>
+</GuiXml>

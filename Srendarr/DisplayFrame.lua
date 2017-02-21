@@ -72,12 +72,17 @@ local function SortAurasByCastDesc(a, b)
 	return a.start > b.start
 end
 
+local function OnGroupChanged()
+	CALLBACK_MANAGER:FireCallbacks("SrendarrOnGroupChanged")
+end
+
 
 -- ------------------------
 -- DISPLAY FRAME
 -- ------------------------
 function DisplayFrame:Create(id, point, x, y, alpha, scale)
 	local df = WINDOW_MANAGER:CreateControl(nil, GuiRoot, CT_TOPLEVELCONTROL)
+	local settingID = (id > 8) and Srendarr:getSettings() or id -- use the same settings for all group orr raid frames (Phinix)
 	df:SetKeyboardEnabled(false)
 	df:SetMouseEnabled(false)
 	df:SetMovable(false)
@@ -104,7 +109,7 @@ function DisplayFrame:Create(id, point, x, y, alpha, scale)
 	df.aurasActive				= {}
 	df.aurasInactive			= {}
 	df.aurasSorted				= {}
-	df.settings					= Srendarr.db.displayFrames[id]
+	df.settings					= Srendarr.db.displayFrames[settingID]
 
 	-- aura handling
 	df['AddAuraToDisplay']		= DisplayFrame.AddAuraToDisplay
@@ -117,6 +122,12 @@ function DisplayFrame:Create(id, point, x, y, alpha, scale)
 	df['EnableDragOverlay']		= DisplayFrame.EnableDragOverlay
 	df['DisableDragOverlay']	= DisplayFrame.DisableDragOverlay
 	df['ConfigureDragOverlay']	= DisplayFrame.ConfigureDragOverlay
+
+	CALLBACK_MANAGER:RegisterCallback("SrendarrOnGroupChanged", -- swap group buff settings on group type change (Phinix)
+	function()
+		df:Configure()
+		df:ConfigureAssignedAuras()
+	end)
 
 	return df
 end
@@ -164,6 +175,9 @@ function DisplayFrame:OnAuraReleased(flagBurst, aura)
 end
 
 function DisplayFrame:ConfigureAssignedAuras()
+	local settingID = (self.displayID > 8) and Srendarr:getSettings() or self.displayID 
+	self.settings = Srendarr.db.displayFrames[settingID]
+
 	for _, aura in pairs(self.aurasActive) do	-- configure all active auras assigned to this display frame
 		aura:Configure(self.settings)
 		aura:UpdateVisuals()
@@ -200,7 +214,9 @@ local function UpdateDisplayDirectional(self)
 end
 
 function DisplayFrame:Configure()
-	local db = self.settings
+	local settingID = (self.displayID > 8) and Srendarr:getSettings() or self.displayID 
+	local db = Srendarr.db.displayFrames[settingID]
+	self.settings = db
 
 	if (db.auraSort == AURA_SORT_NAMEASC) then
 		self['SortAuras'] = SortAurasByNameAsc
@@ -382,3 +398,4 @@ end
 
 
 Srendarr.DisplayFrame = DisplayFrame
+EVENT_MANAGER:RegisterForEvent(Srendarr.name, EVENT_GROUP_TYPE_CHANGED, OnGroupChanged)

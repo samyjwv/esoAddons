@@ -416,9 +416,9 @@
               <AnchorFill/>
               <Edge edgeSize="1"/>
             </Backdrop>
-            <Texture textureFile="esoui/art/icons/housing_alt_fur_cabinet001.dds" name="$(parent)Texture">
+            <Texture textureFile="EsoUI/Art/Crafting/provisioner_indexIcon_furnishings_up.dds" name="$(parent)Texture">
               <Anchor point="128"/>
-              <Dimensions x="30" y="30"/>
+              <Dimensions x="32" y="32"/>
             </Texture>
           </Controls>
           <OnMouseEnter>CraftStoreFixedAndImprovedLongClassName.Tooltip(self,true,true)</OnMouseEnter>

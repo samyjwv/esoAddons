@@ -2,7 +2,7 @@
 	Srendarr - Aura (Buff & Debuff) Tracker
 	----------------------------------------------------------
 	*
-	* Version 2.3.4g
+	* Version 2.3.5
 	* Kith, Phinix, Garkin, silentgecko
 	*
 	*
@@ -12,7 +12,7 @@ local L						= Srendarr:GetLocale()
 
 Srendarr.name				= 'Srendarr'
 Srendarr.slash				= '/srendarr'
-Srendarr.version			= '2.3.4g'
+Srendarr.version			= '2.3.5'
 Srendarr.versionDB			= 3
 
 Srendarr.displayFrames		= {}
@@ -23,7 +23,31 @@ Srendarr.slotData			= {}
 Srendarr.auraLookup			= {
 	['player']				= {},
 	['reticleover']			= {},
-	['groundaoe']			= {}
+	['groundaoe']			= {},
+	['group1']			= {},
+	['group2']			= {},
+	['group3']			= {},
+	['group4']			= {},
+	['group5']			= {},
+	['group6']			= {},
+	['group7']			= {},
+	['group8']			= {},
+	['group9']			= {},
+	['group10']			= {},
+	['group11']			= {},
+	['group12']			= {},
+	['group13']			= {},
+	['group14']			= {},
+	['group15']			= {},
+	['group16']			= {},
+	['group17']			= {},
+	['group18']			= {},
+	['group19']			= {},
+	['group20']			= {},
+	['group21']			= {},
+	['group22']			= {},
+	['group23']			= {},
+	['group24']			= {},
 }
 
 Srendarr.auraGroupStrings = {		-- used in several places to display the aura grouping text
@@ -39,11 +63,78 @@ Srendarr.auraGroupStrings = {		-- used in several places to display the aura gro
 	[Srendarr.GROUP_TARGET_BUFF]	= L.Group_Target_Buff,
 	[Srendarr.GROUP_TARGET_DEBUFF]	= L.Group_Target_Debuff,
 	[Srendarr.GROUP_PROMINENT]		= L.Group_Prominent,
-	[Srendarr.GROUP_PROMINENT2]		= L.Group_Prominent2
+	[Srendarr.GROUP_PROMINENT2]		= L.Group_Prominent2,	
+}
+
+Srendarr.stGDB = {
+	[1] = {control = 'ZO_GroupUnitFramegroup1Name', tag = 0},
+	[2] = {control = 'ZO_GroupUnitFramegroup2Name', tag = 0},
+	[3] = {control = 'ZO_GroupUnitFramegroup3Name', tag = 0},
+	[4] = {control = 'ZO_GroupUnitFramegroup4Name', tag = 0},
+}
+
+Srendarr.ftcGDB = {
+	[1] = {control = 'FTC_GroupFrame1_Class', tag = 0},
+	[2] = {control = 'FTC_GroupFrame2_Class', tag = 0},
+	[3] = {control = 'FTC_GroupFrame3_Class', tag = 0},
+	[4] = {control = 'FTC_GroupFrame4_Class', tag = 0},
+}
+
+Srendarr.stRDB = {
+	[1] = {control = 'ZO_RaidUnitFramegroup1', tag = 0},
+	[2] = {control = 'ZO_RaidUnitFramegroup2', tag = 0},
+	[3] = {control = 'ZO_RaidUnitFramegroup3', tag = 0},
+	[4] = {control = 'ZO_RaidUnitFramegroup4', tag = 0},
+	[5] = {control = 'ZO_RaidUnitFramegroup5', tag = 0},
+	[6] = {control = 'ZO_RaidUnitFramegroup6', tag = 0},
+	[7] = {control = 'ZO_RaidUnitFramegroup7', tag = 0},
+	[8] = {control = 'ZO_RaidUnitFramegroup8', tag = 0},
+	[9] = {control = 'ZO_RaidUnitFramegroup9', tag = 0},
+	[10] = {control = 'ZO_RaidUnitFramegroup10', tag = 0},
+	[11] = {control = 'ZO_RaidUnitFramegroup11', tag = 0},
+	[12] = {control = 'ZO_RaidUnitFramegroup12', tag = 0},
+	[13] = {control = 'ZO_RaidUnitFramegroup13', tag = 0},
+	[14] = {control = 'ZO_RaidUnitFramegroup14', tag = 0},
+	[15] = {control = 'ZO_RaidUnitFramegroup15', tag = 0},
+	[16] = {control = 'ZO_RaidUnitFramegroup16', tag = 0},
+	[17] = {control = 'ZO_RaidUnitFramegroup17', tag = 0},
+	[18] = {control = 'ZO_RaidUnitFramegroup18', tag = 0},
+	[19] = {control = 'ZO_RaidUnitFramegroup19', tag = 0},
+	[20] = {control = 'ZO_RaidUnitFramegroup20', tag = 0},
+	[21] = {control = 'ZO_RaidUnitFramegroup21', tag = 0},
+	[22] = {control = 'ZO_RaidUnitFramegroup22', tag = 0},
+	[23] = {control = 'ZO_RaidUnitFramegroup23', tag = 0},
+	[24] = {control = 'ZO_RaidUnitFramegroup24', tag = 0},
+}
+
+Srendarr.ftcRDB = {
+	[1] = {control = 'FTC_RaidFrame1', tag = 0},
+	[2] = {control = 'FTC_RaidFrame2', tag = 0},
+	[3] = {control = 'FTC_RaidFrame3', tag = 0},
+	[4] = {control = 'FTC_RaidFrame4', tag = 0},
+	[5] = {control = 'FTC_RaidFrame5', tag = 0},
+	[6] = {control = 'FTC_RaidFrame6', tag = 0},
+	[7] = {control = 'FTC_RaidFrame7', tag = 0},
+	[8] = {control = 'FTC_RaidFrame8', tag = 0},
+	[9] = {control = 'FTC_RaidFrame9', tag = 0},
+	[10] = {control = 'FTC_RaidFrame10', tag = 0},
+	[11] = {control = 'FTC_RaidFrame11', tag = 0},
+	[12] = {control = 'FTC_RaidFrame12', tag = 0},
+	[13] = {control = 'FTC_RaidFrame13', tag = 0},
+	[14] = {control = 'FTC_RaidFrame14', tag = 0},
+	[15] = {control = 'FTC_RaidFrame15', tag = 0},
+	[16] = {control = 'FTC_RaidFrame16', tag = 0},
+	[17] = {control = 'FTC_RaidFrame17', tag = 0},
+	[18] = {control = 'FTC_RaidFrame18', tag = 0},
+	[19] = {control = 'FTC_RaidFrame19', tag = 0},
+	[20] = {control = 'FTC_RaidFrame20', tag = 0},
+	[21] = {control = 'FTC_RaidFrame21', tag = 0},
+	[22] = {control = 'FTC_RaidFrame22', tag = 0},
+	[23] = {control = 'FTC_RaidFrame23', tag = 0},
+	[24] = {control = 'FTC_RaidFrame24', tag = 0},
 }
 
 Srendarr.uiLocked			= true -- flag for whether the UI is current drag enabled
-
 
 -- ------------------------
 -- ADDON INITIALIZATION
@@ -66,9 +157,11 @@ function Srendarr.OnInitialize(code, addon)
 
 	-- create display frames
 	for x = 1, self.NUM_DISPLAY_FRAMES do
-		displayBase = self.db.displayFrames[x].base
+
+		displayBase = (x > 8) and self.db.displayFrames[Srendarr:getSettings()].base or self.db.displayFrames[x].base
 
 		self.displayFrames[x] = self.DisplayFrame:Create(x, displayBase.point, displayBase.x, displayBase.y, displayBase.alpha, displayBase.scale)
+
 		self.displayFrames[x]:Configure()
 
 		-- add each frame to the ZOS scene manager to control visibility
@@ -90,6 +183,7 @@ function Srendarr.OnInitialize(code, addon)
 	self:InitializeCastBar()			-- CastBar.lua
 	self:InitializeProcs()				-- Procs.lua
 	self:InitializeSettings()			-- Settings.lua
+	self.OnGroupChanged()
 
 	-- setup events to handle actionbar slotted abilities (used for procs and the castbar)
 	for slot = 3, 8 do
@@ -99,6 +193,10 @@ function Srendarr.OnInitialize(code, addon)
 
 	EVENT_MANAGER:RegisterForEvent(self.name, EVENT_ACTION_SLOTS_FULL_UPDATE,	self.OnActionSlotsFullUpdate)
 	EVENT_MANAGER:RegisterForEvent(self.name, EVENT_ACTION_SLOT_UPDATED,		self.OnActionSlotUpdated)
+	EVENT_MANAGER:RegisterForEvent(self.name, EVENT_GROUP_TYPE_CHANGED, 		self.OnGroupChanged)
+	EVENT_MANAGER:RegisterForEvent(self.name, EVENT_GROUP_MEMBER_JOINED, 		self.OnGroupChanged)
+	EVENT_MANAGER:RegisterForEvent(self.name, EVENT_GROUP_MEMBER_LEFT, 			self.OnGroupChanged)
+	EVENT_MANAGER:RegisterForEvent(self.name, EVENT_GROUP_UPDATE, 				self.OnGroupChanged)
 end
 
 function Srendarr.SlashCommand(text)
@@ -120,6 +218,93 @@ function Srendarr.SlashCommand(text)
 		Srendarr.uiLocked = false
 	else
 		CHAT_SYSTEM:AddMessage(L.Usage)
+	end
+end
+
+
+-- ------------------------
+-- GROUP DATA HANDLING
+-- ------------------------
+do -- re-dock group frame windows when group size changes. (Phinix)
+	function Srendarr.OnGroupChanged()
+
+		local PassToAuraHandler 	= Srendarr.PassToAuraHandler
+		local auraLookup			= Srendarr.auraLookup
+
+		-- Workaround for rare error when changing from small/large group and unitTags don't reindex.
+		for i = 1, 4 do Srendarr.stGDB[i].tag = 0 end
+		for i = 1, 24 do Srendarr.stRDB[i].tag = 0 end
+		for i = 1, 4 do Srendarr.ftcGDB[i].tag = 0 end
+		for i = 1, 24 do Srendarr.ftcRDB[i].tag = 0 end
+
+		for g = 1, 24 do -- clear auras when group changes to avoid floating remnants
+			local unit = "group" .. tostring(g)
+			for aura, ability in pairs(auraLookup[unit]) do
+				ability:SetExpired()
+				ability:Release()
+			end
+		end
+
+		if (IsUnitGrouped("player")) then
+			local groupSize = GetGroupSize()
+			for s = 1, groupSize do
+				local control
+				local frame = s + 8
+				local unitTag = GetGroupUnitTagByIndex(s)
+				local fs = Srendarr.displayFrames[frame]
+				local groupSlot = tostring(unitTag):gsub("%a","")
+				local gX = Srendarr.db.displayFrames[9].base.x
+				local gY = Srendarr.db.displayFrames[9].base.y
+				local rX = Srendarr.db.displayFrames[10].base.x
+				local rY = Srendarr.db.displayFrames[10].base.y
+			--	local auraName, start, finish, icon, effectType, abilityType, abilityID
+			--	local GetGameTimeMillis = GetGameTimeMilliseconds
+			--	local numAuras = GetNumBuffs(unitTag)
+				groupSlot = tonumber(groupSlot)
+				fs:ClearAnchors()
+
+				if FTC_VARS then -- Workaround for occasional game bug where group unitTag are not re-indexed.
+					local EnableFrames = FTC_VARS.Default[GetDisplayName()]["$AccountWide"].EnableFrames
+					local RaidFrames = FTC_VARS.Default[GetDisplayName()]["$AccountWide"].RaidFrames
+					if groupSize <= 4 and EnableFrames == true then
+						Srendarr.ftcGDB[s].tag = groupSlot
+						control = GetControl(Srendarr.ftcGDB[groupSlot].control)
+						fs:SetAnchor(LEFT, control, RIGHT, gX, gY)
+					elseif groupSize >= 5 and EnableFrames == true and RaidFrames == true then
+						Srendarr.ftcRDB[s].tag = s
+						control = GetControl(Srendarr.ftcRDB[s].control)
+						fs:SetAnchor(BOTTOM, control, BOTTOM, rX, rY)
+					elseif groupSize <= 4 and EnableFrames == false then
+						Srendarr.stGDB[s].tag = groupSlot
+						control = GetControl(Srendarr.stGDB[s].control)
+						fs:SetAnchor(BOTTOMLEFT, control, TOPLEFT, gX, gY)
+					elseif groupSize >= 5 and (RaidFrames == false or EnableFrames == false) then
+						Srendarr.stRDB[s].tag = groupSlot
+						control = GetControl(Srendarr.stRDB[s].control)
+						fs:SetAnchor(BOTTOMLEFT, control, BOTTOMLEFT, rX, rY)
+					end
+				elseif not FTC_VARS then
+					if groupSize <= 4 then
+						Srendarr.stGDB[s].tag = groupSlot
+						control = GetControl(Srendarr.stGDB[s].control)
+						fs:SetAnchor(BOTTOMLEFT, control, TOPLEFT, gX, gY)
+					elseif groupSize >= 5 then
+						Srendarr.stRDB[s].tag = groupSlot
+						control = GetControl(Srendarr.stRDB[s].control)
+						fs:SetAnchor(BOTTOMLEFT, control, BOTTOMLEFT, rX, rY)
+					end
+				end
+--[[
+				if (numAuras > 0) then -- unit has auras, repopulate
+					start = GetGameTimeMillis() / 1000
+					for i = 1, numAuras do
+						auraName, _, finish, _, _, icon, _, effectType, abilityType, _, abilityID = GetUnitBuffInfo(unitTag, i)
+						PassToAuraHandler(true, auraName, unitTag, start, finish, icon, effectType, abilityType, abilityID)
+					end
+				end
+				--]]
+			end
+		end
 	end
 end
 
@@ -182,7 +367,8 @@ do ------------------------
 	local STR_PROMBYID			= Srendarr.STR_PROMBYID
 	local STR_PROMBYID2			= Srendarr.STR_PROMBYID2
 	local STR_BLOCKBYID			= Srendarr.STR_BLOCKBYID
-
+	local STR_GROUPBYID			= Srendarr.STR_GROUPBYID
+	
 	local DoesAbilityExist		= DoesAbilityExist
 	local GetAbilityName		= GetAbilityName
 	local GetAbilityDuration	= GetAbilityDuration
@@ -357,6 +543,50 @@ do ------------------------
 		end
 	end
 
+	function Srendarr:GroupWhitelistAdd(auraName)
+		auraName = zo_strformat("<<t:1>>",auraName) -- strip out any control characters player may have entered
+		if (auraName == STR_GROUPBYID) then return end -- make sure we don't mess with internal table
+		if (tonumber(auraName)) then -- number entered, assume is an abilityID
+			auraName = tonumber(auraName)
+			if (auraName > 0 and auraName < 250000 and DoesAbilityExist(auraName) and (GetAbilityDuration(auraName) > 0 or not IsAbilityPassive(auraName))) then
+				-- can only add timed abilities to the group whitelist
+				if (not self.db.groupWhitelist[STR_GROUPBYID]) then
+					self.db.groupWhitelist[STR_GROUPBYID] = {} -- ensure the by ID table is present
+				end
+				self.db.groupWhitelist[STR_GROUPBYID][auraName] = true
+				CHAT_SYSTEM:AddMessage(string.format('%s: [%d] (%s) %s', L.Srendarr, auraName, GetAbilityName(auraName), L.Group_AuraAddSuccess)) -- inform user of successful addition
+				Srendarr:ConfigureAuraHandler() -- update handler ref
+			else
+				CHAT_SYSTEM:AddMessage(string.format('%s: [%s] %s', L.Srendarr, auraName, L.Prominent_AuraAddFailByID)) -- inform user of failed addition
+			end
+		else
+			if (self.db.groupWhitelist[auraName]) then return end -- already added this aura
+			local matchedIDs = {}
+			local compareName
+			for id = 1, 100000 do -- scan all abilityIDs looking for this auraName
+				if (DoesAbilityExist(id) and (GetAbilityDuration(id) > 0 or not IsAbilityPassive(id))) then
+					compareName = zo_strformat("<<t:1>>",GetAbilityName(id)) -- strip out any control characters from the ability name
+					if (compareName == auraName) then -- matching ability with a duration (no toggles or passives in prominence)
+						table.insert(matchedIDs, id)
+					end
+				end
+			end
+			if (fakeAuras[auraName]) then -- a fake aura exists for this ability, add its ID
+				table.insert(matchedIDs, fakeAuras[auraName].abilityID)
+			end
+			if (#matchedIDs > 0) then -- matches were found
+				self.db.groupWhitelist[auraName] = {} -- add a new whitelist entry
+				for _, id in ipairs(matchedIDs) do
+					self.db.groupWhitelist[auraName][id] = true
+				end
+				Srendarr:ConfigureAuraHandler() -- update handler ref
+				CHAT_SYSTEM:AddMessage(string.format('%s: %s %s', L.Srendarr, auraName, L.Group_AuraAddSuccess)) -- inform user of successful addition
+			else
+				CHAT_SYSTEM:AddMessage(string.format('%s: %s %s', L.Srendarr, auraName, L.Prominent_AuraAddFail)) -- inform user of failed addition
+			end
+		end
+	end
+
 	function Srendarr:ProminentAuraRemove(auraName)
 		auraName = zo_strformat("<<t:1>>",auraName) -- strip out any control characters player may have entered
 		if (auraName == STR_PROMBYID) then return end -- make sure we don't mess with internal table
@@ -398,7 +628,28 @@ do ------------------------
 			CHAT_SYSTEM:AddMessage(string.format('%s: %s %s', L.Srendarr, auraName, L.Prominent_AuraRemoved2)) -- inform user of removal
 		end
 	end
-	
+
+	function Srendarr:GroupAuraRemove(auraName)
+		auraName = zo_strformat("<<t:1>>",auraName) -- strip out any control characters player may have entered
+		if (auraName == STR_GROUPBYID) then return end -- make sure we don't mess with internal table
+		if (tonumber(auraName)) then -- trying to remove by number, assume is an abilityID
+			auraName = tonumber(auraName)
+			if (self.db.groupWhitelist[STR_GROUPBYID][auraName]) then -- ID is in list, remove and inform user
+				self.db.groupWhitelist[STR_GROUPBYID][auraName] = nil
+				Srendarr:ConfigureAuraHandler() -- update handler ref
+				CHAT_SYSTEM:AddMessage(string.format('%s: %s %s', L.Srendarr, auraName, L.Group_AuraRemoved)) -- inform user of removal
+			end
+		else
+			if (not self.db.groupWhitelist[auraName]) then return end -- not in whitelist, abort
+			for id in pairs(self.db.groupWhitelist[auraName]) do
+				self.db.groupWhitelist[auraName][id] = nil -- clean out whitelist entry
+			end
+			self.db.groupWhitelist[auraName] = nil -- remove whitelist entrys
+			Srendarr:ConfigureAuraHandler() -- update handler ref
+			CHAT_SYSTEM:AddMessage(string.format('%s: %s %s', L.Srendarr, auraName, L.Group_AuraRemoved)) -- inform user of removal
+		end
+	end
+
 	function Srendarr:BlacklistAuraAdd(auraName)
 		auraName = zo_strformat("<<t:1>>",auraName) -- strip out any control characters player may have entered
 		if (auraName == STR_BLOCKBYID) then return end -- make sure we don't mess with internal table

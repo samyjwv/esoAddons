@@ -1,0 +1,67 @@
+﻿; This Add-on is not created by, affiliated with or sponsored by ZeniMax
+; Media Inc. or its affiliates. The Elder Scrolls® and related logos are
+; registered trademarks or trademarks of ZeniMax Media Inc. in the United
+; States and/or other countries. All rights reserved.
+; You can read the full terms at https://account.elderscrollsonline.com/add-on-terms
+
+## Title: DevTools
+## Description: DevTools
+## Version: 7
+## Author: Dev Community
+## APIVersion: 100017 100018
+## SavedVariables: ControlOutlineSavedVars ZgooSV
+
+libs/LibStub/LibStub.lua
+libs/LibSlashCommander/LibSlashCommander.lua
+libs/LibAddonMenu-2.0/LibAddonMenu-2.0.lua
+libs/LibAddonMenu-2.0/controls/panel.lua
+libs/LibAddonMenu-2.0/controls/submenu.lua
+libs/LibAddonMenu-2.0/controls/button.lua
+libs/LibAddonMenu-2.0/controls/checkbox.lua
+libs/LibAddonMenu-2.0/controls/colorpicker.lua
+libs/LibAddonMenu-2.0/controls/custom.lua
+libs/LibAddonMenu-2.0/controls/description.lua
+libs/LibAddonMenu-2.0/controls/dropdown.lua
+libs/LibAddonMenu-2.0/controls/editbox.lua
+libs/LibAddonMenu-2.0/controls/header.lua
+libs/LibAddonMenu-2.0/controls/slider.lua
+libs/LibAddonMenu-2.0/controls/texture.lua
+libs/LibMsgWin-1.0/LibMsgWin-1.0.lua
+libs/LibTextFilter/LibTextFilter.lua
+libs/LibAbilityTooltip/LibAbilityTooltip.lua
+
+; Shared files
+xml/bindings.xml
+lua/DT.Bindings.lua
+
+; Zgoo - http://www.esoui.com/downloads/info24-Zgoo-datainspectiontool.html
+lua/Zgoo.Startup.lua
+lua/Zgoo.lua
+lua/Zgoo.Events.lua
+xml/Zgoo.xml
+
+; Zbug - http://www.esoui.com/downloads/info383-Zbug-errorframereplacement.html
+xml/Zbug.xml
+lua/Zbug.lua
+
+; Slash404 - http://www.esoui.com/downloads/info1200-Slash404.html
+lua/slash404.lua
+
+; Circonians Control Outlines - http://www.esoui.com/downloads/info1157-ControlOutlines.html
+xml/ControlOutline.xml
+lua/ControlOutline.lua
+
+; sidTools - http://www.esoui.com/downloads/info1210-sidTools.html
+lua/sidTools.StartUp.lua
+lua/sidTools.AddonIsolator.lua
+lua/sidTools.IdleTimer.lua
+lua/sidTools.EventViewer.lua
+lua/sidTools.ItemLinkWrapper.lua
+lua/sidTools.ItemViewer.lua
+xml/sidTools.ItemViewer.xml
+lua/sidTools.AbilityViewer.lua
+xml/sidTools.AbilityViewer.xml
+lua/sidTools.UnitViewer.lua
+lua/sidTools.FontViewer.lua
+xml/sidTools.FontViewer.xml
+xml/sidTools.Controls.xml

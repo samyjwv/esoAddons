@@ -27,6 +27,21 @@ function DTT.LOADED (eventCode, addOnName)
 	
 	-- Init slash commands
 	SLASH_COMMANDS["/tt"] = DTT.SlashHandler
+  SLASH_COMMANDS["/tl"] = DTT.TeleportCurrentZoneCommandHandler
+end
+
+function DTT.TeleportCurrentZoneCommandHandler(arg)
+
+  local data = {};
+  
+  -- Search By Friend List
+  d("[TELEPORT] Searching friends ...")
+  data = deaglTT.AvailableFriends()
+  for i = 1, #data do
+    local member = data[i];
+    d(member.zoneName, member.accountName)
+  end
+
 end
 
 --[[ SLASH COMMANDS

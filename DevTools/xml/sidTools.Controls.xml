@@ -1,0 +1,21 @@
+<GuiXml>
+    <Controls>
+        <Button name="sidToolBarButtonTemplate" inherits="ZO_DefaultTextButton" virtual="true" />
+
+        <TopLevelControl name="sidToolBar" clampedToScreen="true" hidden="true">
+            <Anchor point="TOPLEFT" />
+            <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" offsetY="30" />
+
+            <Controls>
+                <Backdrop name="$(parent)Bg" inherits="ZO_DefaultBackdrop">
+                    <Anchor point="TOPLEFT" offsetX="-8" offsetY="-8" />
+                    <Anchor point="BOTTOMRIGHT" offsetX="8" offsetY="8" />
+
+                    <Edge file="EsoUI/Art/ChatWindow/chat_BG_edge.dds" edgeFileWidth="256" edgeFileHeight="256" edgeSize="32" />
+                    <Center file="EsoUI/Art/ChatWindow/chat_BG_center.dds" />
+                    <Insets left="32" top="32" right="-32" bottom="-32" />
+                </Backdrop>
+            </Controls>
+        </TopLevelControl>
+    </Controls>
+</GuiXml>

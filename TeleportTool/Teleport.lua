@@ -156,6 +156,10 @@ function DTT.AvailableFriends()
     return availableFriends
 end
 
+function deaglTT.AvailableFriends() 
+  return DTT.AvailableFriends()
+end
+
 --[[ SEARCH
 	search all group members
 ]]--
